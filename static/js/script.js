@@ -127,7 +127,7 @@ $(function () {
     // Iterate through each card
     cards.each(function () {
       // Get the product name of the current card
-      var productName = $(this).find("h2").text().toLowerCase();
+      var productName = $(this).find("p").text().toLowerCase();
 
       // Check if the product name starts with the search query
       if (productName.startsWith(searchQuery)) {
