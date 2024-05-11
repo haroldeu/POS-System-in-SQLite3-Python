@@ -168,37 +168,27 @@
     </form>
   </nav>
   <div class="card-wrapper">
-    <?php
-                include 'dbconn.php';
-                $sql = "SELECT * FROM `products` ORDER BY id DESC";
-                $result = mysqli_query($conn, $sql);
-                while ($row = mysqli_fetch_assoc($result)) {
-                ?>
+    {% for product in products %}
     <div class="cards">
       <img
-        src="images/<?php echo $row['product_image']; ?>"
+        src="images/{{ product[1] }}"
         alt="Product image"
         class="product-image"
       />
       <div class="card-info">
-        <p class="name">
-          <?php echo $row["product_name"] ?>
-        </p>
-        <p class="price">
-          ₱<?php echo $row["product_price"] ?>/<?php echo $row["product_type"] ?>
-        </p>
+        <p class="name">{{ product[2] }}</p>
+        <p class="price">₱{{ product[3] }}/{{ product[5] }}</p>
       </div>
+
       <input
         type="submit"
         value="ADD TO CART"
         name="add_to_cart"
         class="add-to-cart"
         id="add-to-cart"
-        add-id="<?php echo $row['id']; ?>"
+        add-id="{{ product[0] }}"
       />
     </div>
-    <?php
-                }
-                ?>
+    {% endfor %}
   </div>
 </div>
