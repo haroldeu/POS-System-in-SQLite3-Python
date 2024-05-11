@@ -151,14 +151,12 @@
               Update
             </button>
 
-            <div class="delete-btn">
-              <form
-                action="{{ url_for('delete_record', product_id=product[0]) }}"
-                method="POST"
-              >
-                <input type="submit" value="Delete" />
-              </form>
-            </div>
+            <button
+              class="delete-btn"
+              onclick="deleteRecord('{{ product[0] }}')"
+            >
+              Delete
+            </button>
           </td>
         </tr>
         {% endfor %}

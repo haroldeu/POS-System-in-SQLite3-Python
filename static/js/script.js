@@ -140,3 +140,25 @@ $(function () {
     });
   });
 });
+
+function deleteRecord(recordId) {
+  if (confirm("Are you sure you want to delete this record?")) {
+    // Send an AJAX request
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/delete_record", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        alert(xhr.responseText);
+        // Optionally, update the UI or reload the page
+        window.location.reload();
+      } else {
+        alert("Error: " + xhr.statusText);
+      }
+    };
+    xhr.onerror = function () {
+      alert("Network Error");
+    };
+    xhr.send("record_id=" + encodeURIComponent(recordId));
+  }
+}

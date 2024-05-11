@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, jsonify
 import sqlite3
 
 app = Flask(__name__)
@@ -19,20 +19,22 @@ def index():
     return render_template("index.html.j2", products=products)
 
 # Deleting Database Record
-@app.route('/delete_record/<int:product_id>', methods=['POST'])
-def delete_record(product_id):
+@app.route('/delete_record', methods=['POST'])
+def delete_record():
+    record_id = request.form['record_id']
+
     # Connect to SQLite database
     conn = sqlite3.connect('thesis.db')
     cursor = conn.cursor()
 
     # Delete the record
-    cursor.execute("DELETE FROM products WHERE product_id=?", (product_id,))
+    cursor.execute("DELETE FROM products WHERE id=?", (record_id,))
     conn.commit()
 
     # Close the database connection
     conn.close()
 
-    return redirect(url_for('index'))
+    return jsonify({'message': 'Record deleted successfully.'})
 
 
 # Database Testing Page
