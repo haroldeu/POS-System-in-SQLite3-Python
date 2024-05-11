@@ -8,7 +8,7 @@
 -- );
 
 -- INSERT INTO products (product_name, product_image, product_price, product_type, product_unit)
--- VALUES ('Pechay', NULL, 55, 'Vegetable', 'kilo');
+-- VALUES ('Apple', NULL, 30, 'Fruit', 'pcs');
 
 
 
