@@ -109,34 +109,37 @@
     <div class="popup" id="popup">
         <span class="close" id="close-btn">&times;</span>
         <h2>Add Item</h2>
-        <form action="add.php" method="POST" enctype="multipart/form-data">
-            <label for="itemImage">Item Image:</label>
-            <input type="file" id="itemImage" name="itemImage" accept="image/*">
+        <form action="/add_product" method="POST" ecntype="multipart/form-data">
+            <label for="product_image">Product Image:</label>
+            <input type="file" id="product_image" name="product_image" accept="image/*">
 
-            <label for="itemName">Item Name:</label>
-            <input type="text" id="itemName" name="itemName" required autocomplete="off">
+            <label for="product_name">Product Name:</label>
+            <input type="text" id="product_name" name="product_name" required autocomplete="off">
 
-            <label for="itemPrice">Item Price:</label>
-            <input type="number" id="itemPrice" name="itemPrice" required autocomplete="off">
+            <label for="product_price">Product Price:</label>
+            <input type="number" id="product_price" name="product_price" required autocomplete="off">
 
             <div class="form-group mb-3">
                 <div class="radio-buttons">
-                    <label for="type">Product Type:</label>
-                    <input type="radio" name="type" id="kilo" value="kilo" required>
-                    <label for="kilo">Kilo</label>
-                    <input type="radio" name="type" id="pcs" value="pcs" required>
-                    <label for="pcs">Pcs</label>
-
-                </div>
-                <div class="radio-buttons">
-                    <label for="unit">Product Unit:</label>
-                    <input type="radio" name="unit" id="vegetable" value="vegetable" required>
+                    <label for="product_type">Product Type:</label>
+                    <input type="radio" name="product_type" id="vegetable" value="Vegetable" required>
+                    
                     <label for="vegetable">Vegetable</label>
-                    <input type="radio" name="unit" id="fruit" value="fruit" required>
+                    <input type="radio" name="product_type" id="fruit" value="Fruit" required>
+                    
                     <label for="fruit">Fruit</label>
                 </div>
+
+                <div class="radio-buttons">
+                    <label for="product_unit">Product Unit:</label>
+                    <input type="radio" name="product_unit" id="kilo" value="kilo" required>
+                    <label for="kilo">Kilo</label>
+                    <input type="radio" name="product_unit" id="pcs" value="pcs" required>
+                    
+                    <label for="pcs">Pcs</label>
+                </div>
             </div>
-            <input id="submt-btn" type="submit" name="submit"></input>
+            <input type="submit" name="submit"></input>
         </form>
     </div>
 </div>

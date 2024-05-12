@@ -46,38 +46,40 @@ document.addEventListener("DOMContentLoaded", function () {
 $(document).ready(function () {
   $(".update-btn").click(function () {
     var itemId = $(this).data("id");
-    $.post("get_item_details.php", { itemId: itemId }, function (response) {
-      var item = JSON.parse(response);
+
+    // Send AJAX request to get item details from Flask route
+    $.post("/get_item_details", { itemId: itemId }, function (response) {
+      var item = response;
+
+      // Display item details in the HTML
       $("#editItemId").val(item.id);
-      $("#editItemName").val(item.product_name);
-      $("#editItemPrice").val(item.product_price);
-      $("#editKilo").prop("checked", item.product_type === "kilo");
-      $("#editPcs").prop("checked", item.product_type === "pcs");
-      $("#editVegs").prop("checked", item.product_unit === "vegetable");
-      $("#editFruit").prop("checked", item.product_unit === "fruit");
-      $("#popupContainer1").show();
+      $("#product_price").text(item.product_price);
+      $("#editItemPrice").val(item.product_price); // Set new price as current price by default
+      $("#popupContainer1").show(); // Show the container or form
     });
   });
 
   $("#close-btn1").click(function () {
     $("#popupContainer1").hide();
 
-    $("#editForm").submit(function (e) {
-      e.preventDefault();
-      $.post({
-        url: "edit.php",
-        data: new FormData(this),
-        processData: false,
-        contentType: false,
+    function updateProductPrice(productId, newPrice) {
+      $.ajax({
+        url: "/edit_price",
+        type: "POST",
+        data: {
+          product_id: productId,
+          new_price: newPrice,
+        },
         success: function (response) {
-          console.log(response);
-          $("#popupContainer1").hide();
+          // Optionally, handle success response (e.g., show a success message)
+          console.log("Product price updated successfully.");
         },
         error: function (xhr, status, error) {
-          console.error(xhr.responseText);
+          // Optionally, handle error response (e.g., show an error message)
+          console.error("Error updating product price:", error);
         },
       });
-    });
+    }
   });
 });
 
@@ -141,6 +143,7 @@ $(function () {
   });
 });
 
+// Delete Function
 function deleteRecord(recordId) {
   if (confirm("Are you sure you want to delete this record?")) {
     // Send an AJAX request
