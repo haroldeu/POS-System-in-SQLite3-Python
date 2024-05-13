@@ -69,26 +69,6 @@
   }
 </style>
 
-<div class="modal" id="PcsModal">
-  <div class="popup2" id="popup2">
-    <span class="close">&times;</span>
-    <h2>Add to Order</h2>
-    <div class="selected">
-      <div class="s-content">
-        <p class="productName"></p>
-        <p class="productPrice"></p>
-      </div>
-      <input
-        type="number"
-        name="quantity"
-        id="quantity"
-        placeholder="Enter quantity"
-      />
-      <button type="submit" id="add-to-cart">Submit</button>
-    </div>
-  </div>
-</div>
-
 <div class="modal" id="KiloModal">
   <div class="popup2" id="popup2">
     <span class="close">&times;</span>
@@ -99,6 +79,7 @@
         <p class="productPrice"></p>
       </div>
 
+      <!-- get data from raspberry pi -->
       <!-- <?php
                 $pythonFile = "main.py";
                 $result = shell_exec("sudo python " . $pythonFile);

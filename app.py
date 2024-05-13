@@ -123,7 +123,38 @@ def get_item_details():
         return jsonify(item_details)
     else:
         return jsonify({'error': 'Item not found'})
+
+###########################################################
+###########################################################
+
+@app.route('/add_to_cart', methods=['POST'])
+def add_to_cart():
+    item_id = request.form['itemId']
     
+    # Connect to your SQLite database
+    conn = sqlite3.connect('instance/thesis.db')
+    cursor = conn.cursor()
+    
+    # Execute a query to fetch all details for the given item ID
+    cursor.execute("SELECT * FROM products WHERE id=?", (item_id,))
+    item = cursor.fetchone()
+    conn.close()
+    
+    if item:
+        # Assuming the product table includes columns id, name, description, and price in this order
+        item_details = {
+            'id': item[0],
+            'name': item[1],
+            'description': item[2],
+            'product_price': item[3]
+        }
+        return jsonify(item_details)
+    else:
+        return jsonify({'error': 'Item not found'}), 404
+
+
+###########################################################
+###########################################################
 
 # Database Testing Page
 @app.route('/testing')

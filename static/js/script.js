@@ -50,10 +50,11 @@ $(document).ready(function () {
     // Send AJAX request to get item details from Flask route
     $.post("/get_item_details", { itemId: itemId }, function (response) {
       var item = response;
+      console.log(response);
 
       // Display item details in the HTML
       $("#editItemId").val(item.id);
-      $("#product_price").text(item.product_price);
+      $("#product_price").val(item.product_price);
       $("#newPrice").val(item.product_price);
       $("#popupContainer1").show();
     });
@@ -114,9 +115,6 @@ function deleteRecord(recordId) {
   }
 }
 
-/////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
 function hideV_showF(type) {
   var cards = document.getElementsByClassName("cards");
 
@@ -145,9 +143,11 @@ function hideF_showV(type) {
 
 function show_all() {
   var cards = document.getElementsByClassName("cards");
-
   for (var i = 0; i < cards.length; i++) cards[i].style.display = "block";
 }
+
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -158,7 +158,6 @@ $(function () {
   var productName = $(".productName");
   var productPrice = $(".productPrice");
   var kiloModal = $("#KiloModal");
-  var pcsModal = $("#PcsModal");
   var closeModalBtn = $(".close");
   var searchInput = $("#search");
 
