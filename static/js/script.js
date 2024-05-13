@@ -91,6 +91,67 @@ $(document).ready(function () {
   }
 });
 
+// Delete Function
+function deleteRecord(recordId) {
+  if (confirm("Are you sure you want to delete this record?")) {
+    // Send an AJAX request
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/delete_record", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        alert(xhr.responseText);
+        // Optionally, update the UI or reload the page
+        window.location.reload();
+      } else {
+        alert("Error: " + xhr.statusText);
+      }
+    };
+    xhr.onerror = function () {
+      alert("Network Error");
+    };
+    xhr.send("record_id=" + encodeURIComponent(recordId));
+  }
+}
+
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+function hideV_showF(type) {
+  var cards = document.getElementsByClassName("cards");
+
+  for (var i = 0; i < cards.length; i++) {
+    var productType = cards[i].getAttribute("data-type");
+    if (productType == type) {
+      cards[i].style.display = "block";
+    } else {
+      cards[i].style.display = "none";
+    }
+  }
+}
+
+function hideF_showV(type) {
+  var cards = document.getElementsByClassName("cards");
+
+  for (var i = 0; i < cards.length; i++) {
+    var productType = cards[i].getAttribute("data-type");
+    if (productType == type) {
+      cards[i].style.display = "block";
+    } else {
+      cards[i].style.display = "none";
+    }
+  }
+}
+
+function show_all() {
+  var cards = document.getElementsByClassName("cards");
+
+  for (var i = 0; i < cards.length; i++) cards[i].style.display = "block";
+}
+
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
 $(function () {
   // Cache selectors
   var addToCartBtn = $(".add-to-cart");
@@ -150,26 +211,3 @@ $(function () {
     });
   });
 });
-
-// Delete Function
-function deleteRecord(recordId) {
-  if (confirm("Are you sure you want to delete this record?")) {
-    // Send an AJAX request
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/delete_record", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.onload = function () {
-      if (xhr.status === 200) {
-        alert(xhr.responseText);
-        // Optionally, update the UI or reload the page
-        window.location.reload();
-      } else {
-        alert("Error: " + xhr.statusText);
-      }
-    };
-    xhr.onerror = function () {
-      alert("Network Error");
-    };
-    xhr.send("record_id=" + encodeURIComponent(recordId));
-  }
-}
