@@ -54,33 +54,41 @@ $(document).ready(function () {
       // Display item details in the HTML
       $("#editItemId").val(item.id);
       $("#product_price").text(item.product_price);
-      $("#editItemPrice").val(item.product_price); // Set new price as current price by default
-      $("#popupContainer1").show(); // Show the container or form
+      $("#newPrice").val(item.product_price);
+      $("#popupContainer1").show();
     });
   });
 
   $("#close-btn1").click(function () {
     $("#popupContainer1").hide();
-
-    function updateProductPrice(productId, newPrice) {
-      $.ajax({
-        url: "/edit_price",
-        type: "POST",
-        data: {
-          product_id: productId,
-          new_price: newPrice,
-        },
-        success: function (response) {
-          // Optionally, handle success response (e.g., show a success message)
-          console.log("Product price updated successfully.");
-        },
-        error: function (xhr, status, error) {
-          // Optionally, handle error response (e.g., show an error message)
-          console.error("Error updating product price:", error);
-        },
-      });
-    }
   });
+
+  $(".editForm").submit(function (event) {
+    event.preventDefault();
+
+    var productId = $("#editItemId").val();
+    var newPrice = $("#new_price").val();
+
+    updateProductPrice(productId, newPrice);
+  });
+
+  function updateProductPrice(productId, newPrice) {
+    $.ajax({
+      url: "/edit",
+      type: "POST",
+      data: {
+        id: productId,
+        editItemPrice: newPrice,
+      },
+      success: function (response) {
+        console.log("Product updated successsfully.");
+        window.location.href = "/";
+      },
+      error: function (xhr, status, error) {
+        console.error("Error updating product price: ", error);
+      },
+    });
+  }
 });
 
 $(function () {

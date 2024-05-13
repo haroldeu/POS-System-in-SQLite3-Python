@@ -112,18 +112,24 @@
 <div class="popup-container1" id="popupContainer1">
   <div class="popup1" id="popup1">
     <span class="close" id="close-btn1">&times;</span>
-    <h2>Edit Item</h2>
-    <form action="/edit_price" method="POST">
+    <h2>Edit Product Price</h2>
+    <form action="/edit" method="POST" class="editForm">
       <input type="hidden" id="editItemId" name="editItemId" />
 
-      <p>Current Item Price:</p>
-      <p id="product_price"></p>
+      <label for="product_price">Current Price:</label>
+      <input
+        type="text"
+        id="product_price"
+        name="product_price"
+        value="{{ product_price }}"
+        disabled
+      />
 
       <label for="new_price">Update Price:</label>
       <input
         type="number"
         id="new_price"
-        name="new_price"
+        name="editItemPrice"
         required
         autocomplete="off"
       />

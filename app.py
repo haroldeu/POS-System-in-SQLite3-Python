@@ -2,7 +2,7 @@ from flask import Flask, render_template, url_for, request, redirect, jsonify, s
 import sqlite3
 from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy as db
-import os
+import os, time
 
 
 app = Flask(__name__)
@@ -15,8 +15,7 @@ class Products(db.Model):
     product_image = db.Column(db.String(255), nullable=True)
     product_name = db.Column(db.String(255), nullable=False)
     product_price = db.Column(db.Integer, nullable=False)
-    product_type = db.Column(db.String(4), nullable=False)
-    product_unit = db.Column(db.String(9), nullable=True)
+    product_type = db.Column(db.String(9), nullable=False)
 
 with app.app_context():
     db.create_all()
@@ -83,26 +82,6 @@ def add_product_route():
     
     return redirect('/')
 
-# Function to edit product price
-def edit_product_price(product_id, new_price):
-    product = Products.query.get(product_id)
-    if product:
-        product.product_price = new_price
-        db.session.commit()
-        return True
-    else:
-        return False
-
-@app.route('/edit_price', methods=['POST'])
-def edit_price():
-    product_id = request.form.get('product_id')
-    new_price = request.form.get('new_price')
-    edit_product_price(product_id, new_price)
-    return redirect('/')
-
-
-
-
 
 @app.route('/get_item_details', methods=['POST'])
 def get_item_details():
@@ -129,8 +108,10 @@ def get_item_details():
 @app.route('/edit', methods=['POST'])
 def edit_product():
     product_id = request.form.get('id')
-    new_price = request.form.get('new_price')
+    new_price = request.form.get('editItemPrice')
+
     if edit_product_price(product_id, new_price):
+        print("Redirecting to homepage.........................................")
         return redirect('/')
     else:
         return "Product not found."
@@ -144,6 +125,8 @@ def edit_product_price(product_id, new_price):
         return True
     else:
         return False
+    
+    
     
 
 # Database Testing Page
@@ -160,6 +143,15 @@ def test():
     products = c.fetchall()
 
     return render_template("test.html", products=products)
+
+## for testing
+@app.route('/edit_price', methods=['POST'])
+def edit_price():
+    product_id = request.form.get('product_id')
+    new_price = request.form.get('new_price')
+    edit_product_price(product_id, new_price)
+    return redirect('/')
+
 
 
 if __name__ == "__main__":
