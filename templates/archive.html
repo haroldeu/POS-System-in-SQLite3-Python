@@ -1,0 +1,120 @@
+change the confirmation dialog into a popup window<style>
+  .archive-wrapper nav {
+    display: flex;
+    align-items: center;
+    padding: 20px 20px 0;
+    justify-content: space-between;
+  }
+
+  .search-container {
+    position: relative;
+  }
+
+  #search {
+    padding: 5px 30px 5px 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    width: 200px;
+  }
+
+  button[type="submit"] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    padding: 5px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+
+  button[type="submit"] img {
+    width: 18px;
+    height: 18px;
+  }
+
+  button {
+    padding: 7px;
+    border: none;
+    border-radius: 5px;
+    background-color: #5f264a;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .table {
+    text-align: center;
+    border-radius: 10px;
+    margin-top: 10px;
+    max-height: 85%;
+    overflow-y: auto;
+    scrollbar-width: none;
+    border: 2px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .table thead {
+    position: sticky;
+    top: 0;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid black;
+  }
+
+  th,
+  td {
+    padding: 12px 15px;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  td {
+    background-color: #fff;
+  }
+</style>
+
+<div class="archive-wrapper" id="archive">
+  <nav>
+    <h1>Archive Items</h1>
+    <form class="search-form">
+      <div class="search-container">
+        <input type="text" id="search" name="search" placeholder="Search..." />
+        <button type="submit">
+          <img src="/static/images/search.png" alt="Search" />
+        </button>
+      </div>
+    </form>
+  </nav>
+  <div class="table">
+    <table>
+      <thead>
+        <tr>
+          <th>Item Image</th>
+          <th>Item Name</th>
+          <th>Item Price</th>
+          <th>Item Type</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

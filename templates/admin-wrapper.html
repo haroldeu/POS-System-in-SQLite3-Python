@@ -4,22 +4,6 @@
     justify-content: space-between;
   }
 
-  .admin-wrapper nav ul {
-    display: flex;
-    list-style: none;
-    gap: 20px;
-  }
-
-  .admin-wrapper nav ul li a {
-    position: relative;
-    text-decoration: none;
-    color: black;
-  }
-
-  .search-form {
-    display: flex;
-  }
-
   .search-container {
     position: relative;
   }
@@ -49,11 +33,12 @@
 
   .nav-optn {
     display: flex;
+    align-items: center;
     gap: 20px;
   }
 
   .nav-optn button {
-    padding: 6px 10px;
+    padding: 7px;
     border: none;
     border-radius: 5px;
     background-color: #5f264a;
@@ -88,11 +73,6 @@
     border-bottom: 1px solid black;
   }
 
-  tbody td img {
-    height: 50px;
-    width: 100px;
-  }
-
   th,
   td {
     padding: 12px 15px;
@@ -106,20 +86,36 @@
     background-color: #fff;
   }
 
-  .admin-wrapper .table button {
-    margin: 5px;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    background-color: #5f264a;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  .actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
   }
 
-  .admin-wrapper .table button:hover,
-  .add-btn:hover {
-    background-color: #712d58;
+  .buttons {
+    background-color: #5f264a;
+    color: white;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .product-image {
+    height: 50px;
+    width: 100px;
+  }
+
+  .delete-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+
+  .delete {
+    height: 30px;
+    width: 35px;
   }
 
   .add-btn {
@@ -130,11 +126,6 @@
     color: white;
     cursor: pointer;
     background-color: #5f264a;
-  }
-
-  .delete-btn a {
-    text-decoration: none;
-    color: white;
   }
 </style>
 
@@ -186,16 +177,26 @@
           <td>₱{{ product[3] }}</td>
           <td>{{ product[4] }}</td>
           <td>
-            <button class="update-btn" data-id="({{ product[0] }})">
-              Update
-            </button>
+            <div class="actions">
+              <button class="update-btn buttons" data-id="({{ product[0] }})">
+                Update
+              </button>
 
-            <button
-              class="delete-btn"
-              onclick="deleteRecord('{{ product[0] }}')"
-            >
-              Delete
-            </button>
+              <button class="archive-btn buttons" data-id="({{ product[0] }})">
+                Archive
+              </button>
+
+              <button
+                class="delete-btn"
+                onclick="deleteRecord('{{ product[0] }}')"
+              >
+                <img
+                  src="{{ url_for('static', filename='images/delete.png') }}"
+                  alt="Search"
+                  class="delete"
+                />
+              </button>
+            </div>
           </td>
         </tr>
         {% endfor %}
