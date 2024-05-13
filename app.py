@@ -29,7 +29,7 @@ def index():
     c = conn.cursor()
 
     # Execute the query
-    c.execute('SELECT * FROM products')
+    c.execute('SELECT * FROM products ORDER BY product_name ASC')
 
     # Fetch all the rows
     products = c.fetchall()
