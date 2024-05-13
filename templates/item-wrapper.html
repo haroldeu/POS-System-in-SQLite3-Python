@@ -171,13 +171,13 @@
     {% for product in products %}
     <div class="cards">
       <img
-        src="images/{{ product[1] }}"
+        src="static/{{ product[1] }}"
         alt="Product image"
         class="product-image"
       />
       <div class="card-info">
         <p class="name">{{ product[2] }}</p>
-        <p class="price">₱{{ product[3] }}/{{ product[5] }}</p>
+        <p class="price">₱{{ product[3] }}/kilo</p>
       </div>
 
       <input

@@ -1,6 +1,9 @@
 from flask import Flask, request, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask.templating import render_template
+import os
+import sqlite3
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///thesis.db'
@@ -26,10 +29,6 @@ class Products(db.Model):
 with app.app_context():
     db.create_all()
 
-# Example usage
-image_path = 'static/images/tomato.jpg'
-image_data = Products.read_image(image_path)
-
 # Function to delete data
 def delete_data(product_id):
     # Example deletion
@@ -51,7 +50,6 @@ def delete_product():
     product_id = request.form.get('id')
     delete_data(product_id)
     return redirect('/')
-
 
 # Function to add a new product
 def add_product(name, price, ptype, unit):
@@ -75,26 +73,29 @@ def add_product_route():
     return redirect('/')
 
 
-# Function to edit product price
-def edit_product_price(product_id, new_price):
-    product = Products.query.get(product_id)
-    if product:
-        product.product_price = new_price
-        db.session.commit()
-        return True
-    else:
-        return False
 
-@app.route('/edit_price/<int:product_id>', methods=['GET', 'POST'])
-def edit_price(product_id):
-    if request.method == 'GET':
-        return render_template('edit_price.html', product_id=product_id)
-    elif request.method == 'POST':
-        new_price = request.form.get('new_price')
-        edit_product_price(product_id, new_price)
-        return redirect('/')
+# # Function to edit product price
+# def edit_product_price(product_id, new_price):
+#     product = Products.query.get(product_id)
+#     if product:
+#         product.product_price = new_price
+#         db.session.commit()
+#         return True
+#     else:
+#         return False
+
+# @app.route('/edit_price/<int:product_id>', methods=['GET', 'POST'])
+# def edit_price(product_id):
+#     if request.method == 'GET':
+#         return render_template('edit_price.html', product_id=product_id)
+#     elif request.method == 'POST':
+#         new_price = request.form.get('new_price')
+#         edit_product_price(product_id, new_price)
+#         return redirect('/')
+    
+
 
 
  
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug=True)

@@ -1,6 +1,5 @@
 <style>
   .admin-wrapper nav {
-    display: flex;
     padding: 20px 20px 0;
     justify-content: space-between;
   }
@@ -117,27 +116,25 @@
       <input type="text" name="search" placeholder="Search..." />
       <button type="submit">Search</button>
     </form>
+    <!-- <button class="archive-btn">Archive</button> -->
   </nav>
   <div class="table">
     <table>
       <thead>
         <tr>
-          <th>Item Id</th>
           <th>Item Image</th>
           <th>Item Name</th>
           <th>Item Price</th>
           <th>Item Type</th>
-          <th>Unit</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
         {% for product in products %}
         <tr>
-          <td>{{ product[0] }}</td>
           <td>
             <img
-              src="images/{{ product[1] }}"
+              src="static/{{ product[1] }}"
               alt="Product Image"
               class="product-image table-image"
             />
@@ -145,7 +142,6 @@
           <td>{{ product[2] }}</td>
           <td>₱{{ product[3] }}</td>
           <td>{{ product[4] }}</td>
-          <td>{{ product[5] }}</td>
           <td>
             <button class="update-btn" data-id="({{ product[0] }})">
               Update

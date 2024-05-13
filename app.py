@@ -1,7 +1,8 @@
-from flask import Flask, render_template, url_for, request, redirect, jsonify
+from flask import Flask, render_template, url_for, request, redirect, jsonify, send_from_directory
 import sqlite3
 from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy as db
+import os
 
 
 app = Flask(__name__)
@@ -15,7 +16,7 @@ class Products(db.Model):
     product_name = db.Column(db.String(255), nullable=False)
     product_price = db.Column(db.Integer, nullable=False)
     product_type = db.Column(db.String(4), nullable=False)
-    product_unit = db.Column(db.String(9), nullable=False)
+    product_unit = db.Column(db.String(9), nullable=True)
 
 with app.app_context():
     db.create_all()
@@ -33,6 +34,7 @@ def index():
 
     # Fetch all the rows
     products = c.fetchall()
+    conn.close()
 
     return render_template("index.html.j2", products=products)
 
@@ -57,22 +59,29 @@ def delete_record():
 # Add Entry Route
 @app.route('/add_product', methods=['POST'])
 def add_product_route():
+    conn = sqlite3.connect('instance/thesis.db')
+    cursor = conn.cursor()
+
+    image_file = request.files['product_image']
+    upload_image = "images/"
+
+    file_path = os.path.join(upload_image, image_file.filename)
+    image_file.save(file_path)
+    image = file_path
+
     name = request.form.get('product_name')
     price = int(request.form.get('product_price'))  # Convert to int or appropriate data type
     ptype = request.form.get('product_type')
-    unit = request.form.get('product_unit')
-    
-    add_product(name, price, ptype, unit)
+
+    cursor.execute("""
+    INSERT INTO products (product_image, product_name, product_price, product_type) VALUES (?, ?, ?, ?)
+""", (image, name, price, ptype))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
     
     return redirect('/')
-
-# Add Entry Function
-def add_product(name, price, ptype, unit):
-    new_product = Products(product_name=name, product_price=price, product_type=ptype, product_unit=unit)
-    db.session.add(new_product)
-    db.session.commit()
-    
-
 
 # Function to edit product price
 def edit_product_price(product_id, new_price):
