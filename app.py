@@ -1,8 +1,8 @@
-from flask import Flask, render_template, url_for, request, redirect, jsonify, send_from_directory
+from flask import Flask, render_template, url_for, request, redirect, jsonify
 import sqlite3
 from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy as db
-import os, time
+import os
 
 
 app = Flask(__name__)
@@ -103,31 +103,31 @@ def edit_product_price(product_id, new_price):
     else:
         return False
     
+# @app.route('/get_item_details', methods=['POST'])
+# def get_item_details():
+#     item_id = request.form['itemId']
+
+#     conn = sqlite3.connect('instance/thesis.db')
+#     cursor = conn.cursor()
+
+#     cursor.execute("SELECT product_price FROM products WHERE id=?", (item_id,))
+#     item = cursor.fetchone()
+
+#     conn.close()
+
+#     if item:
+#         item_details = {
+#             'id': item_id,
+#             'product_price': item[0]  # Changed from item[3] to item[0]
+#         }
+#         return jsonify(item_details)
+#     else:
+#         return jsonify({'error': 'Item not found'})
+
+###########################################################
+###########################################################
+
 @app.route('/get_item_details', methods=['POST'])
-def get_item_details():
-    item_id = request.form['itemId']
-
-    conn = sqlite3.connect('instance/thesis.db')
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT product_price FROM products WHERE id=?", (item_id,))
-    item = cursor.fetchone()
-
-    conn.close()
-
-    if item:
-        item_details = {
-            'id': item_id,
-            'product_price': item[0]  # Changed from item[3] to item[0]
-        }
-        return jsonify(item_details)
-    else:
-        return jsonify({'error': 'Item not found'})
-
-###########################################################
-###########################################################
-
-@app.route('/add_to_cart', methods=['POST'])
 def add_to_cart():
     item_id = request.form['itemId']
     
@@ -144,9 +144,9 @@ def add_to_cart():
         # Assuming the product table includes columns id, name, description, and price in this order
         item_details = {
             'id': item[0],
-            'name': item[1],
-            'description': item[2],
-            'product_price': item[3]
+            'product_name': item[2],
+            'product_price': item[3],
+            'product_type': item[4]
         }
         return jsonify(item_details)
     else:
@@ -154,6 +154,11 @@ def add_to_cart():
 
 
 ###########################################################
+
+
+
+
+
 ###########################################################
 
 # Database Testing Page
@@ -178,6 +183,7 @@ def edit_price():
     new_price = request.form.get('new_price')
     edit_product_price(product_id, new_price)
     return redirect('/')
+
 
 
 

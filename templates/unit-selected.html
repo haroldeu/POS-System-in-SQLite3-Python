@@ -78,13 +78,13 @@
         <p class="productName"></p>
         <p class="productPrice"></p>
       </div>
+      <br />
 
       <!-- get data from raspberry pi -->
-      <!-- <?php
-                $pythonFile = "main.py";
-                $result = shell_exec("sudo python " . $pythonFile);
-                echo $result, " kg";
-            ?> -->
+      <h3>
+        Weight of Container:
+        <span id="result" style="color: #c33; font-size: 28px">302</span> gram
+      </h3>
 
       <br />
 
@@ -92,3 +92,11 @@
     </div>
   </div>
 </div>
+
+<script>
+  setInterval(function () {
+    $.getJSON("/show_weight", function (data) {
+      $("#result").text(data.result);
+    });
+  }, 5000);
+</script>

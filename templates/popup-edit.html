@@ -112,14 +112,14 @@
 <div class="popup-container1" id="popupContainer1">
   <div class="popup1" id="popup1">
     <span class="close" id="close-btn1">&times;</span>
-    <h2>Edit Product Price</h2>
+    <h2>Edit Price of: <span class="product_name"></span></h2>
     <form action="/edit" method="POST" class="editForm">
       <input type="hidden" id="editItemId" name="editItemId" />
 
       <label for="product_price">Current Price:</label>
       <input type="number" id="product_price" name="product_price" disabled />
 
-      <label for="new_price">Update Price:</label>
+      <label for="new_price">New Price:</label>
       <input
         type="number"
         id="new_price"

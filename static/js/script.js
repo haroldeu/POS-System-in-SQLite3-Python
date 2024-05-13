@@ -54,6 +54,7 @@ $(document).ready(function () {
 
       // Display item details in the HTML
       $("#editItemId").val(item.id);
+      $(".product_name").text(item.product_name);
       $("#product_price").val(item.product_price);
       $("#newPrice").val(item.product_price);
       $("#popupContainer1").show();
@@ -166,16 +167,16 @@ $(function () {
     var itemId = $(this).attr("add-id");
 
     $.post({
-      url: "get_item_details.php",
+      url: "/get_item_details",
       data: { itemId: itemId },
       dataType: "json", // Specify response type
     })
       .done(function (item) {
         productName.text(item.product_name);
-        productPrice.text(`₱${item.product_price}/${item.product_type}`);
+        productPrice.text(`₱${item.product_price}/kilo`);
 
         // Show modal based on product type
-        item.product_type === "kilo" ? kiloModal.show() : pcsModal.show();
+        item.product_type = kiloModal.show();
       })
       .fail(function (xhr) {
         console.error(`Error fetching product details: ${xhr.statusText}`);
