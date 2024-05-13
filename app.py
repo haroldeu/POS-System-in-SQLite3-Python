@@ -82,7 +82,27 @@ def add_product_route():
     
     return redirect('/')
 
+# Edit Product Route
+@app.route('/edit', methods=['POST'])
+def edit_product():
+    product_id = request.form.get('id')
+    new_price = request.form.get('editItemPrice')
 
+    if edit_product_price(product_id, new_price):
+        return redirect('/')
+    else:
+        return "Product not found."
+
+# Function to edit product price
+def edit_product_price(product_id, new_price):
+    product = Products.query.get(product_id)
+    if product:
+        product.product_price = new_price
+        db.session.commit()
+        return True
+    else:
+        return False
+    
 @app.route('/get_item_details', methods=['POST'])
 def get_item_details():
     item_id = request.form['itemId']
@@ -103,30 +123,6 @@ def get_item_details():
         return jsonify(item_details)
     else:
         return jsonify({'error': 'Item not found'})
-    
-
-@app.route('/edit', methods=['POST'])
-def edit_product():
-    product_id = request.form.get('id')
-    new_price = request.form.get('editItemPrice')
-
-    if edit_product_price(product_id, new_price):
-        print("Redirecting to homepage.........................................")
-        return redirect('/')
-    else:
-        return "Product not found."
-
-# Function to edit product price
-def edit_product_price(product_id, new_price):
-    product = Products.query.get(product_id)
-    if product:
-        product.product_price = new_price
-        db.session.commit()
-        return True
-    else:
-        return False
-    
-    
     
 
 # Database Testing Page
