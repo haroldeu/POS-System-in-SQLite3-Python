@@ -16,21 +16,50 @@
     color: black;
   }
 
-  .admin-wrapper nav form [type="text"],
-  [type="submit"] {
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid black;
+  .search-form {
+    display: flex;
   }
 
-  .admin-wrapper nav form button {
-    background-color: #5f264a;
-    color: white;
+  .search-container {
+    position: relative;
+  }
+
+  #search {
+    padding: 5px 30px 5px 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    width: 200px;
+  }
+
+  .nav-optn button[type="submit"] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    padding: 5px;
+    border: none;
+    background-color: transparent;
     cursor: pointer;
   }
 
-  .admin-wrapper nav form button:hover {
-    background-color: #712d58;
+  .nav-optn button[type="submit"] img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .nav-optn {
+    display: flex;
+    gap: 20px;
+  }
+
+  .nav-optn button {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #5f264a;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
   }
 
   .table {
@@ -112,11 +141,25 @@
 <div class="admin-wrapper" id="admin">
   <nav>
     <h1>Item Information</h1>
-    <form action="search.php" method="GET">
-      <input type="text" name="search" placeholder="Search..." />
-      <button type="submit">Search</button>
-    </form>
-    <!-- <button class="archive-btn">Archive</button> -->
+    <div class="nav-optn">
+      <form class="search-form">
+        <div class="search-container">
+          <input
+            type="text"
+            id="search"
+            name="search"
+            placeholder="Search..."
+          />
+          <button type="submit">
+            <img
+              src="{{ url_for('static', filename='images/search.png') }}"
+              alt="Search"
+            />
+          </button>
+        </div>
+      </form>
+      <button>Archive</button>
+    </div>
   </nav>
   <div class="table">
     <table>
