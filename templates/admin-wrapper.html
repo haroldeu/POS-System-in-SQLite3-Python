@@ -33,7 +33,6 @@
 
   .nav-optn {
     display: flex;
-    align-items: center;
     gap: 20px;
   }
 
@@ -149,7 +148,7 @@
           </button>
         </div>
       </form>
-      <button>Archive</button>
+      <button>Archived Products</button>
     </div>
   </nav>
   <div class="table">
@@ -177,14 +176,9 @@
           <td>₱{{ product[3] }}</td>
           <td>{{ product[4] }}</td>
           <td>
-            <div class="actions">
-              <button class="update-btn buttons" data-id="({{ product[0] }})">
-                Update
-              </button>
-
-              <button class="archive-btn buttons" data-id="({{ product[0] }})">
-                Archive
-              </button>
+            <button class="update-btn" data-id="({{ product[0] }})">
+              Update
+            </button>
 
               <button
                 class="delete-btn"

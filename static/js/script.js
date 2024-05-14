@@ -50,38 +50,108 @@ $(document).ready(function () {
     // Send AJAX request to get item details from Flask route
     $.post("/get_item_details", { itemId: itemId }, function (response) {
       var item = response;
+      console.log(response);
 
       // Display item details in the HTML
       $("#editItemId").val(item.id);
-      $("#product_price").text(item.product_price);
-      $("#editItemPrice").val(item.product_price); // Set new price as current price by default
-      $("#popupContainer1").show(); // Show the container or form
+      $(".product_name").text(item.product_name);
+      $("#product_price").val(item.product_price);
+      $("#newPrice").val(item.product_price);
+      $("#popupContainer1").show();
     });
   });
 
   $("#close-btn1").click(function () {
     $("#popupContainer1").hide();
-
-    function updateProductPrice(productId, newPrice) {
-      $.ajax({
-        url: "/edit_price",
-        type: "POST",
-        data: {
-          product_id: productId,
-          new_price: newPrice,
-        },
-        success: function (response) {
-          // Optionally, handle success response (e.g., show a success message)
-          console.log("Product price updated successfully.");
-        },
-        error: function (xhr, status, error) {
-          // Optionally, handle error response (e.g., show an error message)
-          console.error("Error updating product price:", error);
-        },
-      });
-    }
   });
+
+  $(".editForm").submit(function (event) {
+    event.preventDefault();
+
+    var productId = $("#editItemId").val();
+    var newPrice = $("#new_price").val();
+
+    updateProductPrice(productId, newPrice);
+  });
+
+  function updateProductPrice(productId, newPrice) {
+    $.ajax({
+      url: "/edit",
+      type: "POST",
+      data: {
+        id: productId,
+        editItemPrice: newPrice,
+      },
+      success: function (response) {
+        console.log("Product updated successsfully.");
+        window.location.href = "/";
+      },
+      error: function (xhr, status, error) {
+        console.error("Error updating product price: ", error);
+      },
+    });
+  }
 });
+
+// Delete Function
+function deleteRecord(recordId) {
+  if (confirm("Are you sure you want to delete this record?")) {
+    // Send an AJAX request
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/delete_record", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        alert(xhr.responseText);
+        // Optionally, update the UI or reload the page
+        window.location.reload();
+      } else {
+        alert("Error: " + xhr.statusText);
+      }
+    };
+    xhr.onerror = function () {
+      alert("Network Error");
+    };
+    xhr.send("record_id=" + encodeURIComponent(recordId));
+  }
+}
+
+function hideV_showF(type) {
+  var cards = document.getElementsByClassName("cards");
+
+  for (var i = 0; i < cards.length; i++) {
+    var productType = cards[i].getAttribute("data-type");
+    if (productType == type) {
+      cards[i].style.display = "block";
+    } else {
+      cards[i].style.display = "none";
+    }
+  }
+}
+
+function hideF_showV(type) {
+  var cards = document.getElementsByClassName("cards");
+
+  for (var i = 0; i < cards.length; i++) {
+    var productType = cards[i].getAttribute("data-type");
+    if (productType == type) {
+      cards[i].style.display = "block";
+    } else {
+      cards[i].style.display = "none";
+    }
+  }
+}
+
+function show_all() {
+  var cards = document.getElementsByClassName("cards");
+  for (var i = 0; i < cards.length; i++) cards[i].style.display = "block";
+}
+
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 
 $(function () {
   // Cache selectors
@@ -89,7 +159,6 @@ $(function () {
   var productName = $(".productName");
   var productPrice = $(".productPrice");
   var kiloModal = $("#KiloModal");
-  var pcsModal = $("#PcsModal");
   var closeModalBtn = $(".close");
   var searchInput = $("#search");
 
@@ -98,16 +167,16 @@ $(function () {
     var itemId = $(this).attr("add-id");
 
     $.post({
-      url: "get_item_details.php",
+      url: "/get_item_details",
       data: { itemId: itemId },
       dataType: "json", // Specify response type
     })
       .done(function (item) {
         productName.text(item.product_name);
-        productPrice.text(`₱${item.product_price}/${item.product_type}`);
+        productPrice.text(`₱${item.product_price}/kilo`);
 
         // Show modal based on product type
-        item.product_type === "kilo" ? kiloModal.show() : pcsModal.show();
+        item.product_type = kiloModal.show();
       })
       .fail(function (xhr) {
         console.error(`Error fetching product details: ${xhr.statusText}`);
@@ -142,26 +211,3 @@ $(function () {
     });
   });
 });
-
-// Delete Function
-function deleteRecord(recordId) {
-  if (confirm("Are you sure you want to delete this record?")) {
-    // Send an AJAX request
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/delete_record", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.onload = function () {
-      if (xhr.status === 200) {
-        alert(xhr.responseText);
-        // Optionally, update the UI or reload the page
-        window.location.reload();
-      } else {
-        alert("Error: " + xhr.statusText);
-      }
-    };
-    xhr.onerror = function () {
-      alert("Network Error");
-    };
-    xhr.send("record_id=" + encodeURIComponent(recordId));
-  }
-}

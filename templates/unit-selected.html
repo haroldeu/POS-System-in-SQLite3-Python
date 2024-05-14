@@ -69,26 +69,6 @@
   }
 </style>
 
-<div class="modal" id="PcsModal">
-  <div class="popup2" id="popup2">
-    <span class="close">&times;</span>
-    <h2>Add to Order</h2>
-    <div class="selected">
-      <div class="s-content">
-        <p class="productName"></p>
-        <p class="productPrice"></p>
-      </div>
-      <input
-        type="number"
-        name="quantity"
-        id="quantity"
-        placeholder="Enter quantity"
-      />
-      <button type="submit" id="add-to-cart">Submit</button>
-    </div>
-  </div>
-</div>
-
 <div class="modal" id="KiloModal">
   <div class="popup2" id="popup2">
     <span class="close">&times;</span>
@@ -98,12 +78,13 @@
         <p class="productName"></p>
         <p class="productPrice"></p>
       </div>
+      <br />
 
-      <!-- <?php
-                $pythonFile = "main.py";
-                $result = shell_exec("sudo python " . $pythonFile);
-                echo $result, " kg";
-            ?> -->
+      <!-- get data from raspberry pi -->
+      <h3>
+        Weight of Container:
+        <span id="result" style="color: #c33; font-size: 28px">302</span> gram
+      </h3>
 
       <br />
 
@@ -111,3 +92,11 @@
     </div>
   </div>
 </div>
+
+<script>
+  setInterval(function () {
+    $.getJSON("/show_weight", function (data) {
+      $("#result").text(data.result);
+    });
+  }, 5000);
+</script>

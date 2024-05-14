@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect, jsonify, send_from_directory
+from flask import Flask, render_template, url_for, request, redirect, jsonify
 import sqlite3
 from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy as db
@@ -15,8 +15,7 @@ class Products(db.Model):
     product_image = db.Column(db.String(255), nullable=True)
     product_name = db.Column(db.String(255), nullable=False)
     product_price = db.Column(db.Integer, nullable=False)
-    product_type = db.Column(db.String(4), nullable=False)
-    product_unit = db.Column(db.String(9), nullable=True)
+    product_type = db.Column(db.String(9), nullable=False)
 
 with app.app_context():
     db.create_all()
@@ -30,7 +29,7 @@ def index():
     c = conn.cursor()
 
     # Execute the query
-    c.execute('SELECT * FROM products')
+    c.execute('SELECT * FROM products ORDER BY product_name ASC')
 
     # Fetch all the rows
     products = c.fetchall()
@@ -83,53 +82,12 @@ def add_product_route():
     
     return redirect('/')
 
-# Function to edit product price
-def edit_product_price(product_id, new_price):
-    product = Products.query.get(product_id)
-    if product:
-        product.product_price = new_price
-        db.session.commit()
-        return True
-    else:
-        return False
-
-@app.route('/edit_price', methods=['POST'])
-def edit_price():
-    product_id = request.form.get('product_id')
-    new_price = request.form.get('new_price')
-    edit_product_price(product_id, new_price)
-    return redirect('/')
-
-
-
-
-
-@app.route('/get_item_details', methods=['POST'])
-def get_item_details():
-    item_id = request.form['itemId']
-
-    conn = sqlite3.connect('instance/thesis.db')
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT product_price FROM products WHERE id=?", (item_id,))
-    item = cursor.fetchone()
-
-    conn.close()
-
-    if item:
-        item_details = {
-            'id': item_id,
-            'product_price': item[0]  # Changed from item[3] to item[0]
-        }
-        return jsonify(item_details)
-    else:
-        return jsonify({'error': 'Item not found'})
-    
-
+# Edit Product Route
 @app.route('/edit', methods=['POST'])
 def edit_product():
     product_id = request.form.get('id')
-    new_price = request.form.get('new_price')
+    new_price = request.form.get('editItemPrice')
+
     if edit_product_price(product_id, new_price):
         return redirect('/')
     else:
@@ -145,6 +103,63 @@ def edit_product_price(product_id, new_price):
     else:
         return False
     
+# @app.route('/get_item_details', methods=['POST'])
+# def get_item_details():
+#     item_id = request.form['itemId']
+
+#     conn = sqlite3.connect('instance/thesis.db')
+#     cursor = conn.cursor()
+
+#     cursor.execute("SELECT product_price FROM products WHERE id=?", (item_id,))
+#     item = cursor.fetchone()
+
+#     conn.close()
+
+#     if item:
+#         item_details = {
+#             'id': item_id,
+#             'product_price': item[0]  # Changed from item[3] to item[0]
+#         }
+#         return jsonify(item_details)
+#     else:
+#         return jsonify({'error': 'Item not found'})
+
+###########################################################
+###########################################################
+
+@app.route('/get_item_details', methods=['POST'])
+def add_to_cart():
+    item_id = request.form['itemId']
+    
+    # Connect to your SQLite database
+    conn = sqlite3.connect('instance/thesis.db')
+    cursor = conn.cursor()
+    
+    # Execute a query to fetch all details for the given item ID
+    cursor.execute("SELECT * FROM products WHERE id=?", (item_id,))
+    item = cursor.fetchone()
+    conn.close()
+    
+    if item:
+        # Assuming the product table includes columns id, name, description, and price in this order
+        item_details = {
+            'id': item[0],
+            'product_name': item[2],
+            'product_price': item[3],
+            'product_type': item[4]
+        }
+        return jsonify(item_details)
+    else:
+        return jsonify({'error': 'Item not found'}), 404
+
+
+###########################################################
+
+
+
+
+
+###########################################################
 
 # Database Testing Page
 @app.route('/testing')
@@ -160,6 +175,16 @@ def test():
     products = c.fetchall()
 
     return render_template("test.html", products=products)
+
+## for testing
+@app.route('/edit_price', methods=['POST'])
+def edit_price():
+    product_id = request.form.get('product_id')
+    new_price = request.form.get('new_price')
+    edit_product_price(product_id, new_price)
+    return redirect('/')
+
+
 
 
 if __name__ == "__main__":

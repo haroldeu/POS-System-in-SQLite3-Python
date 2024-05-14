@@ -150,9 +150,21 @@
 <div class="item-wrapper">
   <nav>
     <ul>
-      <li><a href="#" onclick="toggleUnderline(event)">All Products</a></li>
-      <li><a href="#" onclick="toggleUnderline(event)">Vegetables</a></li>
-      <li><a href="#" onclick="toggleUnderline(event)">Fruits</a></li>
+      <li>
+        <a href="#" onclick="toggleUnderline(event); show_all();"
+          >All Products</a
+        >
+      </li>
+      <li>
+        <a href="#" onclick="toggleUnderline(event); hideF_showV('Vegetable');"
+          >Vegetables</a
+        >
+      </li>
+      <li>
+        <a href="#" onclick="toggleUnderline(event); hideV_showF('Fruit');"
+          >Fruits</a
+        >
+      </li>
     </ul>
     <form class="search-form">
       <div class="search-container">
@@ -168,7 +180,7 @@
   </nav>
   <div class="card-wrapper">
     {% for product in products %}
-    <div class="cards">
+    <div class="cards" data-type="{{ product[4] }}">
       <img
         src="static/{{ product[1] }}"
         alt="Product image"
