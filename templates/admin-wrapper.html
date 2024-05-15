@@ -48,7 +48,22 @@
     height: 18px;
   }
 
-  /* Table Styles */
+  .nav-optn {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .nav-optn button {
+    padding: 7px;
+    border: none;
+    border-radius: 5px;
+    background-color: #5f264a;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
   .table {
     text-align: center;
     border-radius: 10px;
@@ -183,11 +198,11 @@
           <td>{{ product[4] }}</td>
           <td>
             <div class="actions">
-              <button class="update-btn" data-id="{{ product[0] }}">
+              <button class="update-btn buttons" data-id="({{ product[0] }})">
                 Update
               </button>
 
-              <button class="archive-btn" data-id="({{ product[0] }})">
+              <button class="archive-btn buttons" data-id="({{ product[0] }})">
                 Archive
               </button>
 
