@@ -87,7 +87,8 @@ nav {
   grid-template-rows: 10fr 1fr;
 }
 
-.admin-wrapper {
+.admin-wrapper,
+.archive-wrapper {
   height: 90vh;
   display: none;
   padding: 0px 15px;

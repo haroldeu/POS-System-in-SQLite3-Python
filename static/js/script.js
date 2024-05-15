@@ -160,7 +160,7 @@ $(function () {
   var productPrice = $(".productPrice");
   var kiloModal = $("#KiloModal");
   var closeModalBtn = $(".close");
-  var searchInput = $("#search");
+  var search = $("#search");
 
   // Combine event handlers
   addToCartBtn.on("click", function () {
@@ -188,26 +188,71 @@ $(function () {
     $(".modal").hide();
   });
 
-  // Add event listener to search input field
-  searchInput.on("input", function () {
-    var searchQuery = $(this).val().toLowerCase(); // Get the search query and convert it to lowercase
-
-    // Get all cards in the card-wrapper
-    var cards = $(".card-wrapper .cards");
-
-    // Iterate through each card
-    cards.each(function () {
-      // Get the product name of the current card
-      var productName = $(this).find("p").text().toLowerCase();
-
-      // Check if the product name starts with the search query
-      if (productName.startsWith(searchQuery)) {
-        // If it does, display the card
-        $(this).css("display", "block");
-      } else {
-        // If it doesn't, hide the card
-        $(this).css("display", "none");
-      }
+  /*   
+    search.on("input", function () {
+      var searchQuery = $(this).val().toLowerCase(); // Get the search query and convert it to lowercase
+  
+      // Get all cards in the card-wrapper
+      var cards = $(".card-wrapper .cards");
+  
+      // Iterate through each card
+      cards.each(function () {
+        // Get the product name of the current card
+        var productName = $(this).find("p").text().toLowerCase();
+  
+        // Check if the product name starts with the search query
+        if (productName.startsWith(searchQuery)) {
+          // If it does, display the card
+          $(this).css("display", "block");
+        } else {
+          // If it doesn't, hide the card
+          $(this).css("display", "none");
+        }
+      });
     });
+  }); */
+
+  // Add event listener to search input field
+  $(document).ready(function () {
+    // Function to simulate typing into the search input
+    function typeVirtualKeyboardKey(keyValue) {
+      $("#search").trigger("input"); // Trigger input event to filter cards
+    }
+
+    // Attach the function to all keys of the virtual keyboard
+    $(".key").on("mousedown", function () {
+      typeVirtualKeyboardKey($(this).text());
+    });
+
+    // Existing searc1h input function
+    $("#search").on("input", function () {
+      var searchQuery = $(this).val().toLowerCase(); // Get the search query and convert it to lowercase
+      var cards = $(".card-wrapper .cards"); // Get all cards in the card-wrapper
+
+      cards.each(function () {
+        var productName = $(this).find("p").text().toLowerCase(); // Get the product name of the current card
+        if (productName.startsWith(searchQuery)) {
+          $(this).css("display", "block"); // If it does, display the card
+        } else {
+          $(this).css("display", "none"); // If it doesn't, hide the card
+        }
+      });
+    });
+  });
+});
+
+$(document).ready(function () {
+  // Show the virtual keyboard when any input field is focused
+  $("input").on("focus", function () {
+    if ($(this).attr("type") !== "submit") {
+      $(".virtual-keyboard").show();
+    }
+  });
+
+  // Hide the virtual keyboard when clicking outside
+  $(document).on("click", function (event) {
+    if (!$(event.target).closest(".virtual-keyboard, input").length) {
+      $(".virtual-keyboard").hide();
+    }
   });
 });
