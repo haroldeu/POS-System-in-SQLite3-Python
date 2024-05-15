@@ -1,4 +1,5 @@
 <style>
+  /* Nav Styles */
   .item-wrapper nav {
     display: flex;
     align-items: center;
@@ -35,16 +36,14 @@
     transition: transform 0.4s ease-in-out;
   }
 
-  .item-wrapper nav ul li a:hover::before {
-    transform: scaleX(1);
-  }
-
+  .item-wrapper nav ul li a:hover::before,
   .item-wrapper nav ul li a.underline::before {
     transform: scaleX(1);
   }
 
+  /* Search Form Styles */
   .item-wrapper nav form [type="text"],
-  [type="submit"] {
+  .item-wrapper nav form [type="submit"] {
     padding: 5px;
     border-radius: 5px;
     border: 1px solid black;
@@ -60,11 +59,9 @@
 
   #search {
     padding: 5px 30px 5px 10px;
-    /* Adjust padding as needed */
     border-radius: 5px;
     border: 1px solid black;
     width: 200px;
-    /* Adjust width as needed */
   }
 
   .item-wrapper button[type="submit"] {
@@ -83,6 +80,7 @@
     height: 18px;
   }
 
+  /* Card Styles */
   .card-wrapper {
     display: grid;
     gap: 20px;
@@ -107,6 +105,13 @@
     transition: 0.3s;
   }
 
+  .cards img {
+    mix-blend-mode: multiply;
+    height: 30vh;
+    width: 25vw;
+  }
+
+  /* Add to Cart Styles */
   .add-to-cart {
     display: none;
     position: absolute;
@@ -127,12 +132,7 @@
     display: block;
   }
 
-  .cards img {
-    mix-blend-mode: multiply;
-    height: 30vh;
-    width: 25vw;
-  }
-
+  /* Card Info Styles */
   .card-info {
     display: flex;
     justify-content: space-between;
@@ -150,9 +150,21 @@
 <div class="item-wrapper">
   <nav>
     <ul>
-      <li><a href="#" onclick="toggleUnderline(event)">All Products</a></li>
-      <li><a href="#" onclick="toggleUnderline(event)">Vegetables</a></li>
-      <li><a href="#" onclick="toggleUnderline(event)">Fruits</a></li>
+      <li>
+        <a href="#" onclick="toggleUnderline(event); show_all();"
+          >All Products</a
+        >
+      </li>
+      <li>
+        <a href="#" onclick="toggleUnderline(event); hideF_showV('Vegetable');"
+          >Vegetables</a
+        >
+      </li>
+      <li>
+        <a href="#" onclick="toggleUnderline(event); hideV_showF('Fruit');"
+          >Fruits</a
+        >
+      </li>
     </ul>
     <form class="search-form">
       <div class="search-container">
@@ -168,7 +180,7 @@
   </nav>
   <div class="card-wrapper">
     {% for product in products %}
-    <div class="cards">
+    <div class="cards" data-type="{{ product[4] }}">
       <img
         src="static/{{ product[1] }}"
         alt="Product image"

@@ -1,9 +1,26 @@
 <style>
+  /* Nav Styles */
   .admin-wrapper nav {
     padding: 20px 20px 0;
     justify-content: space-between;
   }
 
+  .nav-optn {
+    display: flex;
+    gap: 20px;
+  }
+
+  .nav-optn button {
+    padding: 7px;
+    border: none;
+    border-radius: 5px;
+    background-color: #5f264a;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  /* Search Form Styles */
   .search-container {
     position: relative;
   }
@@ -31,22 +48,7 @@
     height: 18px;
   }
 
-  .nav-optn {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-
-  .nav-optn button {
-    padding: 7px;
-    border: none;
-    border-radius: 5px;
-    background-color: #5f264a;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-
+  /* Table Styles */
   .table {
     text-align: center;
     border-radius: 10px;
@@ -86,6 +88,7 @@
     background-color: #fff;
   }
 
+  /* Action Button Styles */
   .actions {
     display: flex;
     gap: 10px;
@@ -93,18 +96,13 @@
     align-items: center;
   }
 
-  .buttons {
+  .actions button:nth-child(1),
+  .actions button:nth-child(2) {
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
     background-color: #5f264a;
     color: white;
-    padding: 8px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  .product-image {
-    height: 50px;
-    width: 100px;
   }
 
   .delete-btn {
@@ -118,6 +116,7 @@
     width: 35px;
   }
 
+  /* Add Button Styles */
   .add-btn {
     border: none;
     margin-top: 10px;
@@ -126,6 +125,12 @@
     color: white;
     cursor: pointer;
     background-color: #5f264a;
+  }
+
+  /* Product Image Styles */
+  .product-image {
+    height: 50px;
+    width: 100px;
   }
 </style>
 
@@ -149,7 +154,7 @@
           </button>
         </div>
       </form>
-      <button>Archive</button>
+      <button>Archived Products</button>
     </div>
   </nav>
   <div class="table">
@@ -178,11 +183,11 @@
           <td>{{ product[4] }}</td>
           <td>
             <div class="actions">
-              <button class="update-btn buttons" data-id="({{ product[0] }})">
+              <button class="update-btn" data-id="{{ product[0] }}">
                 Update
               </button>
 
-              <button class="archive-btn buttons" data-id="({{ product[0] }})">
+              <button class="archive-btn" data-id="({{ product[0] }})">
                 Archive
               </button>
 

@@ -1,4 +1,5 @@
 <style>
+  /* Popup Container Styles */
   .popup-container1 {
     display: none;
     position: fixed;
@@ -10,6 +11,7 @@
     z-index: 999;
   }
 
+  /* Popup Styles */
   .popup1 {
     position: absolute;
     top: 50%;
@@ -27,6 +29,7 @@
     margin-top: 0;
   }
 
+  /* Close Button Styles */
   .close {
     position: absolute;
     top: 10px;
@@ -35,6 +38,7 @@
     cursor: pointer;
   }
 
+  /* Form Styles */
   .popup1 form {
     margin-top: 20px;
   }
@@ -66,6 +70,7 @@
     cursor: pointer;
   }
 
+  /* Form Group Styles */
   .form-group {
     margin-bottom: 1rem;
   }
@@ -75,6 +80,7 @@
     margin-bottom: 0.5rem;
   }
 
+  /* Radio Buttons Styles */
   .radio-buttons input[type="radio"] {
     display: none;
   }
@@ -100,6 +106,7 @@
     background-color: #5f264a;
   }
 
+  /* Popup Input Hover Styles */
   .popup1 input:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   }
@@ -112,18 +119,18 @@
 <div class="popup-container1" id="popupContainer1">
   <div class="popup1" id="popup1">
     <span class="close" id="close-btn1">&times;</span>
-    <h2>Edit Item</h2>
-    <form action="/edit_price" method="POST">
+    <h2>Edit Price of: <span class="product_name"></span></h2>
+    <form action="/edit" method="POST" class="editForm">
       <input type="hidden" id="editItemId" name="editItemId" />
 
-      <p>Current Item Price:</p>
-      <p id="product_price"></p>
+      <label for="product_price">Current Price:</label>
+      <input type="number" id="product_price" name="product_price" disabled />
 
-      <label for="new_price">Update Price:</label>
+      <label for="new_price">New Price:</label>
       <input
         type="number"
         id="new_price"
-        name="new_price"
+        name="editItemPrice"
         required
         autocomplete="off"
       />
