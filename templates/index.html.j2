@@ -11,17 +11,17 @@
 </head>
 
 <body>
-    <nav>
-        <h1>P O S</h1>
-        <div class="Toggle-wrapper">
-            <h1>Admin</h1>
-            <label class="toggle">
-                <input id="adminToggle" type="checkbox">
-                <span class="slider"></span>
-                <span class="labels" data-on="" data-off=""></span>
-            </label>
-        </div>
-    </nav>
+        <nav>
+            <h1>P O S</h1>
+            <div class="Toggle-wrapper">
+                <h1>Admin</h1>
+                <label class="toggle">
+                    <input id="adminToggle" type="checkbox">
+                    <span class="slider"></span>
+                    <span class="labels" data-on="" data-off=""></span>
+                </label>
+            </div>
+        </nav>
     <div class="container">
         {% include 'cart-wrapper.html' %}
         {% include 'item-wrapper.html' %}
@@ -31,6 +31,8 @@
     {% include 'popup-edit.html' %}
     {% include 'unit-selected.html' %}
     {% include 'keyboard.html' %}
+    {% include 'archive-wrapper.html' %}
+
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
