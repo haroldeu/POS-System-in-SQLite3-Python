@@ -16,6 +16,7 @@ class Products(db.Model):
     product_name = db.Column(db.String(255), nullable=False)
     product_price = db.Column(db.Integer, nullable=False)
     product_type = db.Column(db.String(9), nullable=False)
+    availability = db.Column(db.String(12), nullable=False)
 
 with app.app_context():
     db.create_all()
@@ -102,30 +103,7 @@ def edit_product_price(product_id, new_price):
         return True
     else:
         return False
-    
-# @app.route('/get_item_details', methods=['POST'])
-# def get_item_details():
-#     item_id = request.form['itemId']
 
-#     conn = sqlite3.connect('instance/thesis.db')
-#     cursor = conn.cursor()
-
-#     cursor.execute("SELECT product_price FROM products WHERE id=?", (item_id,))
-#     item = cursor.fetchone()
-
-#     conn.close()
-
-#     if item:
-#         item_details = {
-#             'id': item_id,
-#             'product_price': item[0]  # Changed from item[3] to item[0]
-#         }
-#         return jsonify(item_details)
-#     else:
-#         return jsonify({'error': 'Item not found'})
-
-###########################################################
-###########################################################
 
 @app.route('/get_item_details', methods=['POST'])
 def add_to_cart():
@@ -152,11 +130,37 @@ def add_to_cart():
     else:
         return jsonify({'error': 'Item not found'}), 404
 
+# Archive function
+@app.route('/archive_product', methods=['POST'])
+def archive_product():
+    product_id = request.form['productId']
+    
+    # Connect to your database
+    conn = sqlite3.connect('instance/thesis.db')
+    cursor = conn.cursor()
+    
+    # Update the availability of the product to 'False'
+    cursor.execute("UPDATE products SET availability='False' WHERE id=?", (product_id,))
+    conn.commit()
+    conn.close()
+    
+    # Redirect or respond as necessary
+    return jsonify({'success': 'Product has been archived'}), 200
 
-###########################################################
 
+@app.route('/archive_product_list', methods=['GET'])
+def archive_product_list():
+    # Connect to the Database
+    conn = sqlite3.connect('instance/thesis.db')
+    c = conn.cursor()
 
+    # Execute the query
+    c.execute('SELECT * FROM products')
 
+    # Fetch all the rows
+    products = c.fetchall()
+
+    return render_template("archive-wrapper.html", products=products)
 
 
 ###########################################################

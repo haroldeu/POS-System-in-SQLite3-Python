@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+//Update price function
 $(document).ready(function () {
   $(".update-btn").click(function () {
     var itemId = $(this).data("id");
@@ -93,7 +94,7 @@ $(document).ready(function () {
   }
 });
 
-// Delete Function
+// Delete function
 function deleteRecord(recordId) {
   if (confirm("Are you sure you want to delete this record?")) {
     // Send an AJAX request
@@ -116,6 +117,7 @@ function deleteRecord(recordId) {
   }
 }
 
+// Filter function
 function hideV_showF(type) {
   var cards = document.getElementsByClassName("cards");
 
@@ -149,6 +151,35 @@ function show_all() {
 
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
+
+//Archive function
+$(document).ready(function () {
+  $(".archive-btn").click(function () {
+    var productId = $(this).data("id");
+
+    // Send a POST request to the Flask route
+    $.post("/archive_product", { productId: productId }, function (response) {
+      console.log(response.success);
+      alert("Product has been archived");
+      window.location.href = "/";
+    });
+  });
+});
+
+//Unarchive function
+$(document).ready(function () {
+  $(".unarchive-btn").click(function () {
+    var productId = $(this).data("id");
+
+    // Send a POST request to the Flask route
+    $.post("/unarchive_product", { productId: productId }, function (response) {
+      alert("Product has been unarchived");
+      location.reload(); // Reload the page to reflect changes
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+      console.log("AJAX call failed: ", textStatus, errorThrown);
+    });
+  });
+});
 
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////

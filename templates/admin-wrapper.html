@@ -104,6 +104,7 @@
     border: none;
     background-color: #5f264a;
     color: white;
+    cursor: pointer;
   }
 
   .delete-btn {
@@ -155,7 +156,9 @@
           </button>
         </div>
       </form>
-      <button>Archived Products</button>
+      <a href="/archive_product_list">
+        <button>Archived Products</button>
+      </a>
     </div>
   </nav>
   <div class="table">
@@ -170,7 +173,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for product in products %}
+        {% for product in products %} {% if product[5] == "True" %}
         <tr>
           <td>
             <img
@@ -188,7 +191,7 @@
                 Update
               </button>
 
-              <button class="archive-btn buttons" data-id="({{ product[0] }})">
+              <button class="archive-btn buttons" data-id="{{ product[0] }}">
                 Archive
               </button>
 
@@ -205,7 +208,7 @@
             </div>
           </td>
         </tr>
-        {% endfor %}
+        {% endif %} {% endfor %}
       </tbody>
     </table>
   </div>
