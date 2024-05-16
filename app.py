@@ -104,8 +104,6 @@ def edit_product_price(product_id, new_price):
     else:
         return False
 
-###########################################################
-###########################################################
 
 @app.route('/get_item_details', methods=['POST'])
 def add_to_cart():
@@ -149,10 +147,6 @@ def archive_product():
     # Redirect or respond as necessary
     return jsonify({'success': 'Product has been archived'}), 200
 
-
-
-
-###########################################################
 
 @app.route('/archive_product_list', methods=['GET'])
 def archive_product_list():

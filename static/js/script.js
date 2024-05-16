@@ -166,6 +166,21 @@ $(document).ready(function () {
   });
 });
 
+//Unarchive function
+$(document).ready(function () {
+  $(".unarchive-btn").click(function () {
+    var productId = $(this).data("id");
+
+    // Send a POST request to the Flask route
+    $.post("/unarchive_product", { productId: productId }, function (response) {
+      alert("Product has been unarchived");
+      location.reload(); // Reload the page to reflect changes
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+      console.log("AJAX call failed: ", textStatus, errorThrown);
+    });
+  });
+});
+
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
