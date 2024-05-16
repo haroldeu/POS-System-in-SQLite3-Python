@@ -85,8 +85,7 @@
     align-items: center;
   }
 
-  .actions button:nth-child(1),
-  .actions button:nth-child(2) {
+  .actions button:nth-child(1) {
     padding: 8px;
     border-radius: 5px;
     border: none;
@@ -95,6 +94,10 @@
     cursor: pointer;
   }
 </style>
+
+<head>
+  <title>Archived Products</title>
+</head>
 
 <div class="archive-wrapper" id="archive">
   <nav>
@@ -134,7 +137,7 @@
           <td>{{ product[4] }}</td>
           <td>
             <div class="actions">
-              <button class="archive-btn buttons" data-id="{{ product[0] }}">
+              <button class="unarchive-btn buttons" data-id="{{ product[0] }}">
                 Unarchive
               </button>
             </div>
