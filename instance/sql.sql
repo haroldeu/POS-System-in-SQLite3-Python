@@ -15,6 +15,8 @@
 -- VALUES (NULL, 'Apple', 55, 'Fruit', 'pcs');
 
 
+-- ALTER TABLE products ADD COLUMN availability TEXT DEFAULT 'True' NOT NULL;
+
 
 SELECT * FROM products;
 

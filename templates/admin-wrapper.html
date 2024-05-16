@@ -156,7 +156,9 @@
           </button>
         </div>
       </form>
-      <button>Archived Products</button>
+      <a href="/archive_product_list">
+        <button>Archived Products</button>
+      </a>
     </div>
   </nav>
   <div class="table">
@@ -171,7 +173,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for product in products %}
+        {% for product in products %} {% if product[5] == "True" %}
         <tr>
           <td>
             <img
@@ -206,7 +208,7 @@
             </div>
           </td>
         </tr>
-        {% endfor %}
+        {% endif %} {% endfor %}
       </tbody>
     </table>
   </div>

@@ -178,7 +178,7 @@
     </form>
   </nav>
   <div class="card-wrapper">
-    {% for product in products %}
+    {% for product in products %} {% if product[5] == "True" %}
     <div class="cards" data-type="{{ product[4] }}">
       <img
         src="static/{{ product[1] }}"
@@ -199,6 +199,6 @@
         add-id="{{ product[0] }}"
       />
     </div>
-    {% endfor %}
+    {% endif %} {% endfor %}
   </div>
 </div>

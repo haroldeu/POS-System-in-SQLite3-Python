@@ -1,14 +1,14 @@
 <style>
   .archive-wrapper nav {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 20px 20px 0;
+    justify-content: space-between;
   }
 
   .search-container {
     position: relative;
-    margin-top: 20px;
+    /* margin-top: 20px; */
   }
 
   #search {
@@ -72,11 +72,33 @@
   td {
     background-color: #fff;
   }
+
+  .product-image {
+    height: 50px;
+    width: 100px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .actions button:nth-child(1),
+  .actions button:nth-child(2) {
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    background-color: #5f264a;
+    color: white;
+    cursor: pointer;
+  }
 </style>
 
 <div class="archive-wrapper" id="archive">
   <nav>
-    <h1>Archive Items</h1>
+    <h1>Archived Items</h1>
     <form class="search-form">
       <div class="search-container">
         <input type="text" id="search" name="search" placeholder="Search..." />
@@ -98,13 +120,27 @@
         </tr>
       </thead>
       <tbody>
+        {% for product in products %} {% if product[5] == "False" %}
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>
+            <img
+              src="static/{{ product[1] }}"
+              alt="Product Image"
+              class="product-image table-image"
+            />
+          </td>
+          <td>{{ product[2] }}</td>
+          <td>₱{{ product[3] }}</td>
+          <td>{{ product[4] }}</td>
+          <td>
+            <div class="actions">
+              <button class="archive-btn buttons" data-id="{{ product[0] }}">
+                Unarchive
+              </button>
+            </div>
+          </td>
         </tr>
+        {% endif %} {% endfor %}
       </tbody>
     </table>
   </div>
