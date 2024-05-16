@@ -1,25 +1,12 @@
 <style>
+  /* Nav Styles */
   .admin-wrapper nav {
-    padding: 20px 20px 0;
+    display: flex;
+    padding: 20px 20px 10px;
     justify-content: space-between;
   }
 
-  .admin-wrapper nav ul {
-    display: flex;
-    list-style: none;
-    gap: 20px;
-  }
-
-  .admin-wrapper nav ul li a {
-    position: relative;
-    text-decoration: none;
-    color: black;
-  }
-
-  .search-form {
-    display: flex;
-  }
-
+  /* Search Form Styles */
   .search-container {
     position: relative;
   }
@@ -49,11 +36,12 @@
 
   .nav-optn {
     display: flex;
-    gap: 10px;
+    align-items: center;
+    gap: 5px;
   }
 
   .nav-optn button {
-    padding: 6px 10px;
+    padding: 6px;
     border: none;
     border-radius: 5px;
     background-color: #5f264a;
@@ -88,11 +76,6 @@
     border-bottom: 1px solid black;
   }
 
-  tbody td img {
-    height: 50px;
-    width: 100px;
-  }
-
   th,
   td {
     padding: 12px 15px;
@@ -106,22 +89,35 @@
     background-color: #fff;
   }
 
-  .admin-wrapper .table button {
-    margin: 5px;
-    padding: 8px 12px;
-    border: none;
+  /* Action Button Styles */
+  .actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .actions button:nth-child(1),
+  .actions button:nth-child(2) {
+    padding: 8px;
     border-radius: 5px;
+    border: none;
     background-color: #5f264a;
     color: white;
+  }
+
+  .delete-btn {
+    background-color: transparent;
+    border: none;
     cursor: pointer;
-    transition: background-color 0.3s;
   }
 
-  .admin-wrapper .table button:hover,
-  .add-btn:hover {
-    background-color: #712d58;
+  .delete {
+    height: 30px;
+    width: 35px;
   }
 
+  /* Add Button Styles */
   .add-btn {
     border: none;
     margin-top: 10px;
@@ -132,9 +128,10 @@
     background-color: #5f264a;
   }
 
-  .delete-btn a {
-    text-decoration: none;
-    color: white;
+  /* Product Image Styles */
+  .product-image {
+    height: 50px;
+    width: 100px;
   }
 </style>
 
@@ -190,12 +187,17 @@
               Update
             </button>
 
-            <button
-              class="delete-btn"
-              onclick="deleteRecord('{{ product[0] }}')"
-            >
-              Delete
-            </button>
+              <button
+                class="delete-btn"
+                onclick="deleteRecord('{{ product[0] }}')"
+              >
+                <img
+                  src="{{ url_for('static', filename='images/delete.png') }}"
+                  alt="Search"
+                  class="delete"
+                />
+              </button>
+            </div>
           </td>
         </tr>
         {% endfor %}
