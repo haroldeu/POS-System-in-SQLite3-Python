@@ -90,32 +90,20 @@
   }
 
   /* Action Button Styles */
-  .actions {
+  .admin-actions {
     display: flex;
     gap: 10px;
     justify-content: center;
     align-items: center;
   }
 
-  .actions button:nth-child(1),
-  .actions button:nth-child(2) {
+  .admin-actions button {
     padding: 8px;
     border-radius: 5px;
     border: none;
     background-color: #5f264a;
     color: white;
     cursor: pointer;
-  }
-
-  .delete-btn {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-  }
-
-  .delete {
-    height: 30px;
-    width: 35px;
   }
 
   /* Add Button Styles */
@@ -184,24 +172,13 @@
           <td>₱{{ product[3] }}</td>
           <td>{{ product[4] }}</td>
           <td>
-            <div class="actions">
+            <div class="admin-actions">
               <button class="update-btn buttons" data-id="{{ product[0] }}">
                 Update
               </button>
 
               <button class="archive-btn buttons" data-id="{{ product[0] }}">
                 Archive
-              </button>
-
-              <button
-                class="delete-btn"
-                onclick="deleteRecord('{{ product[0] }}')"
-              >
-                <img
-                  src="{{ url_for('static', filename='images/delete.png') }}"
-                  alt="Delete"
-                  class="delete"
-                />
               </button>
             </div>
           </td>

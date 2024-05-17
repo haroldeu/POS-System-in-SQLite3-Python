@@ -163,6 +163,23 @@ def archive_product_list():
 
     return render_template("archive-wrapper.html", products=products)
 
+# Archive function
+@app.route('/unarchive_product', methods=['POST'])
+def unarchive_product():
+    product_id = request.form['productId']
+    
+    # Connect to your database
+    conn = sqlite3.connect('instance/thesis.db')
+    cursor = conn.cursor()
+    
+    # Update the availability of the product to 'True'
+    cursor.execute("UPDATE products SET availability='True' WHERE id=?", (product_id,))
+    conn.commit()
+    conn.close()
+    
+    # Redirect or respond as necessary
+    return jsonify({'success': 'Product has been unarchived'}), 200
+
 
 ###########################################################
 

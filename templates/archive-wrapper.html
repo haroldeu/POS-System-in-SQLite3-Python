@@ -89,20 +89,31 @@
     width: 100px;
   }
 
-  .actions {
+  .archive-actions {
     display: flex;
     gap: 10px;
     justify-content: center;
     align-items: center;
   }
 
-  .actions button:nth-child(1) {
+  .archive-actions button:nth-child(1) {
     padding: 8px;
     border-radius: 5px;
     border: none;
     background-color: #5f264a;
     color: white;
     cursor: pointer;
+  }
+
+  .delete-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+
+  .delete {
+    height: 30px;
+    width: 35px;
   }
 </style>
 
@@ -135,7 +146,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for product in products %} {% if product[5] == "False" %}
+        {% for product in products %} {% if product[5] != "True" %}
         <tr>
           <td>
             <img
@@ -148,9 +159,19 @@
           <td>₱{{ product[3] }}</td>
           <td>{{ product[4] }}</td>
           <td>
-            <div class="actions">
+            <div class="archive-actions">
               <button class="unarchive-btn buttons" data-id="{{ product[0] }}">
                 Unarchive
+              </button>
+              <button
+                class="delete-btn"
+                onclick="deleteRecord('{{ product[0] }}')"
+              >
+                <img
+                  src="{{ url_for('static', filename='images/delete.png') }}"
+                  alt="Delete"
+                  class="delete"
+                />
               </button>
             </div>
           </td>
