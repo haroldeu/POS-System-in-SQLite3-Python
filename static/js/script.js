@@ -210,6 +210,12 @@ document
     var productPrice = document.querySelector(".productPrice").textContent;
     var productWeightGrams = document.getElementById("result").textContent;
 
+    // Check if the product has been weighed (weight is not empty and greater than 0)
+    if (!productWeightGrams || parseFloat(productWeightGrams) <= 0) {
+      alert("Please weigh the product before adding to cart.");
+      return; // Exit the function if no weight is provided
+    }
+
     // Convert grams to kilograms and calculate total price
     var weightKg = parseFloat(productWeightGrams);
     var pricePerKg = parseFloat(productPrice.replace(/[^0-9.-]+/g, "")); // Extract numeric value from price string
@@ -218,30 +224,53 @@ document
     // Format weight in kilograms to two decimal places for display
     var weightKgFormatted = `${weightKg.toFixed(2)}kg`;
 
-    // Create a new div element for the receipt
-    var newReceipt = document.createElement("div");
-    newReceipt.className = "receipt";
-    newReceipt.innerHTML = `
-      <div class="item">
-          <h2 class="product-name">${productName}</h2>
-      </div>
-      <div class="item-description">
-          <span class="product-weight">${weightKgFormatted}</span>
-          <span>@</span>
-          <span class="product-price">₱${pricePerKg}/kg</span>
-          <span class="total-product-price">₱${totalPriceForProduct}</span>
-      </div>
-  `;
-
     // Get the container where the receipts are being added
     var container = document.getElementById("receipts-container");
+    var existingProduct = Array.from(container.children).find((child) => {
+      const productNameElement = child.querySelector(".product-name");
+      return productNameElement
+        ? productNameElement.textContent === productName
+        : false;
+    });
 
-    // Check if there are at least two children to insert before the second one
-    if (container.children.length >= 1) {
-      container.insertBefore(newReceipt, container.children[1]); // Insert before the second child
+    if (existingProduct) {
+      // Update existing product
+      var existingWeight = parseFloat(
+        existingProduct
+          .querySelector(".product-weight")
+          .textContent.replace(/kg/, "")
+      );
+      var newWeight = existingWeight + weightKg;
+      existingProduct.querySelector(
+        ".product-weight"
+      ).textContent = `${newWeight.toFixed(2)}kg`;
+      var newTotalPrice = (pricePerKg * newWeight).toFixed(2);
+      existingProduct.querySelector(
+        ".total-product-price"
+      ).textContent = `₱${newTotalPrice}`;
     } else {
-      // If there are less than two children, just prepend (or append if it's the very first child)
-      container.prepend(newReceipt);
+      // Create a new div element for the receipt if product does not exist
+      var newReceipt = document.createElement("div");
+      newReceipt.className = "receipt";
+      newReceipt.innerHTML = `
+            <div class="item">
+                <h2 class="product-name">${productName}</h2>
+            </div>
+            <div class="item-description">
+                <span class="product-weight">${weightKgFormatted}</span>
+                <span>@</span>
+                <span class="product-price">₱${pricePerKg}/kg</span>
+                <span class="total-product-price">₱${totalPriceForProduct}</span>
+            </div>
+        `;
+
+      // Check if there are at least two children to insert before the second one
+      if (container.children.length >= 1) {
+        container.insertBefore(newReceipt, container.children[1]); // Insert before the second child
+      } else {
+        // If there are less than two children, just prepend (or append if it's the very first child)
+        container.prepend(newReceipt);
+      }
     }
 
     // Update the total price
