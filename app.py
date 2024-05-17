@@ -70,12 +70,13 @@ def add_product_route():
     image = file_path
 
     name = request.form.get('product_name')
-    price = int(request.form.get('product_price'))  # Convert to int or appropriate data type
+    price = int(request.form.get('product_price'))
     ptype = request.form.get('product_type')
+    availability = "True"
 
     cursor.execute("""
-    INSERT INTO products (product_image, product_name, product_price, product_type) VALUES (?, ?, ?, ?)
-""", (image, name, price, ptype))
+    INSERT INTO products (product_image, product_name, product_price, product_type, availability) VALUES (?, ?, ?, ?, ?)
+""", (image, name, price, ptype, availability))
 
     conn.commit()
     cursor.close()
