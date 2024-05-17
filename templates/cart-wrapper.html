@@ -13,14 +13,14 @@
     top: 90%;
   }
 
-  .cart-btn {
+  .checkout-btn {
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
   }
 
-  .cart-btn button {
+  .checkout-btn button {
     border: none;
     color: white;
     cursor: pointer;
@@ -29,18 +29,115 @@
     background-color: #5f264a;
   }
 
-  .cart-btn button:hover {
+  .checkout-btn button:hover {
     font-size: 14px;
     transition: 0.3s all ease-in-out;
   }
+
+  /* Added styles for product-card*/
+
+  #cart-title {
+    padding-top: 1vw;
+    padding-left: 1vw;
+  }
+
+  .receipt-container {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    margin: 20px;
+  }
+
+  .receipt-container h1 {
+    text-align: center;
+    color: #333;
+  }
+
+  .receipt {
+    padding: 15px;
+    background-color: white;
+    border: 1px solid #ddd;
+  }
+
+  .item {
+    margin-bottom: 3px;
+  }
+
+  .item-description {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+
+  .product-weight {
+    display: flex;
+    padding-left: 10px;
+    margin-bottom: 10px;
+  }
+
+  .product-name {
+    font-size: 16px;
+  }
+
+  .product-price {
+    font-size: 16px;
+    color: #5f264a;
+  }
+
+  .total {
+    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #ccc;
+  }
+
+  .checkout-btn button {
+    width: 100%;
+    padding: 10px;
+    background-color: #5f264a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .checkout-btn button:hover {
+    background-color: #3e1933;
+  }
 </style>
 
-<div class="cart-wrapper">
-  <div class="cart">
+<div class="cart">
+  <h1 id="cart-title">Cart Receipt</h1>
+  <div class="receipt">
+    <div class="item">
+      <h2 class="product-name">Product 1</h2>
+    </div>
+
+    <div class="item-description">
+      <span class="product-weight">1.56kg</span>
+      <span>@</span>
+      <span class="product-price">₱1.00/kg</span>
+      <span class="total-product-price">₱1.56</span>
+    </div>
+
+    <div class="item">
+      <h2 class="product-name">Product 1</h2>
+    </div>
+
+    <div class="item-description">
+      <span class="product-weight">1.56kg</span>
+      <span>@</span>
+      <span class="product-price">₱1.00/kg</span>
+      <span class="total-product-price">₱1.56</span>
+    </div>
+
     <div class="total">
       <h2>Total:</h2>
-      <h2>$100</h2>
+      <span>₱100</span>
     </div>
   </div>
-  <div class="cart-btn"><button>CHECKOUT</button></div>
+  <div class="checkout-btn"><button>CHECKOUT</button></div>
 </div>
