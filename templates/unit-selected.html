@@ -87,12 +87,12 @@
       <!-- get data from raspberry pi -->
       <h3>
         Weight of Container:
-        <span id="result" style="color: #c33; font-size: 28px">302</span> gram
+        <span id="result" style="color: #c33; font-size: 28px"></span> kg
       </h3>
 
       <br />
 
-      <button type="submit" id="add-to-cart">Submit</button>
+      <button type="submit" id="submit-add-to-cart">Submit</button>
     </div>
   </div>
 </div>
@@ -104,3 +104,7 @@
     });
   }, 1000);
 </script> -->
+
+<script>
+  $("#result").text("4.00");
+</script>

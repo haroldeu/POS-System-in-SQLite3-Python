@@ -182,8 +182,6 @@ $(document).ready(function () {
   });
 });
 
-/////////////////////////////////////////////////////////////////
-
 //Unarchive function
 $(document).ready(function () {
   $(".unarchive-btn").click(function () {
@@ -198,6 +196,62 @@ $(document).ready(function () {
     });
   });
 });
+
+/////////////////////////////////////////////////////////////////
+
+document
+  .getElementById("submit-add-to-cart")
+  .addEventListener("click", function () {
+    // Close the pop-up
+    $(".modal").hide();
+
+    // Fetch data from elements
+    var productName = document.querySelector(".productName").textContent;
+    var productPrice = document.querySelector(".productPrice").textContent;
+    var productWeightGrams = document.getElementById("result").textContent;
+
+    // Convert grams to kilograms and calculate total price
+    var weightKg = parseFloat(productWeightGrams);
+    var pricePerKg = parseFloat(productPrice.replace(/[^0-9.-]+/g, "")); // Extract numeric value from price string
+    var totalPriceForProduct = (pricePerKg * weightKg).toFixed(2); // Calculate total price based on weight and price per kg
+
+    // Format weight in kilograms to two decimal places for display
+    var weightKgFormatted = `${weightKg.toFixed(2)}kg`;
+
+    // Create a new div element for the receipt
+    var newReceipt = document.createElement("div");
+    newReceipt.className = "receipt";
+    newReceipt.innerHTML = `
+      <div class="item">
+          <h2 class="product-name">${productName}</h2>
+      </div>
+      <div class="item-description">
+          <span class="product-weight">${weightKgFormatted}</span>
+          <span>@</span>
+          <span class="product-price">₱${pricePerKg}/kg</span>
+          <span class="total-product-price">₱${totalPriceForProduct}</span>
+      </div>
+  `;
+
+    // Get the container where the receipts are being added
+    var container = document.getElementById("receipts-container");
+
+    // Check if there are at least two children to insert before the second one
+    if (container.children.length >= 1) {
+      container.insertBefore(newReceipt, container.children[1]); // Insert before the second child
+    } else {
+      // If there are less than two children, just prepend (or append if it's the very first child)
+      container.prepend(newReceipt);
+    }
+
+    // Update the total price
+    var totalPriceSpan = document.getElementById("total-price");
+    var currentTotal = parseFloat(
+      totalPriceSpan.textContent.replace(/[^0-9.-]+/g, "")
+    );
+    var newTotal = currentTotal + parseFloat(totalPriceForProduct);
+    totalPriceSpan.textContent = `₱${newTotal.toFixed(2)}`;
+  });
 
 /////////////////////////////////////////////////////////////////
 
