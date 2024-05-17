@@ -12,9 +12,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const adminToggle = document.getElementById("adminToggle");
   const container = document.querySelector(".container");
   const adminPage = document.querySelector(".admin-wrapper");
+  const archivePage = document.querySelector(".archive-wrapper");
   const addBtn = document.querySelector(".add-btn");
+  const archiveBtn = document.querySelector(".Archived");
+  const toggleBtn = document.querySelector(".Toggle-wrapper");
   const closeBtn = document.getElementById("close-btn");
   const addContainer = document.getElementById("popupContainer");
+  const closeArchive = document.getElementById("close-archive");
 
   // Function to toggle display of elements
   const toggleDisplay = (element, displayStyle) => {
@@ -40,6 +44,18 @@ document.addEventListener("DOMContentLoaded", function () {
   // Event listener for closeBtn click
   closeBtn.addEventListener("click", function () {
     toggleDisplay(addContainer, "none");
+  });
+
+  archiveBtn.addEventListener("click", function () {
+    toggleDisplay(archivePage, "block");
+    toggleDisplay(adminPage, "none");
+    toggleDisplay(toggleBtn, "none");
+  });
+
+  closeArchive.addEventListener("click", function () {
+    toggleDisplay(archivePage, "none");
+    toggleDisplay(adminPage, "block");
+    toggleDisplay(toggleBtn, "flex");
   });
 });
 

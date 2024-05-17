@@ -1,24 +1,35 @@
 <style>
+  .archive-wrapper .close {
+    position: absolute;
+    margin-top: -8px;
+    right: 0;
+    padding: 0 10px 10px;
+    font-size: 45px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
   .archive-wrapper nav {
     display: flex;
     align-items: center;
     padding: 20px 20px 0;
     justify-content: space-between;
+    padding: 25px 20px 0;
   }
 
-  .search-container {
+  .archive-wrapper .search-container {
     position: relative;
     /* margin-top: 20px; */
   }
 
-  #search {
+  .archive-wrapper #search {
     padding: 5px 30px 5px 10px;
     border-radius: 5px;
     border: 1px solid black;
     width: 200px;
   }
 
-  button[type="submit"] {
+  .archive-wrapper button[type="submit"] {
     position: absolute;
     top: 0;
     right: 0;
@@ -29,15 +40,15 @@
     cursor: pointer;
   }
 
-  button[type="submit"] img {
+  .archive-wrapper button[type="submit"] img {
     width: 18px;
     height: 18px;
   }
 
-  .table {
+  .archive-wrapper .table {
     text-align: center;
     border-radius: 10px;
-    margin-top: 10px;
+    margin-top: 20px;
     max-height: 85%;
     overflow-y: auto;
     scrollbar-width: none;
@@ -46,17 +57,17 @@
     background-color: #f9f9f9;
   }
 
-  table {
+  .archive-wrapper table {
     width: 100%;
     border-collapse: collapse;
   }
 
-  .table thead {
+  .archive-wrapper .table thead {
     position: sticky;
     top: 0;
   }
 
-  tbody tr {
+  .archive-wrapper tbody tr {
     border-bottom: 1px solid black;
   }
 
@@ -100,6 +111,7 @@
 </head>
 
 <div class="archive-wrapper" id="archive">
+  <span class="close" id="close-archive">&times;</span>
   <nav>
     <h1>Archived Items</h1>
     <form class="search-form">
