@@ -387,3 +387,72 @@ $(document).ready(function () {
     }
   });
 });
+
+// Creating a text file
+document.getElementById("checkout-btn").addEventListener("click", function () {
+  let receipts = document.querySelectorAll(".receipt");
+  let receiptText = "         Buctil Unisan, Quezon\n\n\n";
+
+  receipts.forEach((receipt) => {
+    // if (index < receipts.length - 1) {
+    let productName = receipt.querySelector(".product-name").textContent;
+    let productWeight = receipt.querySelector(".product-weight").textContent;
+    let productPrice = receipt.querySelector(".product-price").textContent;
+    let totalPrice = receipt.querySelector(".total-product-price").textContent;
+    receiptText += `${productName}\n   ${productWeight}       ${productPrice}       ${totalPrice}\n\n`;
+    // }
+  });
+
+  // Calculate the grand total from the total-price span
+  let grandTotal = document.getElementById("total-price").textContent;
+  receiptText += `TOTAL:                        ${grandTotal}`;
+
+  let cash = "\nCASH:                         ₱500.00";
+  receiptText += cash;
+
+  let changeCash = "\nCHANGE:                       ₱500.00";
+  receiptText += changeCash;
+
+  // Create a Blob from the text
+  let blob = new Blob([receiptText], { type: "text/plain;charset=utf-8" });
+
+  // Create a link element, use it to download the blob
+  let link = document.createElement("a");
+  link.download = "Receipt.txt";
+  link.href = window.URL.createObjectURL(blob);
+  link.style.display = "none";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
+
+// // Printing the text file
+// const { exec } = require("child_process");
+
+// function setPrinterPermissions(callback) {
+//   exec("sudo chmod 777 /dev/usb/lp0", (error, stdout, stderr) => {
+//     if (error) {
+//       console.error(`Error setting permissions: ${error}`);
+//       return callback(error);
+//     }
+//     if (stderr) {
+//       console.error(`Permission stderr: ${stderr}`);
+//     }
+//     console.log("Permissions set to 777 successfully");
+//     callback(null);
+//   });
+// }
+
+// function printFile(filePath) {
+//   const printCommand = `cat ${filePath} > /dev/usb/lp0`;
+//   exec(printCommand, (error, stdout, stderr) => {
+//     if (error) {
+//       console.error(`Error printing file: ${error}`);
+//       return;
+//     }
+//     if (stderr) {
+//       console.error(`Print stderr: ${stderr}`);
+//     }
+//     console.log(`File ${filePath} printed successfully`);
+//   });
+// }
