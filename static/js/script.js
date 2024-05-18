@@ -19,6 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const closeBtn = document.getElementById("close-btn");
   const addContainer = document.getElementById("popupContainer");
   const closeArchive = document.getElementById("close-archive");
+  const changePopup = document.querySelector(".cart-modal");
+  const changeOpen = document.querySelector(".cart-open");
+  const changeClose = document.querySelector(".cart-close");
 
   // Function to toggle display of elements
   const toggleDisplay = (element, displayStyle) => {
@@ -56,6 +59,14 @@ document.addEventListener("DOMContentLoaded", function () {
     toggleDisplay(archivePage, "none");
     toggleDisplay(adminPage, "block");
     toggleDisplay(toggleBtn, "flex");
+  });
+
+  changeOpen.addEventListener("click", function () {
+    toggleDisplay(changePopup, "block");
+  });
+
+  changeClose.addEventListener("click", function () {
+    toggleDisplay(changePopup, "none");
   });
 });
 
@@ -372,6 +383,48 @@ $(function () {
   });
 });
 
+// Search table function
+$(document).ready(function () {
+  // Function to simulate typing into the search input
+  function typeVirtualKeyboardKey(inputSelector, keyValue) {
+    var currentVal = $(inputSelector).val();
+    $(inputSelector).trigger("input");
+  }
+
+  // Attach the function to all keys of the virtual keyboard
+  $(".key").on("mousedown", function () {
+    typeVirtualKeyboardKey("#search-table1", $(this).text());
+    typeVirtualKeyboardKey("#search-table2", $(this).text());
+  });
+
+  // Search input function for the first table rows
+  $("#search-table1").on("input", function () {
+    var searchQuery = $(this).val().toLowerCase();
+    $("#admin .table tbody tr").each(function () {
+      var itemName = $(this).find("td:nth-child(2)").text().toLowerCase();
+      if (itemName.startsWith(searchQuery)) {
+        $(this).css("display", "");
+      } else {
+        $(this).css("display", "none");
+      }
+    });
+  });
+
+  // Search input function for the second table rows
+  $("#search-table2").on("input", function () {
+    var searchQuery = $(this).val().toLowerCase();
+    $("#archive .table tbody tr").each(function () {
+      var itemName = $(this).find("td:nth-child(2)").text().toLowerCase();
+      if (itemName.startsWith(searchQuery)) {
+        $(this).css("display", "");
+      } else {
+        $(this).css("display", "none");
+      }
+    });
+  });
+});
+
+// Virtual keyboard
 $(document).ready(function () {
   // Show the virtual keyboard when any input field is focused
   $("input").on("focus", function () {
