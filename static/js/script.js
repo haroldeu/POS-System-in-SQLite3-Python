@@ -62,6 +62,11 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   changeOpen.addEventListener("click", function () {
+    if (document.querySelector(".total-price").textContent == "₱0.00") {
+      alert("Please select an item.");
+      return;
+    }
+
     toggleDisplay(changePopup, "block");
   });
 
@@ -285,12 +290,16 @@ document
     }
 
     // Update the total price
-    var totalPriceSpan = document.getElementById("total-price");
-    var currentTotal = parseFloat(
-      totalPriceSpan.textContent.replace(/[^0-9.-]+/g, "")
-    );
+    var totalPriceSpans = document.querySelectorAll(".total-price");
+    if (totalPriceSpans.length > 0) {
+      // Parse the current total from the first total-price element
+      currentTotal = parseFloat(
+        totalPriceSpans[0].textContent.replace(/[^0-9.-]+/g, "")
+      );
+    }
     var newTotal = currentTotal + parseFloat(totalPriceForProduct);
-    totalPriceSpan.textContent = `₱${newTotal.toFixed(2)}`;
+    //totalPriceSpan.textContent = `₱${newTotal.toFixed(2)}`;
+    updateTotalPrices(newTotal);
   });
 
 /////////////////////////////////////////////////////////////////
@@ -441,43 +450,72 @@ $(document).ready(function () {
   });
 });
 
-// Creating a text file
-document.getElementById("checkout-btn").addEventListener("click", function () {
-  let receipts = document.querySelectorAll(".receipt");
-  let receiptText = "         Buctil Unisan, Quezon\n\n\n";
-
-  receipts.forEach((receipt) => {
-    // if (index < receipts.length - 1) {
-    let productName = receipt.querySelector(".product-name").textContent;
-    let productWeight = receipt.querySelector(".product-weight").textContent;
-    let productPrice = receipt.querySelector(".product-price").textContent;
-    let totalPrice = receipt.querySelector(".total-product-price").textContent;
-    receiptText += `${productName}\n   ${productWeight}       ${productPrice}       ${totalPrice}\n\n`;
-    // }
+// Function to update all total price displays
+function updateTotalPrices(newTotal) {
+  // Select all elements with the class 'total-price'
+  var totalPriceSpans = document.querySelectorAll(".total-price");
+  // Update the text content of each element
+  totalPriceSpans.forEach((span) => {
+    span.textContent = `₱${newTotal.toFixed(2)}`;
   });
+}
 
-  // Calculate the grand total from the total-price span
-  let grandTotal = document.getElementById("total-price").textContent;
-  receiptText += `TOTAL:                        ${grandTotal}`;
+// Creating a text file
+document
+  .getElementById("checkout-btn")
+  .addEventListener("click", function (event) {
+    event.preventDefault();
 
-  let cash = "\nCASH:                         ₱500.00";
-  receiptText += cash;
+    // Get the cash amount from the input
+    let cashAmount = parseFloat(document.getElementById("moneyInput").value);
+    if (isNaN(cashAmount)) {
+      alert("Please enter a valid amount of money.");
+      return;
+    }
 
-  let changeCash = "\nCHANGE:                       ₱500.00";
-  receiptText += changeCash;
+    let receipts = document.querySelectorAll(".receipt");
+    let receiptText = "         Buctil Unisan, Quezon\n\n\n";
 
-  // Create a Blob from the text
-  let blob = new Blob([receiptText], { type: "text/plain;charset=utf-8" });
+    receipts.forEach((receipt) => {
+      let productName = receipt.querySelector(".product-name").textContent;
+      let productWeight = receipt.querySelector(".product-weight").textContent;
+      let productPrice = receipt.querySelector(".product-price").textContent;
+      let totalPrice = receipt.querySelector(
+        ".total-product-price"
+      ).textContent;
+      receiptText += `${productName}\n   ${productWeight}       ${productPrice}       ${totalPrice}\n\n`;
+    });
 
-  // Create a link element, use it to download the blob
-  let link = document.createElement("a");
-  link.download = "Receipt.txt";
-  link.href = window.URL.createObjectURL(blob);
-  link.style.display = "none";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-});
+    // Ensure grandTotal is parsed as a float
+    let grandTotalText = document.querySelector(".total-price").textContent;
+    let grandTotal = parseFloat(grandTotalText.replace(/[^0-9.-]+/g, "")); // Remove any non-numeric characters before parsing
+    receiptText += `\nTOTAL:                        ${grandTotalText}\n\n`;
+
+    // Calculate change
+    let change = cashAmount - grandTotal;
+    if (change < 0) {
+      alert("Insufficient amount provided.");
+      return;
+    }
+
+    let cash = `\nCASH:                         ₱${cashAmount.toFixed(2)}\n`;
+    receiptText += cash;
+
+    let changeCash = `\nCHANGE:                       ₱${change.toFixed(2)}`;
+    receiptText += changeCash;
+
+    // Create a Blob from the text
+    let blob = new Blob([receiptText], { type: "text/plain;charset=utf-8" });
+
+    // Create a link element, use it to download the blob
+    let link = document.createElement("a");
+    link.download = "Receipt.txt";
+    link.href = window.URL.createObjectURL(blob);
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
 
 // // Printing the text file
 // const { exec } = require("child_process");
