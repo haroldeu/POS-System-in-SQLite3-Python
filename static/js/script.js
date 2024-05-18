@@ -19,6 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const closeBtn = document.getElementById("close-btn");
   const addContainer = document.getElementById("popupContainer");
   const closeArchive = document.getElementById("close-archive");
+  const changePopup = document.querySelector(".cart-modal");
+  const changeOpen = document.querySelector(".cart-open");
+  const changeClose = document.querySelector(".cart-close");
 
   // Function to toggle display of elements
   const toggleDisplay = (element, displayStyle) => {
@@ -56,6 +59,14 @@ document.addEventListener("DOMContentLoaded", function () {
     toggleDisplay(archivePage, "none");
     toggleDisplay(adminPage, "block");
     toggleDisplay(toggleBtn, "flex");
+  });
+
+  changeOpen.addEventListener("click", function () {
+    toggleDisplay(changePopup, "block");
+  });
+
+  changeClose.addEventListener("click", function () {
+    toggleDisplay(changePopup, "none");
   });
 });
 

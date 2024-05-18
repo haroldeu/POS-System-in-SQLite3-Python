@@ -72,19 +72,12 @@ nav {
   transform: translateX(25px);
 }
 
-.cart-wrapper,
+.cart-container,
 .item-wrapper {
   height: 90vh;
   border-radius: 10px;
   border: 1px solid black;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.cart-wrapper {
-  display: grid;
-  grid-gap: 10px;
-  padding: 10px;
-  grid-template-rows: 10fr 1fr;
 }
 
 .admin-wrapper,
