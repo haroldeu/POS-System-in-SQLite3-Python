@@ -20,8 +20,8 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-    max-width: 400px;
-    width: 80%;
+    height: 300px;
+    width: 600px;
   }
 
   .popup h2 {
@@ -39,7 +39,7 @@
 
   /* Form Styles */
   .popup form {
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   .popup label {
@@ -69,14 +69,23 @@
     cursor: pointer;
   }
 
-  /* Form Group Styles */
-  .form-group {
-    margin-bottom: 1rem;
+  /* Flex Container Styles */
+  .flex-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
   }
 
-  .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
+  /* Form Group Styles */
+  .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .type {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   /* Radio Buttons Styles */
@@ -124,25 +133,31 @@
         accept="image/*"
       />
 
-      <label for="product_name">Product Name:</label>
-      <input
-        type="text"
-        id="product_name"
-        name="product_name"
-        required
-        autocomplete="off"
-      />
+      <div class="flex-container">
+        <div class="form-group">
+          <label for="product_name">Product Name:</label>
+          <input
+            type="text"
+            id="product_name"
+            name="product_name"
+            required
+            autocomplete="off"
+          />
+        </div>
 
-      <label for="product_price_add">Product Price:</label>
-      <input
-        type="number"
-        id="product_price_add"
-        name="product_price"
-        required
-        autocomplete="off"
-      />
+        <div class="form-group">
+          <label for="product_price_add">Product Price:</label>
+          <input
+            type="number"
+            id="product_price_add"
+            name="product_price"
+            required
+            autocomplete="off"
+          />
+        </div>
+      </div>
 
-      <div class="form-group mb-3">
+      <div class="form-group type">
         <div class="radio-buttons">
           <label for="product_type">Product Type:</label>
           <input
@@ -152,7 +167,6 @@
             value="Vegetable"
             required
           />
-
           <label for="vegetable">Vegetable</label>
           <input
             type="radio"
@@ -161,7 +175,6 @@
             value="Fruit"
             required
           />
-
           <label for="fruit">Fruit</label>
         </div>
       </div>
