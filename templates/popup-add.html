@@ -13,15 +13,15 @@
   /* Popup Styles */
   .popup {
     position: absolute;
-    top: 32%;
+    top: 26%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-    max-width: 400px;
-    width: 80%;
+    height: 290px;
+    width: 600px;
   }
 
   .popup h2 {
@@ -39,7 +39,7 @@
 
   /* Form Styles */
   .popup form {
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   .popup label {
@@ -53,7 +53,7 @@
   .popup input[type="radio"] {
     width: 100%;
     padding: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 3px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
@@ -69,14 +69,23 @@
     cursor: pointer;
   }
 
-  /* Form Group Styles */
-  .form-group {
-    margin-bottom: 1rem;
+  /* Flex Container Styles */
+  .flex-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
   }
 
-  .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
+  /* Form Group Styles */
+  .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .type {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   /* Radio Buttons Styles */
@@ -90,7 +99,7 @@
     margin-right: 10px;
   }
 
-  .radio-buttons input[type="radio"]+label:before {
+  .radio-buttons input[type="radio"] + label:before {
     content: "";
     display: inline-block;
     width: 16px;
@@ -101,7 +110,7 @@
     vertical-align: middle;
   }
 
-  .radio-buttons input[type="radio"]:checked+label:before {
+  .radio-buttons input[type="radio"]:checked + label:before {
     background-color: #4caf50;
   }
 
@@ -112,31 +121,64 @@
 </style>
 
 <div class="popup-container" id="popupContainer">
-    <div class="popup" id="popup">
-        <span class="close" id="close-btn">&times;</span>
-        <h2>Add Item</h2>
-        <form action="/add_product" method="POST" enctype="multipart/form-data">
-            <label for="product_image">Product Image:</label>
-            <input type="file" id="product_image" name="product_image" accept="image/*">
+  <div class="popup" id="popup">
+    <span class="close" id="close-btn">&times;</span>
+    <h2>Add Item</h2>
+    <form action="/add_product" method="POST" enctype="multipart/form-data">
+      <label for="product_image">Product Image:</label>
+      <input
+        type="file"
+        id="product_image"
+        name="product_image"
+        accept="image/*"
+      />
 
-            <label for="product_name">Product Name:</label>
-            <input type="text" id="product_name" name="product_name" required autocomplete="off">
+      <div class="flex-container">
+        <div class="form-group">
+          <label for="product_name">Product Name:</label>
+          <input
+            type="text"
+            id="product_name"
+            name="product_name"
+            required
+            autocomplete="off"
+          />
+        </div>
 
-            <label for="product_price_add">Product Price:</label>
-            <input type="number" id="product_price_add" name="product_price" required autocomplete="off">
+        <div class="form-group">
+          <label for="product_price_add">Product Price:</label>
+          <input
+            type="number"
+            id="product_price_add"
+            name="product_price"
+            required
+            autocomplete="off"
+          />
+        </div>
+      </div>
 
-            <div class="form-group mb-3">
-                <div class="radio-buttons">
-                    <label for="product_type">Product Type:</label>
-                    <input type="radio" name="product_type" id="vegetable" value="Vegetable" required>
-                    
-                    <label for="vegetable">Vegetable</label>
-                    <input type="radio" name="product_type" id="fruit" value="Fruit" required>
-                    
-                    <label for="fruit">Fruit</label>
-                </div>
-            </div>
-            <input type="submit" name="submit"></input>
-        </form>
-    </div>
+      <div class="form-group type">
+        <div class="radio-buttons">
+          <label for="product_type">Product Type:</label>
+          <input
+            type="radio"
+            name="product_type"
+            id="vegetable"
+            value="Vegetable"
+            required
+          />
+          <label for="vegetable">Vegetable</label>
+          <input
+            type="radio"
+            name="product_type"
+            id="fruit"
+            value="Fruit"
+            required
+          />
+          <label for="fruit">Fruit</label>
+        </div>
+      </div>
+      <input type="submit" name="submit" />
+    </form>
+  </div>
 </div>
