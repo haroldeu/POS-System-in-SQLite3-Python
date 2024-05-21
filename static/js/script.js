@@ -279,14 +279,7 @@ document
                 <span class="total-product-price">₱${totalPriceForProduct}</span>
             </div>
         `;
-
-      // Check if there are at least two children to insert before the second one
-      if (container.children.length >= 1) {
-        container.insertBefore(newReceipt, container.children[1]); // Insert before the second child
-      } else {
-        // If there are less than two children, just prepend (or append if it's the very first child)
-        container.prepend(newReceipt);
-      }
+      container.append(newReceipt);
     }
 
     // Update the total price
