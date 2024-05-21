@@ -1,8 +1,7 @@
 from flask import Flask, render_template, url_for, request, redirect, jsonify
-import sqlite3
+import sqlite3, os
 from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy as db
-import os
 
 
 app = Flask(__name__)
@@ -179,32 +178,6 @@ def unarchive_product():
     
     # Redirect or respond as necessary
     return jsonify({'success': 'Product has been unarchived'}), 200
-
-
-###########################################################
-
-# Database Testing Page
-@app.route('/testing')
-def test():
-    # Connect to the Database
-    conn = sqlite3.connect('instance/thesis.db')
-    c = conn.cursor()
-
-    # Execute the query
-    c.execute('SELECT * FROM products')
-
-    # Fetch all the rows
-    products = c.fetchall()
-
-    return render_template("test.html", products=products)
-
-## for testing
-@app.route('/edit_price', methods=['POST'])
-def edit_price():
-    product_id = request.form.get('product_id')
-    new_price = request.form.get('new_price')
-    edit_product_price(product_id, new_price)
-    return redirect('/')
 
 
 

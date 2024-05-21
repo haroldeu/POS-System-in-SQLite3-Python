@@ -311,7 +311,6 @@ $(function () {
   var productPrice = $(".productPrice");
   var kiloModal = $("#KiloModal");
   var closeModalBtn = $(".close");
-  var search = $("#search");
 
   // Combine event handlers
   addToCartBtn.on("click", function () {
@@ -338,56 +337,32 @@ $(function () {
   closeModalBtn.on("click", function () {
     $(".modal").hide();
   });
+});
 
-  /*   
-    search.on("input", function () {
-      var searchQuery = $(this).val().toLowerCase(); // Get the search query and convert it to lowercase
-  
-      // Get all cards in the card-wrapper
-      var cards = $(".card-wrapper .cards");
-  
-      // Iterate through each card
-      cards.each(function () {
-        // Get the product name of the current card
-        var productName = $(this).find("p").text().toLowerCase();
-  
-        // Check if the product name starts with the search query
-        if (productName.startsWith(searchQuery)) {
-          // If it does, display the card
-          $(this).css("display", "block");
-        } else {
-          // If it doesn't, hide the card
-          $(this).css("display", "none");
-        }
-      });
-    });
-  }); */
+// Add event listener to search input field
+$(document).ready(function () {
+  // Function to simulate typing into the search input
+  function typeVirtualKeyboardKey() {
+    $("#search").trigger("input"); // Trigger input event to filter cards
+  }
 
-  // Add event listener to search input field
-  $(document).ready(function () {
-    // Function to simulate typing into the search input
-    function typeVirtualKeyboardKey(keyValue) {
-      $("#search").trigger("input"); // Trigger input event to filter cards
-    }
+  // Attach the function to all keys of the virtual keyboard
+  $(".key").on("mousedown", function () {
+    typeVirtualKeyboardKey($(this).text());
+  });
 
-    // Attach the function to all keys of the virtual keyboard
-    $(".key").on("mousedown", function () {
-      typeVirtualKeyboardKey($(this).text());
-    });
+  // Existing searc1h input function
+  $("#search").on("input", function () {
+    var searchQuery = $(this).val().toLowerCase(); // Get the search query and convert it to lowercase
+    var cards = $(".card-wrapper .cards"); // Get all cards in the card-wrapper
 
-    // Existing searc1h input function
-    $("#search").on("input", function () {
-      var searchQuery = $(this).val().toLowerCase(); // Get the search query and convert it to lowercase
-      var cards = $(".card-wrapper .cards"); // Get all cards in the card-wrapper
-
-      cards.each(function () {
-        var productName = $(this).find("p").text().toLowerCase(); // Get the product name of the current card
-        if (productName.startsWith(searchQuery)) {
-          $(this).css("display", "block"); // If it does, display the card
-        } else {
-          $(this).css("display", "none"); // If it doesn't, hide the card
-        }
-      });
+    cards.each(function () {
+      var productName = $(this).find("p").text().toLowerCase(); // Get the product name of the current card
+      if (productName.startsWith(searchQuery)) {
+        $(this).css("display", "block"); // If it does, display the card
+      } else {
+        $(this).css("display", "none"); // If it doesn't, hide the card
+      }
     });
   });
 });
@@ -395,8 +370,7 @@ $(function () {
 // Search table function
 $(document).ready(function () {
   // Function to simulate typing into the search input
-  function typeVirtualKeyboardKey(inputSelector, keyValue) {
-    var currentVal = $(inputSelector).val();
+  function typeVirtualKeyboardKey(inputSelector) {
     $(inputSelector).trigger("input");
   }
 
@@ -520,30 +494,30 @@ document
 // // Printing the text file
 // const { exec } = require("child_process");
 
-// function setPrinterPermissions(callback) {
-//   exec("sudo chmod 777 /dev/usb/lp0", (error, stdout, stderr) => {
-//     if (error) {
-//       console.error(`Error setting permissions: ${error}`);
-//       return callback(error);
-//     }
-//     if (stderr) {
-//       console.error(`Permission stderr: ${stderr}`);
-//     }
-//     console.log("Permissions set to 777 successfully");
-//     callback(null);
-//   });
-// }
+/* function setPrinterPermissions(callback) {
+  exec("sudo chmod 777 /dev/usb/lp0", (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error setting permissions: ${error}`);
+      return callback(error);
+    }
+    if (stderr) {
+      console.error(`Permission stderr: ${stderr}`);
+    }
+    console.log("Permissions set to 777 successfully");
+    callback(null);
+  });
+}
 
-// function printFile(filePath) {
-//   const printCommand = `cat ${filePath} > /dev/usb/lp0`;
-//   exec(printCommand, (error, stdout, stderr) => {
-//     if (error) {
-//       console.error(`Error printing file: ${error}`);
-//       return;
-//     }
-//     if (stderr) {
-//       console.error(`Print stderr: ${stderr}`);
-//     }
-//     console.log(`File ${filePath} printed successfully`);
-//   });
-// }
+function printFile(filePath) {
+  const printCommand = `cat ${filePath} > /dev/usb/lp0`;
+  exec(printCommand, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error printing file: ${error}`);
+      return;
+    }
+    if (stderr) {
+      console.error(`Print stderr: ${stderr}`);
+    }
+    console.log(`File ${filePath} printed successfully`);
+  });
+} */
