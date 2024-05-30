@@ -213,8 +213,7 @@ $(document).ready(function () {
   });
 });
 
-/////////////////////////////////////////////////////////////////
-
+// Submit Add to Cart
 document
   .getElementById("submit-add-to-cart")
   .addEventListener("click", function () {
@@ -291,7 +290,6 @@ document
       );
     }
     var newTotal = currentTotal + parseFloat(totalPriceForProduct);
-    //totalPriceSpan.textContent = `₱${newTotal.toFixed(2)}`;
     updateTotalPrices(newTotal);
   });
 
@@ -514,3 +512,33 @@ function printFile(filePath) {
     console.log(`File ${filePath} printed successfully`);
   });
 } */
+
+// Printing the text file
+
+// function setPrinterPermissions(callback) {
+//   exec("sudo chmod 777 /dev/usb/lp0", (error, stdout, stderr) => {
+//     if (error) {
+//       console.error(`Error setting permissions: ${error}`);
+//       return callback(error);
+//     }
+//     if (stderr) {
+//       console.error(`Permission stderr: ${stderr}`);
+//     }
+//     console.log("Permissions set to 777 successfully");
+//     callback(null);
+//   });
+// }
+
+// function printFile(filePath) {
+//   const printCommand = `cat ${filePath} > /dev/usb/lp0`;
+//   exec(printCommand, (error, stdout, stderr) => {
+//     if (error) {
+//       console.error(`Error printing file: ${error}`);
+//       return;
+//     }
+//     if (stderr) {
+//       console.error(`Print stderr: ${stderr}`);
+//     }
+//     console.log(`File ${filePath} printed successfully`);
+//   });
+// }

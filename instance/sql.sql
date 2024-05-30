@@ -14,14 +14,26 @@
 -- VALUES (NULL, 'Pechay', 55, 'Vegetable', 'kilo');
 -- VALUES (NULL, 'Apple', 55, 'Fruit', 'pcs');
 
-
 -- ALTER TABLE products ADD COLUMN availability TEXT DEFAULT 'True' NOT NULL;
 
-
-SELECT * FROM products;
-
+-- SELECT * FROM products;
 
 
+
+-- CREATE TABLE password (
+--     password TEXT
+-- );
+
+
+-- DELETE FROM password WHERE password=0;
+
+-- INSERT INTO password (password)
+-- VALUES ('0000');
+
+
+
+
+SELECT * FROM password;
 
 
 
