@@ -192,7 +192,7 @@ $(document).ready(function () {
     $.post("/archive_product", { productId: productId }, function (response) {
       console.log(response.success);
       alert("Product has been archived");
-      window.location.href = "/";
+      window.location.href = "/admin";
     });
   });
 });
@@ -204,9 +204,9 @@ $(document).ready(function () {
 
     // Send a POST request to the Flask route
     $.post("/unarchive_product", { productId: productId }, function (response) {
-      alert("Product has been unarchived");
-      location.reload(); // Reload the page to reflect changes
-    }).fail(function (jqXHR, textStatus, errorThrown) {
+      alert(response);
+      window.location.href = "/archived_products";
+    }).fail(function (textStatus, errorThrown) {
       console.log("AJAX call failed: ", textStatus, errorThrown);
     });
   });

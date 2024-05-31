@@ -68,7 +68,9 @@ def archived_products():
     products = c.fetchall()
     conn.close()
 
-    return render_template("archive-wrapper.html", products=products)
+    return render_template("archive-wrapper.html.j2", products=products)
+
+
 
 # Deleting Database Record
 @app.route('/delete_record', methods=['POST'])
