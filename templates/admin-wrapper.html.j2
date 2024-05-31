@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      /* Nav Styles */
+      .admin-wrapper nav {
+        display: flex;
+        padding: 20px 20px 10px;
+        justify-content: space-between;
+      }
+
+      /* Search Form Styles */
+      .search-container {
+        position: relative;
+      }
+
+      #search-table1 {
+        padding: 5px 30px 5px 10px;
+        border-radius: 5px;
+        border: 1px solid black;
+        width: 200px;
+      }
+
+      .nav-optn button[type="submit"] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        padding: 5px;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+      }
+
+      .nav-optn button[type="submit"] img {
+        width: 18px;
+        height: 18px;
+      }
+
+      .nav-optn {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .nav-optn button {
+        padding: 6px;
+        border: none;
+        border-radius: 5px;
+        background-color: #5f264a;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .table {
+        text-align: center;
+        border-radius: 10px;
+        margin-top: 10px;
+        max-height: 85%;
+        overflow-y: auto;
+        scrollbar-width: none;
+        border: 2px solid #ddd;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #f9f9f9;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .table thead {
+        position: sticky;
+        top: 0;
+      }
+
+      tbody tr {
+        border-bottom: 1px solid black;
+      }
+
+      th,
+      td {
+        padding: 12px 15px;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      td {
+        background-color: #fff;
+      }
+
+      /* Action Button Styles */
+      .admin-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .admin-actions button {
+        padding: 8px;
+        border-radius: 5px;
+        border: none;
+        background-color: #5f264a;
+        color: white;
+        cursor: pointer;
+      }
+
+      /* Add Button Styles */
+      .add-btn {
+        border: none;
+        margin-top: 10px;
+        padding: 15px 55px;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        background-color: #5f264a;
+      }
+
+      /* Product Image Styles */
+      .product-image {
+        height: 50px;
+        width: 100px;
+      }
+    </style>
+
+    <div class="admin-wrapper" id="admin">
+      <nav>
+        <h1>Item Information</h1>
+        <div class="nav-optn">
+          <form class="search-form">
+            <div class="search-container">
+              <input
+                type="text"
+                id="search-table1"
+                name="search"
+                placeholder="Search..."
+              />
+              <button type="submit">
+                <img
+                  src="{{ url_for('static', filename='images/search.png') }}"
+                  alt="Search"
+                />
+              </button>
+            </div>
+          </form>
+          <a href="/archived_products">
+            <button class="Archived">Archived Products</button>
+          </a>
+        </div>
+      </nav>
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th>Item Image</th>
+              <th>Item Name</th>
+              <th>Item Price</th>
+              <th>Item Type</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for product in products %} {% if product[5] == "True" %}
+            <tr>
+              <td>
+                <img
+                  src="static/{{ product[1] }}"
+                  alt="Product Image"
+                  class="product-image table-image"
+                />
+              </td>
+              <td>{{ product[2] }}</td>
+              <td>₱{{ product[3] }}</td>
+              <td>{{ product[4] }}</td>
+              <td>
+                <div class="admin-actions">
+                  <button class="update-btn buttons" data-id="{{ product[0] }}">
+                    Update
+                  </button>
+
+                  <button
+                    class="archive-btn buttons"
+                    data-id="{{ product[0] }}"
+                  >
+                    Archive
+                  </button>
+                </div>
+              </td>
+            </tr>
+            {% endif %} {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <button class="add-btn">Add Item</button>
+    </div>
+
+    {% include 'popup-add.html' %} {% include 'popup-edit.html' %} {% include
+    'keyboard.html' %}
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>

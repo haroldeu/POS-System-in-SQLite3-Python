@@ -16,7 +16,7 @@
 
 -- ALTER TABLE products ADD COLUMN availability TEXT DEFAULT 'True' NOT NULL;
 
--- SELECT * FROM products;
+
 
 
 
@@ -27,13 +27,20 @@
 
 -- DELETE FROM password WHERE password=0;
 
--- INSERT INTO password (password)
+
+
+
+-- CREATE TABLE admin_passwords(password TEXT);
+
+-- ALTER TABLE admin_passwords ADD COLUMN password TEXT;
+
+-- INSERT INTO admin_passwords (password)
 -- VALUES ('0000');
 
 
+-- SELECT * FROM products;
 
-
-SELECT * FROM password;
+SELECT * FROM admin_passwords;
 
 
 

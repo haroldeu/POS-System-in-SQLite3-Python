@@ -10,15 +10,12 @@ function toggleUnderline(event) {
 document.addEventListener("DOMContentLoaded", function () {
   // Get the elements from the DOM
   const adminToggle = document.getElementById("adminToggle");
-  const container = document.querySelector(".container");
-  const adminPage = document.querySelector(".admin-wrapper");
-  const archivePage = document.querySelector(".archive-wrapper");
+  //const container = document.querySelector(".container");
   const addBtn = document.querySelector(".add-btn");
-  const archiveBtn = document.querySelector(".Archived");
-  const toggleBtn = document.querySelector(".Toggle-wrapper");
+  //const toggleBtn = document.querySelector(".Toggle-wrapper");
   const closeBtn = document.getElementById("close-btn");
   const addContainer = document.getElementById("popupContainer");
-  const closeArchive = document.getElementById("close-archive");
+  //const closeArchive = document.getElementById("close-archive");
   const changePopup = document.querySelector(".cart-modal");
   const changeOpen = document.querySelector(".cart-open");
   const changeClose = document.querySelector(".cart-close");
@@ -31,8 +28,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // Event listener for adminToggle change
   adminToggle.addEventListener("change", function () {
     if (adminToggle.checked) {
-      toggleDisplay(container, "none");
-      toggleDisplay(adminPage, "block");
+      // toggleDisplay(container, "none");
+      // toggleDisplay(adminPage, "block");
+      window.location.href = "/admin_authentication";
     } else {
       toggleDisplay(container, "grid");
       toggleDisplay(adminPage, "none");
@@ -50,9 +48,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   archiveBtn.addEventListener("click", function () {
-    toggleDisplay(archivePage, "block");
-    toggleDisplay(adminPage, "none");
-    toggleDisplay(toggleBtn, "none");
+    // toggleDisplay(archivePage, "block");
+    // toggleDisplay(adminPage, "none");
+    // toggleDisplay(toggleBtn, "none");
+    window.location.href = "/archived_products";
   });
 
   closeArchive.addEventListener("click", function () {
@@ -115,11 +114,11 @@ $(document).ready(function () {
         id: productId,
         editItemPrice: newPrice,
       },
-      success: function (response) {
+      success: function () {
         console.log("Product updated successsfully.");
-        window.location.href = "/";
+        window.location.href = "/admin";
       },
-      error: function (xhr, status, error) {
+      error: function (error) {
         console.error("Error updating product price: ", error);
       },
     });

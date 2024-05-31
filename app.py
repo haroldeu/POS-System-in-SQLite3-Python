@@ -37,6 +37,39 @@ def index():
 
     return render_template("index.html.j2", products=products)
 
+# Admin Page of the System
+@app.route('/admin')
+def admin():
+    # Connect to the Database
+    conn = sqlite3.connect('instance/thesis.db')
+    c = conn.cursor()
+
+    # Execute the query
+    c.execute('SELECT * FROM products ORDER BY product_name ASC')
+
+    # Fetch all the rows
+    products = c.fetchall()
+    conn.close()
+
+    return render_template("admin-wrapper.html.j2", products=products)
+
+
+# Archived Page of the System
+@app.route('/archived_products')
+def archived_products():
+    # Connect to the Database
+    conn = sqlite3.connect('instance/thesis.db')
+    c = conn.cursor()
+
+    # Execute the query
+    c.execute('SELECT * FROM products ORDER BY product_name ASC')
+
+    # Fetch all the rows
+    products = c.fetchall()
+    conn.close()
+
+    return render_template("archive-wrapper.html", products=products)
+
 # Deleting Database Record
 @app.route('/delete_record', methods=['POST'])
 def delete_record():
@@ -90,7 +123,7 @@ def edit_product():
     new_price = request.form.get('editItemPrice')
 
     if edit_product_price(product_id, new_price):
-        return redirect('/')
+        return redirect(url_for('admin'))
     else:
         return "Product not found."
 
@@ -178,6 +211,31 @@ def unarchive_product():
     
     # Redirect or respond as necessary
     return jsonify({'success': 'Product has been unarchived'}), 200
+
+@app.route('/admin_authentication', methods=['GET', 'POST'])
+def admin_authentication():
+    if request.method == 'POST':
+        conn = sqlite3.connect('instance/thesis.db')
+        cursor = conn.cursor()
+
+        password = request.form['password']
+
+        query = "SELECT password FROM admin_passwords where password='"+password+"'"
+
+        print(password)
+
+        cursor.execute(query)
+
+        results = cursor.fetchall()
+
+        if len(results) == 0:
+            print("Please enter a valid password.")
+            return redirect(url_for('index'))
+        else:
+            return redirect(url_for('admin'))
+
+    return render_template("admin-authentication.html")
+
 
 
 
