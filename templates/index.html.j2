@@ -13,13 +13,12 @@
 <body>
         <nav>
             <h1>Fresh Produce Merchandising System</h1>
-            <div class="Toggle-wrapper">
-                <h1>Admin</h1>
-                <label class="toggle">
-                    <input id="adminToggle" type="checkbox">
-                    <span class="slider"></span>
-                    <span class="labels" data-on="" data-off=""></span>
-                </label>
+            <div class="open-admin">
+                <h1>ADMIN</h1>
+                <img
+                  src="{{ url_for('static', filename='images/admin.png') }}"
+                  alt="Search"
+                />
             </div>
         </nav>
     <div class="container">
