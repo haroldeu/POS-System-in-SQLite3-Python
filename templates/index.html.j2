@@ -13,13 +13,12 @@
 <body>
         <nav>
             <h1>Fresh Produce Merchandising System</h1>
-            <div class="Toggle-wrapper">
-                <h1>Admin</h1>
-                <label class="toggle">
-                    <input id="adminToggle" type="checkbox">
-                    <span class="slider"></span>
-                    <span class="labels" data-on="" data-off=""></span>
-                </label>
+            <div class="open-admin">
+                <h1>ADMIN</h1>
+                <img
+                  src="{{ url_for('static', filename='images/admin.png') }}"
+                  alt="Search"
+                />
             </div>
         </nav>
     <div class="container">
@@ -29,7 +28,7 @@
     {% include 'popup-add.html' %}
     {% include 'popup-edit.html' %}
     {% include 'keyboard.html' %}
-
+    {% include 'popup-password.html' %}
     {% include 'unit-selected.html' %}
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
