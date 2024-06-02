@@ -9,13 +9,16 @@ function toggleUnderline(event) {
 // Wait until the HTML document is fully loaded
 document.addEventListener("DOMContentLoaded", function () {
   // Get the elements from the DOM
-  const adminToggle = document.getElementById("adminToggle");
+  //const adminToggle = document.getElementById("adminToggle");
   //const container = document.querySelector(".container");
-  const addBtn = document.querySelector(".add-btn");
   //const toggleBtn = document.querySelector(".Toggle-wrapper");
+  //const closeArchive = document.getElementById("close-archive");
+  const adminOpen = document.querySelector(".open-admin");
+  const passPopup = document.querySelector(".popup-password");
+  const passClose = document.querySelector(".close-password");
+  const addBtn = document.querySelector(".add-btn");
   const closeBtn = document.getElementById("close-btn");
   const addContainer = document.getElementById("popupContainer");
-  //const closeArchive = document.getElementById("close-archive");
   const changePopup = document.querySelector(".cart-modal");
   const changeOpen = document.querySelector(".cart-open");
   const changeClose = document.querySelector(".cart-close");
@@ -25,16 +28,13 @@ document.addEventListener("DOMContentLoaded", function () {
     element.style.display = displayStyle;
   };
 
-  // Event listener for adminToggle change
-  adminToggle.addEventListener("change", function () {
-    if (adminToggle.checked) {
-      // toggleDisplay(container, "none");
-      // toggleDisplay(adminPage, "block");
-      window.location.href = "/admin_authentication";
-    } else {
-      toggleDisplay(container, "grid");
-      toggleDisplay(adminPage, "none");
-    }
+  // Event listener for adminOpen click
+  adminOpen.addEventListener("click", function () {
+    toggleDisplay(passPopup, "block");
+  });
+
+  passClose.addEventListener("click", function () {
+    toggleDisplay(passPopup, "none");
   });
 
   // Event listener for addBtn click

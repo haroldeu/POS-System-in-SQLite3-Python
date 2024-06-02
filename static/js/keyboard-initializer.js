@@ -12,7 +12,11 @@ for (textarea of textareas) {
 }
 
 for (input of inputs) {
-  if (input.type == "text" || input.type == "number") {
+  if (
+    input.type == "text" ||
+    input.type == "number" ||
+    input.type == "password"
+  ) {
     input.setAttribute("onclick", "selectTextbox(this)");
   }
 }
