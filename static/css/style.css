@@ -16,60 +16,29 @@ nav {
   padding: 10px 20px;
   justify-content: space-between;
 }
-
-.Toggle-wrapper {
+.open-admin {
   display: flex;
-  font-size: 10px;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 }
 
-.toggle {
-  --width: 80px;
-  --height: calc(var(--width) / 3);
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: var(--height);
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
-  border-radius: var(--height);
-  cursor: pointer;
+.open-admin img {
+  height: 30px;
+  width: 30px;
 }
 
-.toggle input {
-  display: none;
+.open-admin h1 {
+  opacity: 0;
+  padding-top: 3.5px;
+  transition: 0.6s;
 }
 
-.toggle .slider {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: var(--height);
-  background-color: #ccc;
-  transition: all 0.3s ease-in-out;
+.open-admin:hover h1 {
+  opacity: 1;
 }
 
-.toggle .slider::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: calc(var(--height));
-  height: calc(var(--height));
-  border-radius: calc(var(--height) / 2);
-  background-color: #fff;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease-in-out;
-}
-
-.toggle input:checked + .slider {
-  background-color: #5f264a;
-}
-
-.toggle input:checked + .slider::before {
-  transform: translateX(25px);
+.open-admin:hover h1 {
+  transform: translateX(5px);
 }
 
 .cart-container,
