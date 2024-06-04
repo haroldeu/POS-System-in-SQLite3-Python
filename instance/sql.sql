@@ -38,7 +38,7 @@
 -- VALUES ('0000');
 
 
--- SELECT * FROM products;
+SELECT * FROM products;
 
 SELECT * FROM admin_passwords;
 

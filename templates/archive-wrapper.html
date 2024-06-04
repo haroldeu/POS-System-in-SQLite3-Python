@@ -7,26 +7,37 @@
   </head>
   <body>
     <style>
-      /* Nav Styles */
-      .admin-wrapper nav {
+      .archive-wrapper .close {
+        position: absolute;
+        margin-top: -8px;
+        right: 0;
+        padding: 0 10px 10px;
+        font-size: 45px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .archive-wrapper nav {
         display: flex;
-        padding: 20px 20px 10px;
+        align-items: center;
+        padding: 20px 20px 0;
         justify-content: space-between;
+        padding: 25px 20px 0;
       }
 
-      /* Search Form Styles */
-      .search-container {
+      .archive-wrapper .search-container {
         position: relative;
+        /* margin-top: 20px; */
       }
 
-      #search-table1 {
+      .archive-wrapper #search-table2 {
         padding: 5px 30px 5px 10px;
         border-radius: 5px;
         border: 1px solid black;
         width: 200px;
       }
 
-      .nav-optn button[type="submit"] {
+      .archive-wrapper button[type="submit"] {
         position: absolute;
         top: 0;
         right: 0;
@@ -37,31 +48,15 @@
         cursor: pointer;
       }
 
-      .nav-optn button[type="submit"] img {
+      .archive-wrapper button[type="submit"] img {
         width: 18px;
         height: 18px;
       }
 
-      .nav-optn {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-      }
-
-      .nav-optn button {
-        padding: 6px;
-        border: none;
-        border-radius: 5px;
-        background-color: #5f264a;
-        color: white;
-        cursor: pointer;
-        transition: background-color 0.3s;
-      }
-
-      .table {
+      .archive-wrapper .table {
         text-align: center;
         border-radius: 10px;
-        margin-top: 10px;
+        margin-top: 20px;
         max-height: 85%;
         overflow-y: auto;
         scrollbar-width: none;
@@ -70,17 +65,17 @@
         background-color: #f9f9f9;
       }
 
-      table {
+      .archive-wrapper table {
         width: 100%;
         border-collapse: collapse;
       }
 
-      .table thead {
+      .archive-wrapper .table thead {
         position: sticky;
         top: 0;
       }
 
-      tbody tr {
+      .archive-wrapper tbody tr {
         border-bottom: 1px solid black;
       }
 
@@ -97,15 +92,19 @@
         background-color: #fff;
       }
 
-      /* Action Button Styles */
-      .admin-actions {
+      .product-image {
+        height: 50px;
+        width: 100px;
+      }
+
+      .archive-actions {
         display: flex;
         gap: 10px;
         justify-content: center;
         align-items: center;
       }
 
-      .admin-actions button {
+      .archive-actions button:nth-child(1) {
         padding: 8px;
         border-radius: 5px;
         border: none;
@@ -114,48 +113,41 @@
         cursor: pointer;
       }
 
-      /* Add Button Styles */
-      .add-btn {
+      .delete-btn {
+        background-color: transparent;
         border: none;
-        margin-top: 10px;
-        padding: 15px 55px;
-        border-radius: 5px;
-        color: white;
         cursor: pointer;
-        background-color: #5f264a;
       }
 
-      /* Product Image Styles */
-      .product-image {
-        height: 50px;
-        width: 100px;
+      .delete {
+        height: 30px;
+        width: 35px;
       }
     </style>
 
-    <div class="admin-wrapper" id="admin">
+    <head>
+      <title>Archived Products</title>
+    </head>
+
+    <div class="archive-wrapper" id="archive">
+      <a href="/admin">
+        <span class="close" id="close-archive">&times;</span>
+      </a>
       <nav>
-        <h1>Item Information</h1>
-        <div class="nav-optn">
-          <form class="search-form">
-            <div class="search-container">
-              <input
-                type="text"
-                id="search-table1"
-                name="search"
-                placeholder="Search..."
-              />
-              <button type="submit">
-                <img
-                  src="{{ url_for('static', filename='images/search.png') }}"
-                  alt="Search"
-                />
-              </button>
-            </div>
-          </form>
-          <a href="/archived_products">
-            <button class="Archived">Archived Products</button>
-          </a>
-        </div>
+        <h1>Archived Items</h1>
+        <form class="search-form">
+          <div class="search-container">
+            <input
+              type="text"
+              id="search-table2"
+              name="search"
+              placeholder="Search..."
+            />
+            <button type="submit">
+              <img src="/static/images/search.png" alt="Search" />
+            </button>
+          </div>
+        </form>
       </nav>
       <div class="table">
         <table>
@@ -169,7 +161,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for product in products %} {% if product[5] == "True" %}
+            {% for product in products %} {% if product[5] != "True" %}
             <tr>
               <td>
                 <img
@@ -182,16 +174,22 @@
               <td>₱{{ product[3] }}</td>
               <td>{{ product[4] }}</td>
               <td>
-                <div class="admin-actions">
-                  <button class="update-btn buttons" data-id="{{ product[0] }}">
-                    Update
-                  </button>
-
+                <div class="archive-actions">
                   <button
-                    class="archive-btn buttons"
+                    class="unarchive-btn buttons"
                     data-id="{{ product[0] }}"
                   >
-                    Archive
+                    Unarchive
+                  </button>
+                  <button
+                    class="delete-btn"
+                    onclick="deleteRecord('{{ product[0] }}')"
+                  >
+                    <img
+                      src="{{ url_for('static', filename='images/delete.png') }}"
+                      alt="Delete"
+                      class="delete"
+                    />
                   </button>
                 </div>
               </td>
@@ -200,17 +198,12 @@
           </tbody>
         </table>
       </div>
-      <button class="add-btn">Add Item</button>
     </div>
-
-    {% include 'popup-add.html' %} {% include 'popup-edit.html' %} {% include
-    'keyboard.html' %}
-
+  </body>
+    {% include 'keyboard.html' %}
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     <script src="{{ url_for('static', filename='js/keyboard-handler.js') }}"></script>
     <script src="{{ url_for('static', filename='js/keyboard-initializer.js') }}"></script>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  </body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </html>

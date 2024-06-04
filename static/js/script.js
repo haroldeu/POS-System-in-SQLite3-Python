@@ -21,25 +21,26 @@ document.addEventListener("DOMContentLoaded", function () {
   const changeClose = document.querySelector(".cart-close");
 
   // Function to toggle display of elements
-  const toggleDisplay = (element, displayStyle) => {
-    element.style.display = displayStyle;
-  };
+  // const toggleDisplay = (element, displayStyle) => {
+  //   element.style.display = displayStyle;
+  // };
 
   // Event listener for adminToggle change
-  adminToggle.addEventListener("change", function () {
+  adminToggle.addEventListener("click", function () {
     if (adminToggle.checked) {
       // toggleDisplay(container, "none");
       // toggleDisplay(adminPage, "block");
       window.location.href = "/admin_authentication";
-    } else {
+    } /* else {
       toggleDisplay(container, "grid");
       toggleDisplay(adminPage, "none");
-    }
+    } */
   });
 
   // Event listener for addBtn click
   addBtn.addEventListener("click", function () {
     toggleDisplay(addContainer, "block");
+    //$("#popupContainer").show();
   });
 
   // Event listener for closeBtn click
@@ -199,17 +200,23 @@ $(document).ready(function () {
 
 //Unarchive function
 $(document).ready(function () {
-  $(".unarchive-btn").click(function () {
-    var productId = $(this).data("id");
+  $(".unarchive-btn").addEventListener(
+    click(function () {
+      var productId = $(this).data("id");
 
-    // Send a POST request to the Flask route
-    $.post("/unarchive_product", { productId: productId }, function (response) {
-      alert(response);
-      window.location.href = "/archived_products";
-    }).fail(function (textStatus, errorThrown) {
-      console.log("AJAX call failed: ", textStatus, errorThrown);
-    });
-  });
+      // Send a POST request to the Flask route
+      $.post(
+        "/unarchive_product",
+        { productId: productId },
+        function (response) {
+          alert(response);
+          window.location.href = "/archived_products";
+        }
+      ).fail(function (textStatus, errorThrown) {
+        console.log("AJAX call failed: ", textStatus, errorThrown);
+      });
+    })
+  );
 });
 
 // Submit Add to Cart

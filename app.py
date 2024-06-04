@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect, jsonify
+from flask import Flask, render_template, url_for, request, redirect, jsonify, g
 import sqlite3, os
 from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy as db
@@ -25,50 +25,26 @@ with app.app_context():
 @app.route('/')
 def index():
     # Connect to the Database
-    conn = sqlite3.connect('instance/thesis.db')
-    c = conn.cursor()
+    data = get_db()
 
-    # Execute the query
-    c.execute('SELECT * FROM products ORDER BY product_name ASC')
-
-    # Fetch all the rows
-    products = c.fetchall()
-    conn.close()
-
-    return render_template("index.html.j2", products=products)
+    return render_template("index.html", products = data)
 
 # Admin Page of the System
 @app.route('/admin')
 def admin():
     # Connect to the Database
-    conn = sqlite3.connect('instance/thesis.db')
-    c = conn.cursor()
+    data = get_db()
 
-    # Execute the query
-    c.execute('SELECT * FROM products ORDER BY product_name ASC')
-
-    # Fetch all the rows
-    products = c.fetchall()
-    conn.close()
-
-    return render_template("admin-wrapper.html.j2", products=products)
+    return render_template("admin-wrapper.html", products = data)
 
 
 # Archived Page of the System
 @app.route('/archived_products')
 def archived_products():
     # Connect to the Database
-    conn = sqlite3.connect('instance/thesis.db')
-    c = conn.cursor()
+    data = get_db()
 
-    # Execute the query
-    c.execute('SELECT * FROM products ORDER BY product_name ASC')
-
-    # Fetch all the rows
-    products = c.fetchall()
-    conn.close()
-
-    return render_template("archive-wrapper.html.j2", products=products)
+    return render_template("archive-wrapper.html", products = data)
 
 
 
@@ -237,6 +213,17 @@ def admin_authentication():
             return redirect(url_for('admin'))
 
     return render_template("admin-authentication.html")
+
+
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect('instance/thesis.db')
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM products")
+        all_data = cursor.fetchall()
+
+    return all_data
 
 
 
