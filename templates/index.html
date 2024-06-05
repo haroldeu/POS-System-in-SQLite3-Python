@@ -13,20 +13,24 @@
   <body>
     <nav>
       <h1>Fresh Produce Merchandising System</h1>
-      <div class="open-admin">
-        <h1>ADMIN</h1>
+      <div class="hamburger">
         <img
-          src="{{ url_for('static', filename='images/admin.png') }}"
-          alt="Search"
+          src="../static/images/hamburger.png"
+          alt="menu"
+          class="hamburger-icon"
         />
+        <img src="../static/images/close.png" alt="close" class="close-icon" />
+      </div>
+      <div class="dropdown">
+        <a href="">Logout</a>
+        <a href="">Help</a>
       </div>
     </nav>
     <div class="container">
       {% include 'cart-wrapper.html' %} {% include 'item-wrapper.html' %}
     </div>
     {% include 'popup-add.html' %} {% include 'popup-edit.html' %} {% include
-    'keyboard.html' %} {% include 'popup-password.html' %} {% include
-    'unit-selected.html' %}
+    'keyboard.html' %} {% include 'unit-selected.html' %}
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
