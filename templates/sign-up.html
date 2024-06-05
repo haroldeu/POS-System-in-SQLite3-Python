@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+  </head>
+  <body>
+    <center>
+      {% if name %}
+
+      <h1>Admin Account Created Successfully!</h1>
+
+      <h3>Hello {{ name }}</h3>
+
+      {% else %}
+      <h1>Add an Admin Account</h1>
+      <br />
+
+      <form method="POST">
+        {{ form.hidden_tag() }} {{ form.name.label(class="form-label") }} {{
+        form.name(class="input-field") }}
+
+        <br />
+        <br />
+
+        {{ form.password_hash.label(class="form-label") }} {{
+        form.password_hash(class="input-field") }}
+
+        <br />
+        <br />
+
+        {{ form.password_hash2.label(class="form-label") }} {{
+        form.password_hash2(class="input-field") }}
+
+        <br />
+        <br />
+
+        {{ form.submit(class="submit-btn") }}
+      </form>
+
+      {% endif%}
+    </center>
+  </body>
+</html>

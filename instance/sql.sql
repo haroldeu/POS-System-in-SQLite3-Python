@@ -1,5 +1,6 @@
 -- !!!!!!!!!!!!!!!! WAGGGGGG !!!!!!!!!!!!!!!
 -- DROP TABLE PRODUCTS;
+-- DROP TABLE USERS;
 
 -- CREATE TABLE products (
 --     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -28,8 +29,13 @@
 -- DELETE FROM password WHERE password=0;
 
 
+-- CREATE TABLE IF NOT EXISTS users (
+--     id INTEGER PRIMARY KEY AUTOINCREMENT,
+--     name TEXT NOT NULL,
+--     password_hash TEXT NOT NULL
+-- );
 
-SELECT * FROM products;
+-- SELECT * FROM products;
 
 SELECT * FROM users;
 

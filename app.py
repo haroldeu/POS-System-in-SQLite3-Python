@@ -21,7 +21,6 @@ class Users(db.Model, UserMixin):
     # Do password stuff (input, hashing, etc)
     password_hash = db.Column(db.String(128), nullable=False)
 
-
     # Create a String
     def __repr__(self):
         return '<Name %r>' % self.name
@@ -231,12 +230,12 @@ def get_db():
 
 # Create a Form Class for Signup
 class SignUpForm(FlaskForm):
-    name = StringField("Name", validators=[DataRequired()], render_kw={"placeholder": "Name"})
-    password_hash = PasswordField("Password", validators=[DataRequired(), EqualTo('password_hash2', message='Passwords must match!')], render_kw={"placeholder": "Password"})
-    password_hash2 = PasswordField("Confirm Password", validators=[DataRequired()], render_kw={"placeholder": "Confirm Password"})
-    submit = SubmitField("Sign Up")
+    name = StringField("Name: ", validators=[DataRequired()], render_kw={"placeholder": "Name"})
+    password_hash = PasswordField("Password: ", validators=[DataRequired(), EqualTo('password_hash2', message='Passwords must match!')], render_kw={"placeholder": "Password"})
+    password_hash2 = PasswordField("Confirm Password: ", validators=[DataRequired()], render_kw={"placeholder": "Confirm Password"})
+    submit = SubmitField("Submit")
 
-@app.route('/sign-up', methods=['GET', 'POST'])
+@app.route('/sign_up', methods=['GET', 'POST'])
 def sign_up():
     name = None
     form = SignUpForm()
@@ -245,7 +244,7 @@ def sign_up():
         user = Users.query.filter_by(name=form.name.data).first()
         if user is None:
             # Hash the password
-            hashed_pw = generate_password_hash(form.password_hash.data, "sha256")
+            hashed_pw = generate_password_hash(form.password_hash.data)
             user = Users(name=form.name.data, password_hash=hashed_pw)
             db.session.add(user)
             db.session.commit()
@@ -256,7 +255,7 @@ def sign_up():
 
         flash("User Added Successfully!")
 
-    return render_template('signup.html', form=form, name=name)
+    return render_template('sign-up.html', form=form, name=name)
 
 
 # Create a Form Class for Login 

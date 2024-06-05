@@ -135,7 +135,9 @@
         form.submit (class="hidden") }}
         <!-- <input type="submit" value="Login" class="hidden" /> -->
       </form>
-      <p class="signup-link">Don't have an account? <a href="#">Sign up</a></p>
+      <p class="signup-link">
+        Don't have an account? <a href="{{ url_for('sign_up') }}">Sign up</a>
+      </p>
     </div>
 
     <script>
