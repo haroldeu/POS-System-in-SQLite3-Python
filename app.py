@@ -1,11 +1,13 @@
+from wsgiref.validate import validator
 from flask import Flask, render_template, url_for, request, redirect, jsonify, g
 import sqlite3, os
 from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy as db
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import SubmitField, PasswordField
 from wtforms.validators import DataRequired
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 app = Flask(__name__)
@@ -18,9 +20,16 @@ class Users(db.Model, UserMixin):
     # Do password stuff (input, hashing, etc)
     password_hash = db.Column(db.String(128))
 
-    # @property
-    # def password(self):
-    #     raise AttributeError
+    @property
+    def password(self):
+        raise AttributeError("Password is not a readable attribute.")
+    
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
 class Products(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -34,8 +43,8 @@ with app.app_context():
     db.create_all()
 
 
-# Home Page of the System
-@app.route('/')
+# Cart Page of the System
+@app.route('/cart')
 def index():
     # Connect to the Database
     data = get_db()
@@ -240,14 +249,29 @@ def get_db():
 
 # Create a Form Class
 class PasswordForm(FlaskForm):
-    password = StringField("Password", validators=[DataRequired()])
-    submit = SubmitField("Submit")
+    password = PasswordField("Password", render_kw={"placeholder": "Enter your password"})
+    submit = SubmitField("Login")
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def login():
-    password = 
+    password = None
+    form = PasswordForm()
 
-    return render_template("login.html")
+    if request.form.get('admin'):
+        form.password.validators.append(validator.DataRequired())
+    else:
+        form.password.validators = []
+
+    if form.validate_on_submit():
+        password = form.password.data
+        form.password.data = ''
+        
+        if 'admin' in request.form:
+            return redirect(url_for('admin'))
+        elif 'cashier' in request.form:  
+            return redirect(url_for('index'))
+
+    return render_template("flask-login.html", password=password, form=form)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)

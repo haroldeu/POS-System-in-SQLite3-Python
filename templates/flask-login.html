@@ -120,13 +120,20 @@
         Click the login button get started
       </p>
       <form class="hidden">
-        <input
+        <!-- <input
           type="password"
           placeholder="Enter your password"
           required
           class="hidden"
-        />
-        <input type="submit" value="Login" class="hidden" />
+        /> -->
+        {{ form.hidden_tag() }}
+
+        <input type="hidden" name="admin" class="admin-input hidden" />
+        <input type="hidden" name="cashier" class="cashier-input hidden" />
+
+        {{ form.password.label(class="hidden") }} {{ form.password() }} {{
+        form.submit (class="hidden") }}
+        <!-- <input type="submit" value="Login" class="hidden" /> -->
       </form>
       <p class="signup-link">Don't have an account? <a href="#">Sign up</a></p>
     </div>
@@ -156,10 +163,14 @@
               passwordInput.classList.remove("hidden");
               submitButton.classList.remove("hidden");
               form.classList.remove("hidden");
+              document.querySelector(".admin-input").value = "admin";
+              document.querySelector(".cashier-input").value = "";
             } else if (type.classList.contains("cashier")) {
               cashierText.classList.remove("hidden");
               submitButton.classList.remove("hidden");
               form.classList.remove("hidden");
+              document.querySelector(".cashier-input").value = "cashier";
+              document.querySelector(".admin-input").value = "";
             }
           });
         });
