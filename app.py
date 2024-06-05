@@ -58,6 +58,7 @@ def index():
 
 # Admin Page of the System
 @app.route('/admin')
+@login_required
 def admin():
     # Connect to the Database
     data = get_db()
@@ -228,6 +229,8 @@ def get_db():
     return all_data
 
 
+# Admin Authentication
+
 # Create a Form Class for Signup
 class SignUpForm(FlaskForm):
     name = StringField("Name: ", validators=[DataRequired()], render_kw={"placeholder": "Name"})
@@ -253,15 +256,24 @@ def sign_up():
         form.name.data = ''
         form.password_hash.data = ''
 
-        flash("User Added Successfully!")
+        #### flash("User Added Successfully!")
 
     return render_template('sign-up.html', form=form, name=name)
+
+# Flask Login Stuff
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.get(int(user_id))
 
 
 # Create a Form Class for Login 
 class LoginForm(FlaskForm):
     password = PasswordField("Password", render_kw={"placeholder": "Enter your password"})
-    submit = SubmitField("Login")
+    submit = SubmitField("Login as Admin")
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -269,19 +281,17 @@ def login():
     password = None
     form = LoginForm()
 
-    if request.form.get('admin'):
-        form.password.validators.append(validator.DataRequired())
-    else:
-        form.password.validators = []
-
     if form.validate_on_submit():
-        password = form.password.data
-        form.password.data = ''
-        
-        if 'admin' in request.form:
+        user = Users.query.filter_by(name='Kerokiel Madeja').first()
+        if check_password_hash(user.password_hash, form.password.data):
+            login_user(user)
             return redirect(url_for('admin'))
-        elif 'cashier' in request.form:  
-            return redirect(url_for('index'))
+        else:
+            flash("Wrong Password! Try again.")
+            print("Wrong Password! Try again.")
+    else:
+        flash("User doesn't exist.")
+        print("User doesn't exist.")
 
     return render_template("flask-login.html", password=password, form=form)
 

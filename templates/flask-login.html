@@ -78,14 +78,16 @@
       margin: 0 auto;
     }
     input[type="password"],
-    input[type="submit"] {
+    input[type="submit"],
+    button {
       padding: 10px;
       border-radius: 5px;
       border: 1px solid rgb(64, 64, 64);
       width: 100%;
     }
 
-    input[type="submit"] {
+    input[type="submit"],
+    button {
       background-color: #5f264a;
       color: white;
       cursor: pointer;
@@ -117,24 +119,15 @@
       </p>
       <p class="cashier-text hidden">
         Hello Cashier! <br />
-        Click the login button get started
+        Click the button to get started
       </p>
-      <form class="hidden">
-        <!-- <input
-          type="password"
-          placeholder="Enter your password"
-          required
-          class="hidden"
-        /> -->
-        {{ form.hidden_tag() }}
-
-        <input type="hidden" name="admin" class="admin-input hidden" />
-        <input type="hidden" name="cashier" class="cashier-input hidden" />
-
-        {{ form.password.label(class="hidden") }} {{ form.password() }} {{
-        form.submit (class="hidden") }}
-        <!-- <input type="submit" value="Login" class="hidden" /> -->
+      <form class="hidden" id="adminForm">
+        {{ form.hidden_tag() }} {{ form.password.label(class="hidden") }} {{
+        form.password() }} {{ form.submit (class="hidden") }}
       </form>
+      <button type="button" id="cashierButton" class="hidden">
+        Access as Cashier
+      </button>
       <p class="signup-link">
         Don't have an account? <a href="{{ url_for('sign_up') }}">Sign up</a>
       </p>
@@ -143,14 +136,18 @@
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         var types = document.querySelectorAll(".type");
+        var adminForm = document.getElementById("adminForm");
+        var cashierButton = document.getElementById("cashierButton");
         var adminText = document.querySelector(".admin-text");
         var cashierText = document.querySelector(".cashier-text");
         var passwordInput = document.querySelector('input[type="password"]');
         var submitButton = document.querySelector('input[type="submit"]');
-        var form = document.querySelector("form");
 
         types.forEach(function (type) {
           type.addEventListener("click", function () {
+            adminForm.classList.add("hidden");
+            cashierButton.classList.add("hidden");
+
             types.forEach((t) => t.classList.remove("active"));
             type.classList.add("active");
 
@@ -158,23 +155,23 @@
             cashierText.classList.add("hidden");
             passwordInput.classList.add("hidden");
             submitButton.classList.add("hidden");
-            form.classList.add("hidden");
 
             if (type.classList.contains("admin")) {
               adminText.classList.remove("hidden");
+              adminForm.classList.remove("hidden");
               passwordInput.classList.remove("hidden");
               submitButton.classList.remove("hidden");
               form.classList.remove("hidden");
-              document.querySelector(".admin-input").value = "admin";
-              document.querySelector(".cashier-input").value = "";
             } else if (type.classList.contains("cashier")) {
               cashierText.classList.remove("hidden");
-              submitButton.classList.remove("hidden");
+              cashierButton.classList.remove("hidden");
               form.classList.remove("hidden");
-              document.querySelector(".cashier-input").value = "cashier";
-              document.querySelector(".admin-input").value = "";
             }
           });
+        });
+        // Event listener for Cashier button to redirect
+        cashierButton.addEventListener("click", function () {
+          window.location.href = "/cart";
         });
       });
     </script>
