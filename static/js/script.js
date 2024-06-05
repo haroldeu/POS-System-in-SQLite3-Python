@@ -28,13 +28,6 @@ document.querySelector(".hamburger").addEventListener("click", function () {
 // Wait until the HTML document is fully loaded
 document.addEventListener("DOMContentLoaded", function () {
   // Get the elements from the DOM
-  //const adminToggle = document.getElementById("adminToggle");
-  //const container = document.querySelector(".container");
-  //const toggleBtn = document.querySelector(".Toggle-wrapper");
-  //const closeArchive = document.getElementById("close-archive");
-  const adminOpen = document.querySelector(".open-admin");
-  const passPopup = document.querySelector(".popup-password");
-  const passClose = document.querySelector(".close-password");
   const addBtn = document.querySelector(".add-btn");
   const closeBtn = document.getElementById("close-btn");
   const addContainer = document.getElementById("popupContainer");
@@ -71,16 +64,11 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   archiveBtn.addEventListener("click", function () {
-    // toggleDisplay(archivePage, "block");
-    // toggleDisplay(adminPage, "none");
-    // toggleDisplay(toggleBtn, "none");
     window.location.href = "/archived_products";
   });
 
   closeArchive.addEventListener("click", function () {
-    toggleDisplay(archivePage, "none");
-    toggleDisplay(adminPage, "block");
-    toggleDisplay(toggleBtn, "flex");
+    window.location.href = "/admin";
   });
 
   changeOpen.addEventListener("click", function () {
@@ -88,10 +76,8 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("Please select an item.");
       return;
     }
-
     toggleDisplay(changePopup, "block");
   });
-
   changeClose.addEventListener("click", function () {
     toggleDisplay(changePopup, "none");
   });
