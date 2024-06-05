@@ -6,6 +6,25 @@ function toggleUnderline(event) {
   event.target.classList.add("underline");
 }
 
+document.querySelector(".hamburger").addEventListener("click", function () {
+  var hamburgerIcon = document.querySelector(".hamburger-icon");
+  var closeIcon = document.querySelector(".close-icon");
+  var dropdwn = document.querySelector(".dropdown");
+
+  // Check which icon is currently visible
+  if (hamburgerIcon.style.display === "none") {
+    // Show hamburger icon, hide close icon
+    hamburgerIcon.style.display = "block";
+    closeIcon.style.display = "none";
+    dropdwn.style.display = "none";
+  } else {
+    // Show close icon, hide hamburger icon
+    hamburgerIcon.style.display = "none";
+    closeIcon.style.display = "block";
+    dropdwn.style.display = "block";
+  }
+});
+
 // Wait until the HTML document is fully loaded
 document.addEventListener("DOMContentLoaded", function () {
   // Get the elements from the DOM
@@ -24,9 +43,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const changeClose = document.querySelector(".cart-close");
 
   // Function to toggle display of elements
-  // const toggleDisplay = (element, displayStyle) => {
-  //   element.style.display = displayStyle;
-  // };
+  const toggleDisplay = (element, displayStyle) => {
+    element.style.display = displayStyle;
+  };
 
   // Event listener for adminToggle change
   adminToggle.addEventListener("click", function () {
