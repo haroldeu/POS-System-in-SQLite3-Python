@@ -1,12 +1,12 @@
 from wsgiref.validate import validator
-from flask import Flask, render_template, url_for, request, redirect, jsonify, g
+from flask import Flask, flash, render_template, url_for, request, redirect, jsonify, g
 import sqlite3, os
 from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy as db
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, PasswordField, StringField
-from wtforms.validators import DataRequired
+from wtforms import SubmitField, PasswordField, StringField, BooleanField, ValidationError
+from wtforms.validators import DataRequired, EqualTo, Length
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -232,7 +232,8 @@ def get_db():
 # Create a Form Class for Signup
 class SignUpForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()], render_kw={"placeholder": "Name"})
-    password = PasswordField("Password", validators=[DataRequired()], render_kw={"placeholder": "Password"})
+    password_hash = PasswordField("Password", validators=[DataRequired(), EqualTo('password_hash2', message='Passwords must match!')], render_kw={"placeholder": "Password"})
+    password_hash2 = PasswordField("Confirm Password", validators=[DataRequired()], render_kw={"placeholder": "Confirm Password"})
     submit = SubmitField("Sign Up")
 
 @app.route('/sign-up', methods=['GET', 'POST'])
@@ -243,11 +244,17 @@ def sign_up():
     if form.validate_on_submit():
         user = Users.query.filter_by(name=form.name.data).first()
         if user is None:
-            user = Users(name=form.name.data, password=form.password.data)
+            # Hash the password
+            hashed_pw = generate_password_hash(form.password_hash.data, "sha256")
+            user = Users(name=form.name.data, password_hash=hashed_pw)
             db.session.add(user)
             db.session.commit()
         name = form.name.data
+        
         form.name.data = ''
+        form.password_hash.data = ''
+
+        flash("User Added Successfully!")
 
     return render_template('signup.html', form=form, name=name)
 
