@@ -29,19 +29,9 @@
 
 
 
-
--- CREATE TABLE admin_passwords(password TEXT);
-
--- ALTER TABLE admin_passwords ADD COLUMN password TEXT;
-
--- INSERT INTO admin_passwords (password)
--- VALUES ('0000');
-
-
 SELECT * FROM products;
 
-SELECT * FROM admin_passwords;
-
+SELECT * FROM users;
 
 
 

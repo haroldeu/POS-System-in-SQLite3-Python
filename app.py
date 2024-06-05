@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy as db
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, PasswordField
+from wtforms import SubmitField, PasswordField, StringField
 from wtforms.validators import DataRequired
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -17,8 +17,14 @@ app.config['SECRET_KEY'] = "this is my secret key"
 
 class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False, unique=True)
     # Do password stuff (input, hashing, etc)
-    password_hash = db.Column(db.String(128))
+    password_hash = db.Column(db.String(128), nullable=False)
+
+
+    # Create a String
+    def __repr__(self):
+        return '<Name %r>' % self.name
 
     @property
     def password(self):
@@ -212,31 +218,6 @@ def unarchive_product():
     # Redirect or respond as necessary
     return jsonify({'success': 'Product has been unarchived'}), 200
 
-@app.route('/admin_authentication', methods=['GET', 'POST'])
-def admin_authentication():
-    if request.method == 'POST':
-        conn = sqlite3.connect('instance/thesis.db')
-        cursor = conn.cursor()
-
-        password = request.form['password']
-
-        query = "SELECT password FROM admin_passwords where password='"+password+"'"
-
-        print(password)
-
-        cursor.execute(query)
-
-        results = cursor.fetchall()
-
-        if len(results) == 0:
-            print("Please enter a valid password.")
-            return redirect(url_for('index'))
-        else:
-            return redirect(url_for('admin'))
-
-    return render_template("admin-authentication.html")
-
-
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
@@ -247,15 +228,40 @@ def get_db():
 
     return all_data
 
-# Create a Form Class
-class PasswordForm(FlaskForm):
+
+# Create a Form Class for Signup
+class SignUpForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()], render_kw={"placeholder": "Name"})
+    password = PasswordField("Password", validators=[DataRequired()], render_kw={"placeholder": "Password"})
+    submit = SubmitField("Sign Up")
+
+@app.route('/sign-up', methods=['GET', 'POST'])
+def sign_up():
+    name = None
+    form = SignUpForm()
+
+    if form.validate_on_submit():
+        user = Users.query.filter_by(name=form.name.data).first()
+        if user is None:
+            user = Users(name=form.name.data, password=form.password.data)
+            db.session.add(user)
+            db.session.commit()
+        name = form.name.data
+        form.name.data = ''
+
+    return render_template('signup.html', form=form, name=name)
+
+
+# Create a Form Class for Login 
+class LoginForm(FlaskForm):
     password = PasswordField("Password", render_kw={"placeholder": "Enter your password"})
     submit = SubmitField("Login")
+
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
     password = None
-    form = PasswordForm()
+    form = LoginForm()
 
     if request.form.get('admin'):
         form.password.validators.append(validator.DataRequired())
