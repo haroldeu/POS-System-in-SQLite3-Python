@@ -2,12 +2,25 @@ from flask import Flask, render_template, url_for, request, redirect, jsonify, g
 import sqlite3, os
 from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy as db
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///thesis.db'
 db = SQLAlchemy(app)
+app.config['SECRET_KEY'] = "this is my secret key"
 
+class Users(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    # Do password stuff (input, hashing, etc)
+    password_hash = db.Column(db.String(128))
+
+    # @property
+    # def password(self):
+    #     raise AttributeError
 
 class Products(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -221,12 +234,20 @@ def get_db():
         db = g._database = sqlite3.connect('instance/thesis.db')
         cursor = db.cursor()
         cursor.execute("SELECT * FROM products")
-        all_data = cursor.fetchall()
+        all_data = cursor.fetchall() 
 
     return all_data
 
+# Create a Form Class
+class PasswordForm(FlaskForm):
+    password = StringField("Password", validators=[DataRequired()])
+    submit = SubmitField("Submit")
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    password = 
 
+    return render_template("login.html")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
