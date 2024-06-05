@@ -272,7 +272,7 @@ def load_user(user_id):
 
 # Create a Form Class for Login 
 class LoginForm(FlaskForm):
-    password = PasswordField("Password", render_kw={"placeholder": "Enter your password"})
+    password = PasswordField("Password", validators=[DataRequired()], render_kw={"placeholder": "Enter your password"})
     submit = SubmitField("Login as Admin")
 
 
