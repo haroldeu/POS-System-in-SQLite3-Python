@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+  </head>
+  <style>
+    body {
+      background-color: #f5f5f6;
+      background-image: url("../static/images/bg.png");
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: right bottom;
+      background-size: 50% 100%;
+    }
+    .login-box {
+      position: absolute;
+      top: 50%;
+      left: 30%;
+      transform: translate(-50%, -50%);
+      width: 35%;
+      background: #f5f5f6;
+      color: #000;
+      border-radius: 10px;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #000;
+    }
+    .type-images {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+    }
+    .type {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #000;
+      cursor: pointer;
+      position: relative;
+    }
+    .type img {
+      width: 13vw;
+      height: 25vh;
+    }
+    .type.active {
+      border: 2px solid #5f264a;
+    }
+    .type.active::after {
+      content: "✓";
+      position: absolute;
+      background-color: #5f264a;
+      border-radius: 50%;
+      bottom: -5px;
+      right: -8px;
+      padding: 0 10px;
+      font-size: 24px;
+      color: white;
+    }
+    p {
+      text-align: center;
+      color: #000;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      width: 80%;
+      margin: 0 auto;
+    }
+    input[type="password"],
+    input[type="submit"] {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid rgb(64, 64, 64);
+      width: 100%;
+    }
+
+    input[type="submit"] {
+      background-color: #5f264a;
+      color: white;
+      cursor: pointer;
+    }
+    .signup-link {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+  <body>
+    <div class="login-box">
+      <h2>Choose Account Type</h2>
+      <div class="type-images">
+        <div class="admin type">
+          <img src="../static/images/administrator.png" alt="Admin" />
+          <p>Admin</p>
+        </div>
+        <div class="cashier type">
+          <img src="../static/images/clerk.png" alt="Cashier" />
+          <p>Cashier</p>
+        </div>
+      </div>
+      <p class="admin-text hidden">
+        Hello Admin! <br />
+        Please Fill out the form to get started
+      </p>
+      <p class="cashier-text hidden">
+        Hello Cashier! <br />
+        Click the login button get started
+      </p>
+      <form class="hidden">
+        <input
+          type="password"
+          placeholder="Enter your password"
+          required
+          class="hidden"
+        />
+        <input type="submit" value="Login" class="hidden" />
+      </form>
+      <p class="signup-link">Don't have an account? <a href="#">Sign up</a></p>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var types = document.querySelectorAll(".type");
+        var adminText = document.querySelector(".admin-text");
+        var cashierText = document.querySelector(".cashier-text");
+        var passwordInput = document.querySelector('input[type="password"]');
+        var submitButton = document.querySelector('input[type="submit"]');
+        var form = document.querySelector("form");
+
+        types.forEach(function (type) {
+          type.addEventListener("click", function () {
+            types.forEach((t) => t.classList.remove("active"));
+            type.classList.add("active");
+
+            adminText.classList.add("hidden");
+            cashierText.classList.add("hidden");
+            passwordInput.classList.add("hidden");
+            submitButton.classList.add("hidden");
+            form.classList.add("hidden");
+
+            if (type.classList.contains("admin")) {
+              adminText.classList.remove("hidden");
+              passwordInput.classList.remove("hidden");
+              submitButton.classList.remove("hidden");
+              form.classList.remove("hidden");
+            } else if (type.classList.contains("cashier")) {
+              cashierText.classList.remove("hidden");
+              submitButton.classList.remove("hidden");
+              form.classList.remove("hidden");
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
