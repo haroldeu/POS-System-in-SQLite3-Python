@@ -207,4 +207,48 @@
   <script src="{{ url_for('static', filename='js/keyboard-initializer.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    // Virtual keyboard
+    $(document).ready(function () {
+      // Show the virtual keyboard when any input field is focused
+      $("input").on("focus", function () {
+        if ($(this).attr("type") !== "submit") {
+          $(".virtual-keyboard").show();
+        }
+      });
+
+      // Hide the virtual keyboard when clicking outside
+      $(document).on("click", function (event) {
+        if (!$(event.target).closest(".virtual-keyboard, input").length) {
+          $(".virtual-keyboard").hide();
+        }
+      });
+    });
+
+    // Search table function
+    $(document).ready(function () {
+      // Function to simulate typing into the search input
+      function typeVirtualKeyboardKey(inputSelector) {
+        $(inputSelector).trigger("input");
+      }
+
+      // Attach the function to all keys of the virtual keyboard
+      $(".key").on("mousedown", function () {
+        typeVirtualKeyboardKey("#search-table2", $(this).text());
+      });
+
+      // Search input function for archived page
+      $("#search-table2").on("input", function () {
+        var searchQuery = $(this).val().toLowerCase();
+        $("#archive .table tbody tr").each(function () {
+          var itemName = $(this).find("td:nth-child(2)").text().toLowerCase();
+          if (itemName.startsWith(searchQuery)) {
+            $(this).css("display", "");
+          } else {
+            $(this).css("display", "none");
+          }
+        });
+      });
+    });
+  </script>
 </html>
