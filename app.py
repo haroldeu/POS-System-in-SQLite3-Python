@@ -231,16 +231,6 @@ def unarchive_product():
     # Redirect or respond as necessary
     return jsonify({'success': 'Product has been unarchived'}), 200
 
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect('instance/thesis.db')
-        cursor = db.cursor()
-        cursor.execute("SELECT * FROM products")
-        all_data = cursor.fetchall() 
-
-    return all_data
-
 
 # Admin Authentication
 # Create a Form Class for Signup
@@ -273,11 +263,9 @@ def login():
             login_user(user)
             return redirect(url_for('admin'))
         elif user is None:
-            #flash("User doesn't exist.")
-            print("User doesn't exist.")
+            flash("User doesn't exist.")
         else:
-            print("Wrong Password! Try again.")
-            #flash("Wrong Password! Try again.")
+            flash("Wrong Password! Try again.")
             
 
     if signupForm.validate_on_submit():
