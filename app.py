@@ -63,7 +63,7 @@ with app.app_context():
 @app.route('/cart')
 def cart():
     # Connect to the Database
-    products = Products.query.all()
+    products = Products.query.order_by(Products.product_name).all()
 
     return render_template("index.html", products=products)
 
@@ -72,7 +72,7 @@ def cart():
 @login_required
 def admin():
     # Connect to the Database
-    products = Products.query.all()
+    products = Products.query.order_by(Products.product_name).all()
 
     our_users = Users.query.order_by(Users.id).all()
 
@@ -83,7 +83,7 @@ def admin():
 @app.route('/archived_products')
 def archived_products():
     # Connect to the Database
-    products = Products.query.all()
+    products = Products.query.order_by(Products.product_name).all()
 
     return render_template("archive-wrapper.html", products=products)
 

@@ -258,4 +258,21 @@
   'keyboard.html' %}
   <script src="{{ url_for('static', filename='js/keyboard-handler.js') }}"></script>
   <script src="{{ url_for('static', filename='js/keyboard-initializer.js') }}"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Get the elements from the DOM
+      const addBtn = document.querySelector(".add-btn");
+      const closeBtn = document.getElementById("close-btn");
+
+      // Event listener for addBtn click
+      addBtn.addEventListener("click", function () {
+        $("#popupContainer").show();
+      });
+
+      // Event listener for closeBtn click
+      closeBtn.addEventListener("click", function () {
+        $("#popupContainer").hide();
+      });
+    });
+  </script>
 </html>

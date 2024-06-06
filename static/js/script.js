@@ -28,40 +28,9 @@ document.querySelector(".hamburger").addEventListener("click", function () {
 // Wait until the HTML document is fully loaded
 document.addEventListener("DOMContentLoaded", function () {
   // Get the elements from the DOM
-  const addBtn = document.querySelector(".add-btn");
-  const closeBtn = document.getElementById("close-btn");
-  const addContainer = document.getElementById("popupContainer");
   const changePopup = document.querySelector(".cart-modal");
   const changeOpen = document.querySelector(".cart-open");
   const changeClose = document.querySelector(".cart-close");
-
-  // Function to toggle display of elements
-  const toggleDisplay = (element, displayStyle) => {
-    element.style.display = displayStyle;
-  };
-
-  // Event listener for adminToggle change
-  adminToggle.addEventListener("click", function () {
-    if (adminToggle.checked) {
-      // toggleDisplay(container, "none");
-      // toggleDisplay(adminPage, "block");
-      window.location.href = "/admin_authentication";
-    } /* else {
-      toggleDisplay(container, "grid");
-      toggleDisplay(adminPage, "none");
-    } */
-  });
-
-  // Event listener for addBtn click
-  addBtn.addEventListener("click", function () {
-    toggleDisplay(addContainer, "block");
-    //$("#popupContainer").show();
-  });
-
-  // Event listener for closeBtn click
-  closeBtn.addEventListener("click", function () {
-    toggleDisplay(addContainer, "none");
-  });
 
   archiveBtn.addEventListener("click", function () {
     window.location.href = "/archived_products";
