@@ -17,7 +17,8 @@ app.config['SECRET_KEY'] = "this is my secret key"
 
 class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), nullable=False, unique=True)
+    name = db.Column(db.String(200), nullable=False)
+    username = db.Column(db.String, nullable=False, unique=True)
     # Do password stuff (input, hashing, etc)
     password_hash = db.Column(db.String(128), nullable=False)
 
@@ -234,31 +235,10 @@ def get_db():
 # Create a Form Class for Signup
 class SignUpForm(FlaskForm):
     name = StringField("Name: ", validators=[DataRequired()], render_kw={"placeholder": "Name"})
+    username = StringField("Username: ", validators=[DataRequired()], render_kw={"placeholder": "Username"})
     password_hash = PasswordField("Password: ", validators=[DataRequired(), EqualTo('password_hash2', message='Passwords must match!')], render_kw={"placeholder": "Password"})
     password_hash2 = PasswordField("Confirm Password: ", validators=[DataRequired()], render_kw={"placeholder": "Confirm Password"})
-    submit = SubmitField("Submit")
-
-@app.route('/sign_up', methods=['GET', 'POST'])
-def sign_up():
-    name = None
-    form = SignUpForm()
-
-    if form.validate_on_submit():
-        user = Users.query.filter_by(name=form.name.data).first()
-        if user is None:
-            # Hash the password
-            hashed_pw = generate_password_hash(form.password_hash.data)
-            user = Users(name=form.name.data, password_hash=hashed_pw)
-            db.session.add(user)
-            db.session.commit()
-        name = form.name.data
-        
-        form.name.data = ''
-        form.password_hash.data = ''
-
-        #### flash("User Added Successfully!")
-
-    return render_template('sign-up.html', form=form, name=name)
+    submit = SubmitField("Sign Up")
 
 # Flask Login Stuff
 login_manager = LoginManager()
@@ -269,21 +249,24 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     return Users.query.get(int(user_id))
 
-
 # Create a Form Class for Login 
 class LoginForm(FlaskForm):
-    password = PasswordField("Password", validators=[DataRequired()], render_kw={"placeholder": "Enter your password"})
+    username = StringField(validators=[DataRequired()], render_kw={"placeholder": "Username"})
+    password = PasswordField(validators=[DataRequired()], render_kw={"placeholder": "Password"})
     submit = SubmitField("Login as Admin")
 
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
+    name = None
+    username = None
     password = None
-    form = LoginForm()
+    loginForm = LoginForm()
+    signupForm = SignUpForm()
 
-    if form.validate_on_submit():
-        user = Users.query.filter_by(name='Kerokiel Madeja').first()
-        if check_password_hash(user.password_hash, form.password.data):
+    if loginForm.validate_on_submit():
+        user = Users.query.filter_by(name=loginForm.name.data).first()
+        if user and check_password_hash(user.password_hash, loginForm.password.data):
             login_user(user)
             return redirect(url_for('admin'))
         else:
@@ -293,7 +276,21 @@ def login():
         flash("User doesn't exist.")
         print("User doesn't exist.")
 
-    return render_template("flask-login.html", password=password, form=form)
+    if signupForm.validate_on_submit():
+        user = Users.query.filter_by(name=signupForm.name.data).first()
+        if user is None:
+            # Hash the password
+            hashed_pw = generate_password_hash(signupForm.password_hash.data)
+            user = Users(name=signupForm.name.data, username=signupForm.username.data, password_hash=hashed_pw)
+            db.session.add(user)
+            db.session.commit()
+        name = signupForm.name.data
+        
+        signupForm.name.data = ''
+        signupForm.username.data = ''
+        signupForm.password_hash.data = ''
+
+    return render_template("flask-login.html", name=name, username=username, password=password, loginForm = loginForm, signupForm = signupForm )
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
