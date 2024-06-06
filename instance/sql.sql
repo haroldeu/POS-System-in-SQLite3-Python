@@ -31,13 +31,24 @@
 
 -- CREATE TABLE IF NOT EXISTS users (
 --     id INTEGER PRIMARY KEY AUTOINCREMENT,
+--     username TEXT,
 --     name TEXT NOT NULL,
 --     password_hash TEXT NOT NULL
 -- );
 
+-- create table temp;
+
+-- INSERT INTO users (id, name, password_hash)
+-- SELECT id, name, password_hash
+-- FROM temp;
+
+
+-- UPDATE users SET username='kero' WHERE id=2;
+
 -- SELECT * FROM products;
 
 SELECT * FROM users;
+
 
 
 
