@@ -212,27 +212,28 @@
             </tr>
           </thead>
           <tbody>
-            {% for product in products %} {% if product[5] == "True" %}
+            {% for product in products %} {% if product.availability == "True"
+            %}
             <tr>
               <td>
                 <img
-                  src="static/{{ product[1] }}"
+                  src="static/{{ product.product_image }}"
                   alt="Product Image"
                   class="product-image table-image"
                 />
               </td>
-              <td>{{ product[2] }}</td>
-              <td>₱{{ product[3] }}</td>
-              <td>{{ product[4] }}</td>
+              <td>{{ product.product_name }}</td>
+              <td>₱{{ product.product_price }}</td>
+              <td>{{ product.product_type }}</td>
               <td>
                 <div class="admin-actions">
-                  <button class="update-btn buttons" data-id="{{ product[0] }}">
+                  <button class="update-btn buttons" data-id="{{ product.id }}">
                     Update
                   </button>
 
                   <button
                     class="archive-btn buttons"
-                    data-id="{{ product[0] }}"
+                    data-id="{{ product.id }}"
                   >
                     Archive
                   </button>

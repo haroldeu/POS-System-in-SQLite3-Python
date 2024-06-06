@@ -161,29 +161,30 @@
             </tr>
           </thead>
           <tbody>
-            {% for product in products %} {% if product[5] != "True" %}
+            {% for product in products %} {% if product.availability != "True"
+            %}
             <tr>
               <td>
                 <img
-                  src="static/{{ product[1] }}"
+                  src="static/{{ product.product_image }}"
                   alt="Product Image"
                   class="product-image table-image"
                 />
               </td>
-              <td>{{ product[2] }}</td>
-              <td>₱{{ product[3] }}</td>
-              <td>{{ product[4] }}</td>
+              <td>{{ product.product_name }}</td>
+              <td>₱{{ product.product_price }}</td>
+              <td>{{ product.product_type }}</td>
               <td>
                 <div class="archive-actions">
                   <button
                     class="unarchive-btn buttons"
-                    data-id="{{ product[0] }}"
+                    data-id="{{ product.id }}"
                   >
                     Unarchive
                   </button>
                   <button
                     class="delete-btn"
-                    onclick="deleteRecord('{{ product[0] }}')"
+                    onclick="deleteRecord('{{ product.id }}')"
                   >
                     <img
                       src="{{ url_for('static', filename='images/delete.png') }}"
@@ -200,10 +201,10 @@
       </div>
     </div>
   </body>
-    {% include 'keyboard.html' %}
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/keyboard-handler.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/keyboard-initializer.js') }}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  {% include 'keyboard.html' %}
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/keyboard-handler.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/keyboard-initializer.js') }}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </html>
