@@ -169,31 +169,10 @@ $(document).ready(function () {
     // Send a POST request to the Flask route
     $.post("/archive_product", { productId: productId }, function (response) {
       console.log(response.success);
-      alert("Product has been archived");
+      alert(response.success);
       window.location.href = "/admin";
     });
   });
-});
-
-//Unarchive function
-$(document).ready(function () {
-  $(".unarchive-btn").addEventListener(
-    click(function () {
-      var productId = $(this).data("id");
-
-      // Send a POST request to the Flask route
-      $.post(
-        "/unarchive_product",
-        { productId: productId },
-        function (response) {
-          alert(response);
-          window.location.href = "/archived_products";
-        }
-      ).fail(function (textStatus, errorThrown) {
-        console.log("AJAX call failed: ", textStatus, errorThrown);
-      });
-    })
-  );
 });
 
 // Submit Add to Cart
