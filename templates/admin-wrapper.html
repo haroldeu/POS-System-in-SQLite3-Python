@@ -3,7 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Admin Page</title>
+    <style>
+      .hamburger img {
+        position: absolute;
+        right: 25px;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+      }
+
+      .hamburger .close-icon {
+        display: none;
+      }
+      .dropdown {
+        display: none;
+        position: absolute;
+        top: 40px;
+        right: 20px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        line-height: 25px;
+        padding: 15px;
+        z-index: 1;
+      }
+
+      .dropdown a {
+        display: block;
+        color: black;
+        text-decoration: none;
+      }
+    </style>
   </head>
   <body>
     <style>
@@ -133,6 +164,18 @@
     </style>
 
     <div class="admin-wrapper" id="admin">
+      <div class="hamburger">
+        <img
+          src="../static/images/hamburger.png"
+          alt="menu"
+          class="hamburger-icon"
+        />
+        <img src="../static/images/close.png" alt="close" class="close-icon" />
+      </div>
+      <div class="dropdown">
+        <a href="/logout">Logout</a>
+        <a href="">Help</a>
+      </div>
       <nav>
         <h1>Item Information</h1>
         <div class="nav-optn">
@@ -202,6 +245,10 @@
       </div>
       <button class="add-btn">Add Item</button>
     </div>
+    {% for our_users in our_users %} {{our_users.name}} <br />
+    {% endfor %}
+    <div>Logged in as: {{ current_user.name }}</div>
+    <br />
   </body>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

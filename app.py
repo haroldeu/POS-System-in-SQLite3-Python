@@ -15,10 +15,20 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///thesis.db'
 db = SQLAlchemy(app)
 app.config['SECRET_KEY'] = "this is my secret key"
 
+
+# Flask Login Stuff
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.get(int(user_id))
+
 class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
-    username = db.Column(db.String, nullable=False, unique=True)
+    username = db.Column(db.String(200), nullable=False, unique=True)
     # Do password stuff (input, hashing, etc)
     password_hash = db.Column(db.String(128), nullable=False)
 
@@ -51,29 +61,31 @@ with app.app_context():
 
 # Cart Page of the System
 @app.route('/cart')
-def index():
+def cart():
     # Connect to the Database
-    data = get_db()
+    products = Products.query.all()
 
-    return render_template("index.html", products = data)
+    return render_template("index.html", products=products)
 
 # Admin Page of the System
-@app.route('/admin')
+@app.route('/admin', methods=['GET', 'POST'])
 @login_required
 def admin():
     # Connect to the Database
-    data = get_db()
+    products = Products.query.all()
 
-    return render_template("admin-wrapper.html", products = data)
+    our_users = Users.query.order_by(Users.id).all()
+
+    return render_template("admin-wrapper.html", products=products, our_users=our_users, current_user=current_user)
 
 
 # Archived Page of the System
 @app.route('/archived_products')
 def archived_products():
     # Connect to the Database
-    data = get_db()
+    products = Products.query.all()
 
-    return render_template("archive-wrapper.html", products = data)
+    return render_template("archive-wrapper.html", products=products)
 
 
 
@@ -231,7 +243,6 @@ def get_db():
 
 
 # Admin Authentication
-
 # Create a Form Class for Signup
 class SignUpForm(FlaskForm):
     name = StringField("Name: ", validators=[DataRequired()], render_kw={"placeholder": "Name"})
@@ -240,19 +251,10 @@ class SignUpForm(FlaskForm):
     password_hash2 = PasswordField("Confirm Password: ", validators=[DataRequired()], render_kw={"placeholder": "Confirm Password"})
     submit = SubmitField("Sign Up")
 
-# Flask Login Stuff
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
-
-@login_manager.user_loader
-def load_user(user_id):
-    return Users.query.get(int(user_id))
-
 # Create a Form Class for Login 
 class LoginForm(FlaskForm):
-    username = StringField(validators=[DataRequired()], render_kw={"placeholder": "Username"})
-    password = PasswordField(validators=[DataRequired()], render_kw={"placeholder": "Password"})
+    username = StringField("Username: ",validators=[DataRequired()], render_kw={"placeholder": "Username"})
+    password = PasswordField("Password: ",validators=[DataRequired()], render_kw={"placeholder": "Password"})
     submit = SubmitField("Login as Admin")
 
 
@@ -263,18 +265,20 @@ def login():
     password = None
     loginForm = LoginForm()
     signupForm = SignUpForm()
+    
 
     if loginForm.validate_on_submit():
-        user = Users.query.filter_by(name=loginForm.name.data).first()
+        user = Users.query.filter_by(username=loginForm.username.data).first()
         if user and check_password_hash(user.password_hash, loginForm.password.data):
             login_user(user)
             return redirect(url_for('admin'))
+        elif user is None:
+            #flash("User doesn't exist.")
+            print("User doesn't exist.")
         else:
-            flash("Wrong Password! Try again.")
             print("Wrong Password! Try again.")
-    else:
-        flash("User doesn't exist.")
-        print("User doesn't exist.")
+            #flash("Wrong Password! Try again.")
+            
 
     if signupForm.validate_on_submit():
         user = Users.query.filter_by(name=signupForm.name.data).first()
@@ -290,7 +294,14 @@ def login():
         signupForm.username.data = ''
         signupForm.password_hash.data = ''
 
+    
     return render_template("flask-login.html", name=name, username=username, password=password, loginForm = loginForm, signupForm = signupForm)
+
+@app.route('/logout', methods=['GET', 'POST'])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)

@@ -169,7 +169,7 @@
             Hello Cashier! <br />
             Click the button to get started
           </p>
-          <form id="adminForm" class="hidden">
+          <form id="adminForm" class="hidden" method="POST">
             {{ loginForm.hidden_tag() }} {{
             loginForm.username(class="input-username") }} {{
             loginForm.password(class="input-password") }} {{ loginForm.submit
@@ -187,7 +187,7 @@
         </div>
         <div class="signup-box">
           <h2>Sign Up</h2>
-          <form>
+          <form method="POST" action="/">
             {{ signupForm.hidden_tag() }} {{
             signupForm.name(class="input-field") }} {{
             signupForm.username(class="input-field") }} {{
