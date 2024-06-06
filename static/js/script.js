@@ -32,14 +32,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const changeOpen = document.querySelector(".cart-open");
   const changeClose = document.querySelector(".cart-close");
 
-  archiveBtn.addEventListener("click", function () {
-    window.location.href = "/archived_products";
-  });
-
-  closeArchive.addEventListener("click", function () {
-    window.location.href = "/admin";
-  });
-
   changeOpen.addEventListener("click", function () {
     if (document.querySelector(".total-price").textContent == "₱0.00") {
       alert("Please select an item.");
