@@ -290,7 +290,7 @@ def login():
         signupForm.username.data = ''
         signupForm.password_hash.data = ''
 
-    return render_template("flask-login.html", name=name, username=username, password=password, loginForm = loginForm, signupForm = signupForm )
+    return render_template("flask-login.html", name=name, username=username, password=password, loginForm = loginForm, signupForm = signupForm)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)

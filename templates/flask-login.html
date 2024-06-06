@@ -111,14 +111,17 @@
       width: 100%;
     }
 
+    .cashier-login-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     button {
       padding: 10px;
       border-radius: 5px;
       border: 1px solid #ccc;
       width: 70%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
 
     input[type="submit"],
@@ -173,9 +176,11 @@
             loginForm.password(class="input-password") }} {{ loginForm.submit
             (class="login-button") }}
           </form>
-          <button type="button" id="cashierButton" class="hidden">
-            Access as Cashier
-          </button>
+          <div class="cashier-login-btn">
+            <button type="button" id="cashierButton" class="hidden">
+              Access as Cashier
+            </button>
+          </div>
           <p class="signup-link">
             Don't have an account?
             <a href="#">Sign up</a>
