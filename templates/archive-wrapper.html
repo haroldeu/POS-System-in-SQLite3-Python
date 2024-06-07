@@ -3,10 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Archive Page</title>
   </head>
   <body>
     <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .archive-wrapper {
+        height: 80vh;
+        padding: 0px 15px;
+      }
+
       .archive-wrapper .close {
         position: absolute;
         margin-top: -8px;
@@ -124,11 +136,6 @@
         width: 35px;
       }
     </style>
-
-    <head>
-      <title>Archived Products</title>
-    </head>
-
     <div class="archive-wrapper" id="archive">
       <a href="/admin">
         <span class="close">&times;</span>
@@ -200,74 +207,75 @@
         </table>
       </div>
     </div>
+
+    {% include 'keyboard.html' %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/keyboard-handler.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/keyboard-initializer.js') }}"></script>
+    <script>
+      // Virtual keyboard
+      $(document).ready(function () {
+        // Show the virtual keyboard when any input field is focused
+        $("input").on("focus", function () {
+          if ($(this).attr("type") !== "submit") {
+            $(".virtual-keyboard").show();
+          }
+        });
+
+        // Hide the virtual keyboard when clicking outside
+        $(document).on("click", function (event) {
+          if (!$(event.target).closest(".virtual-keyboard, input").length) {
+            $(".virtual-keyboard").hide();
+          }
+        });
+      });
+
+      // Search table function
+      $(document).ready(function () {
+        // Function to simulate typing into the search input
+        function typeVirtualKeyboardKey(inputSelector) {
+          $(inputSelector).trigger("input");
+        }
+
+        // Attach the function to all keys of the virtual keyboard
+        $(".key").on("mousedown", function () {
+          typeVirtualKeyboardKey("#search-table2", $(this).text());
+        });
+
+        // Search input function for archived page
+        $("#search-table2").on("input", function () {
+          var searchQuery = $(this).val().toLowerCase();
+          $("#archive .table tbody tr").each(function () {
+            var itemName = $(this).find("td:nth-child(2)").text().toLowerCase();
+            if (itemName.startsWith(searchQuery)) {
+              $(this).css("display", "");
+            } else {
+              $(this).css("display", "none");
+            }
+          });
+        });
+      });
+
+      //Unarchive function
+      $(document).ready(function () {
+        $(".unarchive-btn").click(function () {
+          var productId = $(this).data("id");
+
+          // Send a POST request to the Flask route
+          $.post(
+            "/unarchive_product",
+            { productId: productId },
+            function (response) {
+              alert(response.success);
+              window.location.href = "/archived_products";
+            }
+          ).fail(function (textStatus, errorThrown) {
+            console.log("AJAX call failed: ", textStatus, errorThrown);
+          });
+        });
+      });
+    </script>
   </body>
-  {% include 'keyboard.html' %}
-  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/keyboard-handler.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/keyboard-initializer.js') }}"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-    // Virtual keyboard
-    $(document).ready(function () {
-      // Show the virtual keyboard when any input field is focused
-      $("input").on("focus", function () {
-        if ($(this).attr("type") !== "submit") {
-          $(".virtual-keyboard").show();
-        }
-      });
-
-      // Hide the virtual keyboard when clicking outside
-      $(document).on("click", function (event) {
-        if (!$(event.target).closest(".virtual-keyboard, input").length) {
-          $(".virtual-keyboard").hide();
-        }
-      });
-    });
-
-    // Search table function
-    $(document).ready(function () {
-      // Function to simulate typing into the search input
-      function typeVirtualKeyboardKey(inputSelector) {
-        $(inputSelector).trigger("input");
-      }
-
-      // Attach the function to all keys of the virtual keyboard
-      $(".key").on("mousedown", function () {
-        typeVirtualKeyboardKey("#search-table2", $(this).text());
-      });
-
-      // Search input function for archived page
-      $("#search-table2").on("input", function () {
-        var searchQuery = $(this).val().toLowerCase();
-        $("#archive .table tbody tr").each(function () {
-          var itemName = $(this).find("td:nth-child(2)").text().toLowerCase();
-          if (itemName.startsWith(searchQuery)) {
-            $(this).css("display", "");
-          } else {
-            $(this).css("display", "none");
-          }
-        });
-      });
-    });
-
-    //Unarchive function
-    $(document).ready(function () {
-      $(".unarchive-btn").click(function () {
-        var productId = $(this).data("id");
-
-        // Send a POST request to the Flask route
-        $.post(
-          "/unarchive_product",
-          { productId: productId },
-          function (response) {
-            alert(response.success);
-            window.location.href = "/archived_products";
-          }
-        ).fail(function (textStatus, errorThrown) {
-          console.log("AJAX call failed: ", textStatus, errorThrown);
-        });
-      });
-    });
-  </script>
 </html>
