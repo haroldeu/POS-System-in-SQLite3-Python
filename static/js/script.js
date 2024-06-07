@@ -25,25 +25,6 @@ document.querySelector(".hamburger").addEventListener("click", function () {
   }
 });
 
-// Wait until the HTML document is fully loaded
-document.addEventListener("DOMContentLoaded", function () {
-  // Get the elements from the DOM
-  const changePopup = document.querySelector(".cart-modal");
-  const changeOpen = document.querySelector(".cart-open");
-  const changeClose = document.querySelector(".cart-close");
-
-  changeOpen.addEventListener("click", function () {
-    if (document.querySelector(".total-price").textContent == "₱0.00") {
-      alert("Please select an item.");
-      return;
-    }
-    toggleDisplay(changePopup, "block");
-  });
-  changeClose.addEventListener("click", function () {
-    toggleDisplay(changePopup, "none");
-  });
-});
-
 //Update price function
 $(document).ready(function () {
   $(".update-btn").click(function () {
@@ -166,86 +147,6 @@ $(document).ready(function () {
     });
   });
 });
-
-// Submit Add to Cart
-document
-  .getElementById("submit-add-to-cart")
-  .addEventListener("click", function () {
-    // Close the pop-up
-    $(".modal").hide();
-
-    // Fetch data from elements
-    var productName = document.querySelector(".productName").textContent;
-    var productPrice = document.querySelector(".productPrice").textContent;
-    var productWeightGrams = document.getElementById("result").textContent;
-
-    // Check if the product has been weighed (weight is not empty and greater than 0)
-    if (!productWeightGrams || parseFloat(productWeightGrams) <= 0) {
-      alert("Please weigh the product before adding to cart.");
-      return; // Exit the function if no weight is provided
-    }
-
-    // Convert grams to kilograms and calculate total price
-    var weightKg = parseFloat(productWeightGrams);
-    var pricePerKg = parseFloat(productPrice.replace(/[^0-9.-]+/g, "")); // Extract numeric value from price string
-    var totalPriceForProduct = (pricePerKg * weightKg).toFixed(2); // Calculate total price based on weight and price per kg
-
-    // Format weight in kilograms to two decimal places for display
-    var weightKgFormatted = `${weightKg.toFixed(2)}kg`;
-
-    // Get the container where the receipts are being added
-    var container = document.getElementById("receipts-container");
-    var existingProduct = Array.from(container.children).find((child) => {
-      const productNameElement = child.querySelector(".product-name");
-      return productNameElement
-        ? productNameElement.textContent === productName
-        : false;
-    });
-
-    if (existingProduct) {
-      // Update existing product
-      var existingWeight = parseFloat(
-        existingProduct
-          .querySelector(".product-weight")
-          .textContent.replace(/kg/, "")
-      );
-      var newWeight = existingWeight + weightKg;
-      existingProduct.querySelector(
-        ".product-weight"
-      ).textContent = `${newWeight.toFixed(2)}kg`;
-      var newTotalPrice = (pricePerKg * newWeight).toFixed(2);
-      existingProduct.querySelector(
-        ".total-product-price"
-      ).textContent = `₱${newTotalPrice}`;
-    } else {
-      // Create a new div element for the receipt if product does not exist
-      var newReceipt = document.createElement("div");
-      newReceipt.className = "receipt";
-      newReceipt.innerHTML = `
-            <div class="item">
-                <h2 class="product-name">${productName}</h2>
-            </div>
-            <div class="item-description">
-                <span class="product-weight">${weightKgFormatted}</span>
-                <span>@</span>
-                <span class="product-price">₱${pricePerKg}/kg</span>
-                <span class="total-product-price">₱${totalPriceForProduct}</span>
-            </div>
-        `;
-      container.append(newReceipt);
-    }
-
-    // Update the total price
-    var totalPriceSpans = document.querySelectorAll(".total-price");
-    if (totalPriceSpans.length > 0) {
-      // Parse the current total from the first total-price element
-      currentTotal = parseFloat(
-        totalPriceSpans[0].textContent.replace(/[^0-9.-]+/g, "")
-      );
-    }
-    var newTotal = currentTotal + parseFloat(totalPriceForProduct);
-    updateTotalPrices(newTotal);
-  });
 
 /////////////////////////////////////////////////////////////////
 
@@ -393,66 +294,6 @@ document
     link.style.display = "none";
     document.body.appendChild(link);
     link.click();
+    window.location.reload();
     document.body.removeChild(link);
   });
-
-// // Printing the text file
-// const { exec } = require("child_process");
-
-/* function setPrinterPermissions(callback) {
-  exec("sudo chmod 777 /dev/usb/lp0", (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error setting permissions: ${error}`);
-      return callback(error);
-    }
-    if (stderr) {
-      console.error(`Permission stderr: ${stderr}`);
-    }
-    console.log("Permissions set to 777 successfully");
-    callback(null);
-  });
-}
-
-function printFile(filePath) {
-  const printCommand = `cat ${filePath} > /dev/usb/lp0`;
-  exec(printCommand, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error printing file: ${error}`);
-      return;
-    }
-    if (stderr) {
-      console.error(`Print stderr: ${stderr}`);
-    }
-    console.log(`File ${filePath} printed successfully`);
-  });
-} */
-
-// Printing the text file
-
-// function setPrinterPermissions(callback) {
-//   exec("sudo chmod 777 /dev/usb/lp0", (error, stdout, stderr) => {
-//     if (error) {
-//       console.error(`Error setting permissions: ${error}`);
-//       return callback(error);
-//     }
-//     if (stderr) {
-//       console.error(`Permission stderr: ${stderr}`);
-//     }
-//     console.log("Permissions set to 777 successfully");
-//     callback(null);
-//   });
-// }
-
-// function printFile(filePath) {
-//   const printCommand = `cat ${filePath} > /dev/usb/lp0`;
-//   exec(printCommand, (error, stdout, stderr) => {
-//     if (error) {
-//       console.error(`Error printing file: ${error}`);
-//       return;
-//     }
-//     if (stderr) {
-//       console.error(`Print stderr: ${stderr}`);
-//     }
-//     console.log(`File ${filePath} printed successfully`);
-//   });
-// }

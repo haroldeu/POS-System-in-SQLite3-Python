@@ -161,8 +161,29 @@
         id="moneyInput"
         placeholder="Enter amount of money you have..."
       />
-      <button type="submit" id="submit-add-to-cart">Submit</button>
+      <button type="submit" id="checkout-btn">Submit</button>
     </form>
     <p id="responseText"></p>
   </div>
 </div>
+
+<script>
+  // Wait until the HTML document is fully loaded
+  document.addEventListener("DOMContentLoaded", function () {
+    // Get the elements from the DOM
+    const changePopup = document.querySelector(".cart-modal");
+    const changeOpen = document.querySelector(".cart-open");
+    const changeClose = document.querySelector(".cart-close");
+
+    changeOpen.addEventListener("click", function () {
+      if (document.querySelector(".total-price").textContent == "₱0.00") {
+        alert("Please select an item.");
+        return;
+      }
+      $(".cart-modal").show();
+    });
+    changeClose.addEventListener("click", function () {
+      $(".cart-modal").hide();
+    });
+  });
+</script>
