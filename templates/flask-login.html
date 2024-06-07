@@ -145,6 +145,9 @@
     .hidden {
       display: none;
     }
+    .error {
+      color: red;
+    }
   </style>
   <body>
     <!-- {% if error_message %}
@@ -198,11 +201,35 @@
           <h2>Sign Up</h2>
           <form method="POST" action="/">
             {{ signupForm.hidden_tag() }} {{
-            signupForm.name(class="input-field") }} {{
-            signupForm.username(class="input-field") }} {{
-            signupForm.password_hash(class="input-field") }} {{
-            signupForm.password_hash2(class="input-field") }} {{
-            signupForm.submit(class="submit-btn") }}
+            signupForm.name(class="input-field") }}
+            <div>
+              {{ signupForm.username(class="input-field") }} {% if
+              signupForm.username.errors %}
+              <div class="error">{{ error }}</div>
+              {% endif %}
+            </div>
+
+            <!--  -->
+            <!--  -->
+
+            <div>
+              {{ signupForm.password_hash(class="input-field") }}
+              {% if signupForm.password_hash.errors %}
+                  {% for error in signupForm.password_hash.errors %}
+                      <div class="error">{{ error }}</div>
+                  {% endfor %}
+              {% endif %}
+          </div>
+          <div> {{
+            signupForm.password_hash2(class="input-field") }}
+              {% if signupForm.password_hash2.errors %}
+                  {% for error in form.password_hash2.errors %}
+                      <div class="error">{{ error }}</div>
+                  {% endfor %}
+              {% endif %}
+          </div>
+          <div>
+              {{  signupForm.submit(class="submit-btn") }}
           </form>
           {% if error_message_signup %}
           <p style="color: red">{{ error_message_signup }}</p>

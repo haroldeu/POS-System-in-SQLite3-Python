@@ -274,12 +274,13 @@ def login():
             user = Users.query.filter_by(name=signupForm.username.data).first()
             if user:
                 error_message_signup = "Username already exists."
-            if user is None:
+            elif user is None:
                 # Hash the password
                 hashed_pw = generate_password_hash(signupForm.password_hash.data)
                 user = Users(name=signupForm.name.data, username=signupForm.username.data, password_hash=hashed_pw)
                 db.session.add(user)
                 db.session.commit()
+            #elif signupForm.username.data
             
             name = signupForm.name.data
             
