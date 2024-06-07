@@ -133,7 +133,7 @@ def add_product_route():
     cursor.close()
     conn.close()
     
-    return redirect('/')
+    return redirect('/admin')
 
 # Edit Product Route
 @app.route('/edit', methods=['POST'])
