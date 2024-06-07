@@ -264,8 +264,10 @@ def login():
                 login_user(user)
                 return redirect(url_for('admin'))
             elif user is None:
+                print("User does not exist.")
                 error_message = "User does not exist."
             else:
+                print("Wrong Password! Try again.")
                 error_message = "Wrong Password! Try again."
 
 
