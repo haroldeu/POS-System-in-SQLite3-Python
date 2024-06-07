@@ -253,37 +253,38 @@ def login():
     name = None
     username = None
     password = None
+    error_message = None
     loginForm = LoginForm()
     signupForm = SignUpForm()
     
+    if request.method == 'POST':
+        if loginForm.validate_on_submit():
+            user = Users.query.filter_by(username=loginForm.username.data).first()
+            if user and check_password_hash(user.password_hash, loginForm.password.data):
+                login_user(user)
+                return redirect(url_for('admin'))
+            elif user is None:
+                error_message = "User does not exist."
+            else:
+                error_message = "Wrong Password! Try again."
 
-    if loginForm.validate_on_submit():
-        user = Users.query.filter_by(username=loginForm.username.data).first()
-        if user and check_password_hash(user.password_hash, loginForm.password.data):
-            login_user(user)
-            return redirect(url_for('admin'))
-        elif user is None:
-            flash("User doesn't exist.")
-        else:
-            flash("Wrong Password! Try again.")
+
+        elif signupForm.validate_on_submit():
+            user = Users.query.filter_by(name=signupForm.name.data).first()
+            if user is None:
+                # Hash the password
+                hashed_pw = generate_password_hash(signupForm.password_hash.data)
+                user = Users(name=signupForm.name.data, username=signupForm.username.data, password_hash=hashed_pw)
+                db.session.add(user)
+                db.session.commit()
+            name = signupForm.name.data
             
-
-    if signupForm.validate_on_submit():
-        user = Users.query.filter_by(name=signupForm.name.data).first()
-        if user is None:
-            # Hash the password
-            hashed_pw = generate_password_hash(signupForm.password_hash.data)
-            user = Users(name=signupForm.name.data, username=signupForm.username.data, password_hash=hashed_pw)
-            db.session.add(user)
-            db.session.commit()
-        name = signupForm.name.data
-        
-        signupForm.name.data = ''
-        signupForm.username.data = ''
-        signupForm.password_hash.data = ''
+            signupForm.name.data = ''
+            signupForm.username.data = ''
+            signupForm.password_hash.data = ''
 
     
-    return render_template("flask-login.html", name=name, username=username, password=password, loginForm = loginForm, signupForm = signupForm)
+    return render_template("flask-login.html", name=name, username=username, password=password, error_message=error_message, loginForm = loginForm, signupForm = signupForm)
 
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
