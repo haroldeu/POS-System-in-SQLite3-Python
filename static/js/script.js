@@ -6,23 +6,47 @@ function toggleUnderline(event) {
   event.target.classList.add("underline");
 }
 
-document.querySelector(".hamburger").addEventListener("click", function () {
-  var hamburgerIcon = document.querySelector(".hamburger-icon");
-  var closeIcon = document.querySelector(".close-icon");
-  var dropdwn = document.querySelector(".dropdown");
+document.addEventListener("DOMContentLoaded", function () {
+  const helpPopup = document.querySelector(".help-container");
+  const openHelp = document.querySelector(".help");
+  const closeHelp = document.querySelector(".help-close");
+  const helpContent = document.querySelector(".help-content");
+  const addtocartHelp = document.querySelector(".addtocart-help");
+  const checkouttHelp = document.querySelector(".checkout-help");
+  const searchtHelp = document.querySelector(".search-help");
+  const shoFVHelp = document.querySelector(".showFV-help");
+  const aMP4 = document.querySelector(".A-mp4");
+  const bMP4 = document.querySelector(".B-mp4");
+  const cMP4 = document.querySelector(".C-mp4");
+  const dMP4 = document.querySelector(".D-mp4");
+  const hamburgerIcon = document.querySelector(".hamburger-icon");
+  const closeIcon = document.querySelector(".close-icon");
+  const dropdwn = document.querySelector(".dropdown");
 
-  // Check which icon is currently visible
-  if (hamburgerIcon.style.display === "none") {
-    // Show hamburger icon, hide close icon
-    hamburgerIcon.style.display = "block";
-    closeIcon.style.display = "none";
-    dropdwn.style.display = "none";
-  } else {
-    // Show close icon, hide hamburger icon
+  //Help popup
+  openHelp.addEventListener("click", function () {
+    helpPopup.style.display = "block";
+  });
+
+  closeHelp.addEventListener("click", function () {
+    helpPopup.style.display = "none";
+  });
+
+  //Hambuger menu
+  hamburgerIcon.addEventListener("click", function () {
     hamburgerIcon.style.display = "none";
     closeIcon.style.display = "block";
     dropdwn.style.display = "block";
-  }
+  });
+
+  closeIcon.addEventListener("click", function () {
+    hamburgerIcon.style.display = "block";
+    closeIcon.style.display = "none";
+    dropdwn.style.display = "none";
+  });
+
+  //Show Videos
+  /////////////////////////////////
 });
 
 // Delete function

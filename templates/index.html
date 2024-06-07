@@ -23,14 +23,15 @@
       </div>
       <div class="dropdown">
         <a href="/check_login">Back to Admin Page</a>
-        <a href="">Help</a>
+        <p class="help" style="cursor: pointer">Help</p>
         <a href="/logout">Logout</a>
       </div>
     </nav>
     <div class="container">
       {% include 'cart-wrapper.html' %} {% include 'item-wrapper.html' %}
     </div>
-    {% include 'keyboard.html' %} {% include 'unit-selected.html' %}
+    {% include 'keyboard.html' %} {% include 'unit-selected.html' %} {% include
+    'help.html' %}
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
