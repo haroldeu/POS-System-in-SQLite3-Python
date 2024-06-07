@@ -45,7 +45,7 @@
 
 -- UPDATE users SET username='kero' WHERE id=2;
 
--- SELECT * FROM products;
+SELECT * FROM products;
 
 SELECT * FROM users;
 

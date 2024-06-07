@@ -298,6 +298,75 @@
           });
         });
       });
+
+      //Update price function
+      $(document).ready(function () {
+        $(".update-btn").click(function () {
+          var itemId = $(this).data("id");
+
+          // Send AJAX request to get item details from Flask route
+          $.post("/get_item_details", { itemId: itemId }, function (response) {
+            var item = response;
+            console.log(response);
+
+            // Display item details in the HTML
+            $("#editItemId").val(item.id);
+            $(".product_name").text(item.product_name);
+            $("#product_price").val(item.product_price);
+            $("#newPrice").val(item.product_price);
+            $("#popupContainer1").show();
+          });
+        });
+
+        $("#close-btn1").click(function () {
+          $("#popupContainer1").hide();
+        });
+
+        $(".editForm").submit(function (event) {
+          event.preventDefault();
+
+          var productId = $("#editItemId").val();
+          var newPrice = $("#new_price").val();
+
+          updateProductPrice(productId, newPrice);
+        });
+
+        function updateProductPrice(productId, newPrice) {
+          $.ajax({
+            url: "/edit",
+            type: "POST",
+            data: {
+              id: productId,
+              editItemPrice: newPrice,
+            },
+            success: function () {
+              console.log("Product updated successsfully.");
+              window.location.href = "/admin";
+            },
+            error: function (error) {
+              console.error("Error updating product price: ", error);
+            },
+          });
+        }
+      });
+
+      //Archive function
+      $(document).ready(function () {
+        $(".archive-btn").click(function () {
+          var productId = $(this).data("id");
+
+          // Send a POST request to the Flask route
+          $.post(
+            "/archive_product",
+            { productId: productId },
+            function (response) {
+              console.log(response.success);
+              alert(response.success);
+              window.location.href = "/admin";
+            }
+          );
+        });
+      });
     </script>
   </body>
 </html>
