@@ -4,40 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Page</title>
-    <style>
-      .hamburger img {
-        position: absolute;
-        right: 25px;
-        width: 30px;
-        height: 30px;
-        cursor: pointer;
-      }
-
-      .hamburger .close-icon {
-        display: none;
-      }
-      .dropdown {
-        display: none;
-        position: absolute;
-        top: 40px;
-        right: 20px;
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        line-height: 25px;
-        padding: 15px;
-        z-index: 1;
-      }
-
-      .dropdown a {
-        display: block;
-        color: black;
-        text-decoration: none;
-      }
-    </style>
   </head>
   <body>
     <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .admin-wrapper {
+        height: 80vh;
+        padding: 0px 15px;
+      }
+
       /* Nav Styles */
       .admin-wrapper nav {
         display: flex;
@@ -162,7 +143,6 @@
         width: 100px;
       }
     </style>
-
     <div class="admin-wrapper" id="admin">
       <div class="hamburger">
         <img
@@ -249,73 +229,73 @@
     {% for our_users in our_users %} {{our_users.name}} <br />
     {% endfor %}
     <div>Logged in as: {{ current_user.name }}</div>
-    <br />
-  </body>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-  {% include 'popup-add.html' %} {% include 'popup-edit.html' %} {% include
-  'keyboard.html' %}
-  <script src="{{ url_for('static', filename='js/keyboard-handler.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/keyboard-initializer.js') }}"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      // Get the elements from the DOM
-      const addBtn = document.querySelector(".add-btn");
-      const closeBtn = document.getElementById("close-btn");
 
-      // Event listener for addBtn click
-      addBtn.addEventListener("click", function () {
-        $("#popupContainer").show();
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% include 'popup-add.html' %} {% include 'popup-edit.html' %} {% include
+    'keyboard.html' %}
+    <script src="{{ url_for('static', filename='js/keyboard-handler.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/keyboard-initializer.js') }}"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get the elements from the DOM
+        const addBtn = document.querySelector(".add-btn");
+        const closeBtn = document.getElementById("close-btn");
+
+        // Event listener for addBtn click
+        addBtn.addEventListener("click", function () {
+          $("#popupContainer").show();
+        });
+
+        // Event listener for closeBtn click
+        closeBtn.addEventListener("click", function () {
+          $("#popupContainer").hide();
+        });
       });
 
-      // Event listener for closeBtn click
-      closeBtn.addEventListener("click", function () {
-        $("#popupContainer").hide();
-      });
-    });
+      // Virtual keyboard
+      $(document).ready(function () {
+        // Show the virtual keyboard when any input field is focused
+        $("input").on("focus", function () {
+          if ($(this).attr("type") !== "submit") {
+            $(".virtual-keyboard").show();
+          }
+        });
 
-    // Virtual keyboard
-    $(document).ready(function () {
-      // Show the virtual keyboard when any input field is focused
-      $("input").on("focus", function () {
-        if ($(this).attr("type") !== "submit") {
-          $(".virtual-keyboard").show();
-        }
-      });
-
-      // Hide the virtual keyboard when clicking outside
-      $(document).on("click", function (event) {
-        if (!$(event.target).closest(".virtual-keyboard, input").length) {
-          $(".virtual-keyboard").hide();
-        }
-      });
-    });
-
-    // Search table function
-    $(document).ready(function () {
-      // Function to simulate typing into the search input
-      function typeVirtualKeyboardKey() {
-        $("#search-table1").trigger("input");
-      }
-
-      // Attach the function to all keys of the virtual keyboard
-      $(".key").on("mousedown", function () {
-        typeVirtualKeyboardKey($(this).text());
-      });
-
-      // Search input function for admin page
-      $("#search-table1").on("input", function () {
-        var searchQuery = $(this).val().toLowerCase();
-        $("#admin .table tbody tr").each(function () {
-          var itemName = $(this).find("td:nth-child(2)").text().toLowerCase();
-          if (itemName.startsWith(searchQuery)) {
-            $(this).css("display", "");
-          } else {
-            $(this).css("display", "none");
+        // Hide the virtual keyboard when clicking outside
+        $(document).on("click", function (event) {
+          if (!$(event.target).closest(".virtual-keyboard, input").length) {
+            $(".virtual-keyboard").hide();
           }
         });
       });
-    });
-  </script>
+
+      // Search table function
+      $(document).ready(function () {
+        // Function to simulate typing into the search input
+        function typeVirtualKeyboardKey() {
+          $("#search-table1").trigger("input");
+        }
+
+        // Attach the function to all keys of the virtual keyboard
+        $(".key").on("mousedown", function () {
+          typeVirtualKeyboardKey($(this).text());
+        });
+
+        // Search input function for admin page
+        $("#search-table1").on("input", function () {
+          var searchQuery = $(this).val().toLowerCase();
+          $("#admin .table tbody tr").each(function () {
+            var itemName = $(this).find("td:nth-child(2)").text().toLowerCase();
+            if (itemName.startsWith(searchQuery)) {
+              $(this).css("display", "");
+            } else {
+              $(this).css("display", "none");
+            }
+          });
+        });
+      });
+    </script>
+  </body>
 </html>
