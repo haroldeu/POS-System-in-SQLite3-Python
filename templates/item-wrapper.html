@@ -149,6 +149,13 @@
 </style>
 
 <div class="item-wrapper">
+  {% with messages = get_flashed_messages() %} {% if messages %} {% for message
+  in messages %}
+  <script>
+    alert("{{ message }}"); // Display an alert with the message
+  </script>
+  {% endfor %} {% endif %} {% endwith %}
+
   <nav>
     <ul>
       <li>

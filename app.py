@@ -297,5 +297,14 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+@app.route('/check_login')
+def check_login():
+    if current_user.is_authenticated:
+        return redirect(url_for('admin'))
+    else:
+        flash("You are not currently logged in.", "error")
+        return redirect(url_for('cart'))
+       
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
