@@ -253,7 +253,8 @@ def login():
     name = None
     username = None
     password = None
-    error_message = None
+    error_message_login = None
+    error_message_signup = None
     loginForm = LoginForm()
     signupForm = SignUpForm()
     
@@ -264,21 +265,22 @@ def login():
                 login_user(user)
                 return redirect(url_for('admin'))
             elif user is None:
-                print("User does not exist.")
-                error_message = "User does not exist."
+                error_message_login = "User does not exist."
             else:
-                print("Wrong Password! Try again.")
-                error_message = "Wrong Password! Try again."
+                error_message_login = "Wrong Password! Try again."
 
 
         elif signupForm.validate_on_submit():
-            user = Users.query.filter_by(name=signupForm.name.data).first()
+            user = Users.query.filter_by(name=signupForm.username.data).first()
+            if user:
+                error_message_signup = "Username already exists."
             if user is None:
                 # Hash the password
                 hashed_pw = generate_password_hash(signupForm.password_hash.data)
                 user = Users(name=signupForm.name.data, username=signupForm.username.data, password_hash=hashed_pw)
                 db.session.add(user)
                 db.session.commit()
+            
             name = signupForm.name.data
             
             signupForm.name.data = ''
@@ -286,7 +288,7 @@ def login():
             signupForm.password_hash.data = ''
 
     
-    return render_template("flask-login.html", name=name, username=username, password=password, error_message=error_message, loginForm = loginForm, signupForm = signupForm)
+    return render_template("flask-login.html", name=name, username=username, password=password, error_message_login=error_message_login, error_message_signup=error_message_signup, loginForm = loginForm, signupForm = signupForm)
 
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required

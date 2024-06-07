@@ -147,15 +147,11 @@
     }
   </style>
   <body>
-    <!-- {% for message in get_flashed_messages() %}
+    <!-- {% if error_message %}
     <script>
-      alert("{{ message }}");
+      alert("{{ error_message }}");
     </script>
-    {% endfor %} -->
-
-    {% if error_message %}
-    <p style="color: red">{{ error_message }}</p>
-    {% endif %}
+    {% endif %} -->
 
     <div class="flip-container">
       <div class="flipper">
@@ -190,6 +186,9 @@
               Access as Cashier
             </button>
           </div>
+          {% if error_message_login %}
+          <p style="color: red">{{ error_message_login }}</p>
+          {% endif %}
           <p class="signup-link">
             Don't have an account?
             <a href="#">Sign up</a>
@@ -205,6 +204,9 @@
             signupForm.password_hash2(class="input-field") }} {{
             signupForm.submit(class="submit-btn") }}
           </form>
+          {% if error_message_signup %}
+          <p style="color: red">{{ error_message_signup }}</p>
+          {% endif %}
           <p class="login-link">
             Already have an account? <a href="#">Log in</a>
           </p>
@@ -229,12 +231,12 @@
 
         signUpLink.addEventListener("click", function (e) {
           e.preventDefault();
-          flipContainer.classList.add("flip");
+          //flipContainer.classList.add("flip");
         });
 
         logInLink.addEventListener("click", function (e) {
           e.preventDefault();
-          flipContainer.classList.remove("flip");
+          //flipContainer.classList.remove("flip");
         });
 
         types.forEach(function (type) {
