@@ -181,27 +181,21 @@
           <form id="adminForm" class="hidden" method="POST">
             {{ loginForm.hidden_tag() }} {{
             loginForm.password(class="input-password") }} {{ loginForm.submit
-            (class="login-button") }}
+            (class="login-button") }} {% if error_message_login %}
+            <p style="color: red">{{ error_message_login }}</p>
+            {% endif %}
+            <p class="signup-link">
+              <a href="#">Forgot Password?</a>
+            </p>
           </form>
           <div class="cashier-login-btn">
             <button type="button" id="cashierButton" class="hidden">
               Access as Cashier
             </button>
           </div>
-          {% if error_message_login %}
-          <p style="color: red">{{ error_message_login }}</p>
-          {% endif %}
-          <p class="signup-link">
-            Don't have an account?
-            <a href="#">Sign up</a>
-          </p>
         </div>
         <div class="signup-box">
           <h2>Sign Up</h2>
-
-          <p class="login-link">
-            Already have an account? <a href="#">Log in</a>
-          </p>
         </div>
       </div>
     </div>
@@ -209,7 +203,6 @@
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         var flipContainer = document.querySelector(".flip-container");
-        var signupBox = document.querySelector(".signup-box");
         var signUpLink = document.querySelector(".signup-link a");
         var logInLink = document.querySelector(".login-link a");
         var types = document.querySelectorAll(".type");
@@ -219,16 +212,6 @@
         var cashierText = document.querySelector(".cashier-text");
         var passwordInput = document.querySelector('input[type="password"]');
         var submitButton = document.querySelector('input[type="submit"]');
-
-        signUpLink.addEventListener("click", function (e) {
-          e.preventDefault();
-          flipContainer.classList.add("flip");
-        });
-
-        logInLink.addEventListener("click", function (e) {
-          e.preventDefault();
-          flipContainer.classList.remove("flip");
-        });
 
         types.forEach(function (type) {
           type.addEventListener("click", function () {
@@ -249,13 +232,13 @@
               passwordInput.classList.remove("hidden");
               submitButton.classList.remove("hidden");
               flipContainer.style.top = "-12%";
-              signupBox.style.top = "80px";
+              //signupBox.style.top = "80px";
               form.classList.remove("hidden");
             } else if (type.classList.contains("cashier")) {
               cashierText.classList.remove("hidden");
               cashierButton.classList.remove("hidden");
               flipContainer.style.top = "-5%";
-              signupBox.style.top = "30px";
+              //signupBox.style.top = "30px";
               form.classList.remove("hidden");
             }
           });
