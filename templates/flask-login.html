@@ -15,28 +15,13 @@
       background-position: right bottom;
       background-size: 50% 100%;
     }
-    .flip-container {
+
+    .login-box {
+      width: 40%;
       position: absolute;
+      top: 45%;
       left: 30%;
-      width: 35%;
       transform: translate(-50%, -50%);
-      margin: 10% auto 0 auto;
-    }
-    .flipper {
-      transition: 0.6s;
-      transform-style: preserve-3d;
-      position: relative;
-    }
-
-    .flip-container.flip .flipper {
-      transform: rotateY(180deg);
-    }
-
-    .login-box,
-    .signup-box {
-      backface-visibility: hidden;
-      width: 100%;
-      position: absolute;
       box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
       background: #fff;
       border-radius: 10px;
@@ -45,6 +30,7 @@
     .type-images {
       display: flex;
       gap: 20px;
+      padding: 0 0 20px 0;
       justify-content: center;
       align-items: center;
     }
@@ -66,10 +52,6 @@
       height: 20vh;
     }
 
-    .signup-box {
-      position: absolute;
-      transform: rotateY(180deg);
-    }
     h2,
     p {
       text-align: center;
@@ -97,8 +79,7 @@
       flex-direction: column;
       align-items: center;
       gap: 10px;
-      width: 80%;
-      margin: 20px auto;
+      padding: 0;
     }
 
     input[type="password"],
@@ -114,6 +95,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 0 0 20px 0;
     }
 
     button {
@@ -130,18 +112,6 @@
       cursor: pointer;
     }
 
-    .signup-link,
-    .login-link {
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    .signup-link a,
-    .login-link a {
-      color: #5f264a;
-      text-decoration: none;
-    }
-
     .hidden {
       display: none;
     }
@@ -155,56 +125,45 @@
       alert("{{ error_message }}");
     </script>
     {% endif %} -->
-
-    <div class="flip-container">
-      <div class="flipper">
-        <div class="login-box">
-          <h2>Choose Account Type</h2>
-          <div class="type-images">
-            <div class="admin type">
-              <img src="../static/images/administrator.png" alt="Admin" />
-              <p>Admin</p>
-            </div>
-            <div class="cashier type">
-              <img src="../static/images/clerk.png" alt="Cashier" />
-              <p>Cashier</p>
-            </div>
-          </div>
-          <p class="admin-text hidden">
-            Hello Admin! <br />
-            Please Fill out the form to get started
-          </p>
-          <p class="cashier-text hidden">
-            Hello Cashier! <br />
-            Click the button to get started
-          </p>
-          <form id="adminForm" class="hidden" method="POST">
-            {{ loginForm.hidden_tag() }} {{
-            loginForm.password(class="input-password") }} {{ loginForm.submit
-            (class="login-button") }} {% if error_message_login %}
-            <p style="color: red">{{ error_message_login }}</p>
-            {% endif %}
-            <p class="signup-link">
-              <a href="#">Forgot Password?</a>
-            </p>
-          </form>
-          <div class="cashier-login-btn">
-            <button type="button" id="cashierButton" class="hidden">
-              Access as Cashier
-            </button>
-          </div>
+    <div class="login-box">
+      <h2>Choose Account Type</h2>
+      <div class="type-images">
+        <div class="admin type">
+          <img src="../static/images/administrator.png" alt="Admin" />
+          <p>Admin</p>
         </div>
-        <div class="signup-box">
-          <h2>Sign Up</h2>
+        <div class="cashier type">
+          <img src="../static/images/clerk.png" alt="Cashier" />
+          <p>Cashier</p>
         </div>
+      </div>
+      <p class="admin-text hidden">
+        Hello Admin! <br />
+        Please Fill out the form to get started
+      </p>
+      <p class="cashier-text hidden">
+        Hello Cashier! <br />
+        Click the button to get started
+      </p>
+      <form id="adminForm" class="admin-form hidden" method="POST">
+        {{ loginForm.hidden_tag() }} {{
+        loginForm.password(class="input-password") }} {{ loginForm.submit
+        (class="login-button") }} {% if error_message_login %}
+        <p style="color: red">{{ error_message_login }}</p>
+        {% endif %}
+        <p class="forgot-link">
+          <a href="#">Forgot Password?</a>
+        </p>
+      </form>
+      <div class="cashier-login-btn hidden" id="cashierButton">
+        <button type="button">Access as Cashier</button>
       </div>
     </div>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        var flipContainer = document.querySelector(".flip-container");
-        var signUpLink = document.querySelector(".signup-link a");
-        var logInLink = document.querySelector(".login-link a");
+        var loginBox = document.querySelector(".login-box");
+        var signUpLink = document.querySelector(".forgot-link a");
         var types = document.querySelectorAll(".type");
         var adminForm = document.getElementById("adminForm");
         var cashierButton = document.getElementById("cashierButton");
@@ -231,14 +190,11 @@
               adminForm.classList.remove("hidden");
               passwordInput.classList.remove("hidden");
               submitButton.classList.remove("hidden");
-              flipContainer.style.top = "-12%";
-              //signupBox.style.top = "80px";
+              loginBox.style.top = "50%";
               form.classList.remove("hidden");
             } else if (type.classList.contains("cashier")) {
               cashierText.classList.remove("hidden");
               cashierButton.classList.remove("hidden");
-              flipContainer.style.top = "-5%";
-              //signupBox.style.top = "30px";
               form.classList.remove("hidden");
             }
           });
