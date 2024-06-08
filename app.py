@@ -234,33 +234,33 @@ def unarchive_product():
 
 # Admin Authentication
 # Create a Form Class for Signup
-class SignUpForm(FlaskForm):
+""" class SignUpForm(FlaskForm):
     name = StringField("Name: ", validators=[DataRequired()], render_kw={"placeholder": "Name"})
-    username = StringField("Username: ", validators=[DataRequired()], render_kw={"placeholder": "Username"})
+    username = StringField("Username: ")
     password_hash = PasswordField("Password: ", validators=[DataRequired(), EqualTo('password_hash2', message='Passwords must match!')], render_kw={"placeholder": "Password"})
     password_hash2 = PasswordField("Confirm Password: ", validators=[DataRequired()], render_kw={"placeholder": "Confirm Password"})
-    submit = SubmitField("Sign Up")
+    submit = SubmitField("Sign Up") """
 
 # Create a Form Class for Login 
 class LoginForm(FlaskForm):
-    username = StringField("Username: ",validators=[DataRequired()], render_kw={"placeholder": "Username"})
+    #username = StringField("Username: ",validators=[DataRequired()], render_kw={"placeholder": "Username"})
     password = PasswordField("Password: ",validators=[DataRequired()], render_kw={"placeholder": "Password"})
     submit = SubmitField("Login as Admin")
 
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
-    name = None
-    username = None
-    password = None
     error_message_login = None
-    error_message_signup = None
     loginForm = LoginForm()
-    signupForm = SignUpForm()
+    #name = None
+    #username = 'admin'
+    #password = None
+    #error_message_signup = None
+    #signupForm = SignUpForm()
     
     if request.method == 'POST':
         if loginForm.validate_on_submit():
-            user = Users.query.filter_by(username=loginForm.username.data).first()
+            user = Users.query.filter_by(username='admin').first()
             if user and check_password_hash(user.password_hash, loginForm.password.data):
                 login_user(user)
                 return redirect(url_for('admin'))
@@ -270,7 +270,7 @@ def login():
                 error_message_login = "Wrong Password! Try again."
 
 
-        elif signupForm.validate_on_submit():
+        """ elif signupForm.validate_on_submit():
             user = Users.query.filter_by(name=signupForm.username.data).first()
             if user:
                 error_message_signup = "Username already exists."
@@ -286,10 +286,10 @@ def login():
             
             signupForm.name.data = ''
             signupForm.username.data = ''
-            signupForm.password_hash.data = ''
+            signupForm.password_hash.data = '' """
 
     
-    return render_template("flask-login.html", name=name, username=username, password=password, error_message_login=error_message_login, error_message_signup=error_message_signup, loginForm = loginForm, signupForm = signupForm)
+    return render_template("flask-login.html", error_message_login=error_message_login, loginForm = loginForm)
 
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required

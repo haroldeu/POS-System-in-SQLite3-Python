@@ -43,9 +43,11 @@
 -- FROM temp;
 
 
--- UPDATE users SET username='kero' WHERE id=2;
+-- UPDATE users SET name='Admin' WHERE id=3;
 
 -- SELECT * FROM products;
+
+-- DELETE FROM users WHERE id=6;
 
 SELECT * FROM users;
 
