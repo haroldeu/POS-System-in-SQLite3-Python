@@ -8,7 +8,9 @@ function toggleUnderline(event) {
 
 document.addEventListener("DOMContentLoaded", function () {
   const helpPopup = document.querySelector(".help-container");
+  const helpWrapper = document.querySelector(".Helppopup");
   const openHelp = document.querySelector(".help");
+  const helpBack = document.querySelector(".help-back");
   const closeHelp = document.querySelector(".help-close");
   const helpContent = document.querySelector(".help-content");
   const addtocartHelp = document.querySelector(".addtocart-help");
@@ -46,7 +48,59 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   //Show Videos
-  /////////////////////////////////
+  addtocartHelp.addEventListener("click", function () {
+    helpContent.style.display = "none";
+    closeHelp.style.display = "none";
+    helpBack.style.display = "block";
+    aMP4.style.display = "block";
+    aMP4.play();
+    helpWrapper.style.height = "560px";
+    helpWrapper.style.width = "900px";
+  });
+
+  checkouttHelp.addEventListener("click", function () {
+    helpContent.style.display = "none";
+    closeHelp.style.display = "none";
+    helpBack.style.display = "block";
+    bMP4.style.display = "block";
+    bMP4.play();
+    helpWrapper.style.height = "560px";
+    helpWrapper.style.width = "900px";
+  });
+
+  searchtHelp.addEventListener("click", function () {
+    helpContent.style.display = "none";
+    closeHelp.style.display = "none";
+    helpBack.style.display = "block";
+    cMP4.style.display = "block";
+    cMP4.play();
+    helpWrapper.style.height = "560px";
+    helpWrapper.style.width = "900px";
+  });
+
+  shoFVHelp.addEventListener("click", function () {
+    helpContent.style.display = "none";
+    closeHelp.style.display = "none";
+    helpBack.style.display = "block";
+    dMP4.style.display = "block";
+    dMP4.play();
+    helpWrapper.style.height = "560px";
+    helpWrapper.style.width = "900px";
+  });
+
+  helpBack.addEventListener("click", function () {
+    helpContent.style.display = "block";
+    closeHelp.style.display = "block";
+    helpBack.style.display = "none";
+    aMP4.style.display = "none";
+    bMP4.style.display = "none";
+    cMP4.style.display = "none";
+    dMP4.style.display = "none";
+    helpWrapper.style.height = "420px";
+    helpWrapper.style.width = "600px";
+  });
+
+  //back to help content
 });
 
 // Delete function

@@ -51,6 +51,17 @@
     cursor: pointer;
   }
 
+  .help-back {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    height: 25px;
+    width: 25px;
+    font-size: 24px;
+    cursor: pointer;
+    display: none;
+  }
+
   .play-icon {
     cursor: pointer;
     border-radius: 5px;
@@ -66,7 +77,9 @@
   }
 
   .Helppopup video {
-    margin-top: -30px;
+    width: 100%;
+    height: 95%;
+    margin-top: -10px;
     display: none;
   }
 </style>
@@ -74,6 +87,7 @@
 <div class="help-container" id="popupContainer">
   <div class="Helppopup" id="popup">
     <span class="help-close" id="close-btn">&times;</span>
+    <img src="../static/images/return.png" class="help-back" />
     <h2>Instructions</h2>
     <div class="help-content">
       <p>
@@ -115,16 +129,16 @@
         help you apply the knowledge immediately.
       </p>
     </div>
-    <video width="100%" height="100%" controls class="A-mp4">
+    <video controls class="A-mp4">
       <source src="../static/videos/addtocart.mp4" type="video/mp4" />
     </video>
-    <video width="100%" height="100%" controls class="B-mp4">
+    <video controls class="B-mp4">
       <source src="../static/videos/checkout.mp4" type="video/mp4" />
     </video>
-    <video width="100%" height="100%" controls class="C-mp4">
+    <video controls class="C-mp4">
       <source src="../static/videos/F-or-V.mp4" type="video/mp4" />
     </video>
-    <video width="100%" height="100%" controls class="D-mp4">
+    <video controls class="D-mp4">
       <source src="../static/videos/search.mp4" type="video/mp4" />
     </video>
   </div>
