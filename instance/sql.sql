@@ -43,7 +43,7 @@
 -- FROM temp;
 
 
--- UPDATE users SET name='Admin' WHERE id=3;
+-- UPDATE users SET password='admin' WHERE username=admin;
 
 -- SELECT * FROM products;
 

@@ -5,8 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy as db
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, PasswordField, EmailField
-from wtforms.validators import DataRequired, Email, Length
+from wtforms import SubmitField, PasswordField
+from wtforms.validators import DataRequired, Length, EqualTo
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -304,25 +304,34 @@ def check_login():
         flash("You are not currently logged in.")
         return redirect(url_for('cart'))
     
+@app.route('/reset_password', methods=['GET'])
+def reset_password():
+    hashed_pw = generate_password_hash('admin')
+    user = db.session.query(Users).filter_by(username='admin').first()
+    user.password_hash = hashed_pw
+    db.session.commit()
 
-class ForgotPasswordForm(FlaskForm):
-    email = EmailField("Email Address", validators=[DataRequired(), Email()])
+    return redirect('login')
+    
+
+class ChangePasswordForm(FlaskForm):
+    current_password = PasswordField("Current Password: ",validators=[DataRequired()], render_kw={"placeholder": "Password"})
+    password_hash = PasswordField("Password: ", validators=[DataRequired(), Length(min=6, max=80), EqualTo('password_hash2', message='Passwords must match!')], render_kw={"placeholder": "Password"})
+    password_hash2 = PasswordField("Confirm Password: ", validators=[DataRequired()], render_kw={"placeholder": "Confirm Password"})
     submit = SubmitField("Reset Password")
 
-class PasswordResetForm(FlaskForm):
-    current_password = PasswordField("Current Password", validators=[DataRequired(), Length(min=6, max=80)])
-
-@app.route('/forgot_password', methods=['GET', 'POST'])
-def forgot_password():
+@app.route('/change_password', methods=['GET', 'POST'])
+def change_password():
     error = None
     message = None
-    forgotForm = ForgotPasswordForm()
+    form = ChangePasswordForm()
 
     if request.method == 'POST':
-        if forgotForm.validate_on_submit:
+        if form.validate_on_submit:
             pass
 
-    return render_template('forgot-password.html', forgotForm=forgotForm, error=error, message=message)
+    return render_template('flask-resetPass.html', form=form, error=error, message=message)
+
 
 
 
