@@ -1,12 +1,12 @@
 from wsgiref.validate import validator
-from flask import Flask, flash, render_template, url_for, request, redirect, jsonify, g
+from flask import Flask, flash, render_template, url_for, request, redirect, jsonify
 import sqlite3, os
 from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy as db
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, PasswordField, StringField, BooleanField, ValidationError
-from wtforms.validators import DataRequired, EqualTo, Length
+from wtforms import SubmitField, PasswordField, EmailField
+from wtforms.validators import DataRequired, Email, Length
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -200,19 +200,19 @@ def archive_product():
     return jsonify({'success': 'Product has been archived'}), 200
 
 
-@app.route('/archive_product_list', methods=['GET'])
-def archive_product_list():
-    # Connect to the Database
-    conn = sqlite3.connect('instance/thesis.db')
-    c = conn.cursor()
+# @app.route('/archive_product_list', methods=['GET'])
+# def archive_product_list():
+#     # Connect to the Database
+#     conn = sqlite3.connect('instance/thesis.db')
+#     c = conn.cursor()
 
-    # Execute the query
-    c.execute('SELECT * FROM products')
+#     # Execute the query
+#     c.execute('SELECT * FROM products')
 
-    # Fetch all the rows
-    products = c.fetchall()
+#     # Fetch all the rows
+#     products = c.fetchall()
 
-    return render_template("archive-wrapper.html", products=products)
+#     return render_template("archive-wrapper.html", products=products)
 
 # Archive function
 @app.route('/unarchive_product', methods=['POST'])
@@ -246,7 +246,6 @@ class LoginForm(FlaskForm):
     #username = StringField("Username: ",validators=[DataRequired()], render_kw={"placeholder": "Username"})
     password = PasswordField("Password: ",validators=[DataRequired()], render_kw={"placeholder": "Password"})
     submit = SubmitField("Login as Admin")
-
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -302,8 +301,31 @@ def check_login():
     if current_user.is_authenticated:
         return redirect(url_for('admin'))
     else:
-        flash("You are not currently logged in.", "error")
+        flash("You are not currently logged in.")
         return redirect(url_for('cart'))
+    
+
+class ForgotPasswordForm(FlaskForm):
+    email = EmailField("Email Address", validators=[DataRequired(), Email()])
+    submit = SubmitField("Reset Password")
+
+class PasswordResetForm(FlaskForm):
+    current_password = PasswordField("Current Password", validators=[DataRequired(), Length(min=6, max=80)])
+
+@app.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+    error = None
+    message = None
+    forgotForm = ForgotPasswordForm()
+
+    if request.method == 'POST':
+        if forgotForm.validate_on_submit:
+            pass
+
+    return render_template('forgot-password.html', forgotForm=forgotForm, error=error, message=message)
+
+
+
        
 
 if __name__ == "__main__":
