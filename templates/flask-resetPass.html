@@ -66,26 +66,62 @@
         cursor: pointer;
         font-size: 16px;
       }
+
+      .back-btn {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: none;
+        background-color: #706d6d;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
     </style>
   </head>
   <body>
     <div class="form-container">
       <h2>Reset Your Password</h2>
-      {% if message %}
-      <div style="color: green">{{ message }}</div>
-      {% endif %} {% if error %}
-      <div style="color: red">{{ error }}</div>
+      <!-- {% if message %}
+      <div
+        style="
+          color: greenyellow;
+          font-weight: bold;
+          padding: 10px;
+          margin-bottom: 10px;
+        "
+      >
+        {{ message }}
+      </div>
+      {% endif %} -->
+      {% if error %}
+      <div
+        style="
+          color: red;
+          font-weight: bold;
+          padding: 10px;
+          margin-bottom: 10px;
+        "
+      >
+        {% if error is string %} {{ error }} {% endif %}
+      </div>
       {% endif %}
       <br />
       <form action="/change_password" method="POST">
         <div class="form-group">
           {{ form.hidden_tag() }} {{ form.current_password.label }} {{
-          form.current_password }} {{ form.password_hash.label }} {{
-          form.password_hash }} {{ form.password_hash2.label }} {{
-          form.password_hash2 }} {{ form.submit(class="change-pass-submit-btn")
-          }}
+          form.current_password }} {{ form.new_password.label }} {{
+          form.new_password }} {% for error in form.new_password.errors %}
+          <span style="color: red" ; font-weight: bolder;>{{ error }}</span>
+          {% endfor %}<br />
+          {{ form.confirm_password.label }} {{ form.confirm_password }} {{
+          form.submit(class="change-pass-submit-btn") }}
         </div>
       </form>
+      <a href="/admin">
+        <button class="back-btn">Back</button>
+      </a>
     </div>
   </body>
 </html>

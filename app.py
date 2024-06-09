@@ -1,6 +1,6 @@
 from wsgiref.validate import validator
 from flask import Flask, flash, render_template, url_for, request, redirect, jsonify
-import sqlite3, os
+import sqlite3, os, time
 from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy as db
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
@@ -311,33 +311,35 @@ def reset_password():
     user.password_hash = hashed_pw
     db.session.commit()
 
-    return redirect('login')
+    return redirect(url_for('login'))
     
 
 class ChangePasswordForm(FlaskForm):
-    current_password = PasswordField("Current Password: ",validators=[DataRequired()], render_kw={"placeholder": "Password"})
-    password_hash = PasswordField("Password: ", validators=[DataRequired(), Length(min=6, max=80), EqualTo('password_hash2', message='Passwords must match!')], render_kw={"placeholder": "Password"})
-    password_hash2 = PasswordField("Confirm Password: ", validators=[DataRequired()], render_kw={"placeholder": "Confirm Password"})
+    current_password = PasswordField("Current Password: ",validators=[DataRequired()], render_kw={"placeholder": "Current Password"})
+    new_password = PasswordField("New Password: ", validators=[DataRequired(), Length(min=6, max=80), EqualTo('confirm_password', message='Passwords must match!')], render_kw={"placeholder": "Password"})
+    confirm_password = PasswordField("Confirm Password: ", validators=[DataRequired()], render_kw={"placeholder": "Confirm Password"})
     submit = SubmitField("Change Password")
 
 @app.route('/change_password', methods=['GET', 'POST'])
 def change_password():
     error = None
-    message = None
     form = ChangePasswordForm()
 
     if request.method == 'POST':
-        if form.validate_on_submit:
+        if form.validate_on_submit():
             user = db.session.query(Users).filter_by(username='admin').first()
             if user and check_password_hash(user.password_hash, form.current_password.data):
-                hashed_pw = generate_password_hash(form.password_hash.data)
+                hashed_pw = generate_password_hash(form.new_password.data)
                 user.password_hash = hashed_pw
                 db.session.commit()
-                message = "Password updated successfully!"
+                #error = "Password updated successfully!"
+                return redirect(url_for('login'))
             else:
                 error = "Current password is incorrect."
+        else:
+            error = form.errors
 
-    return render_template('flask-resetPass.html', form=form, error=error, message=message)
+    return render_template('flask-resetPass.html', form=form, error=error)
 
 
 
