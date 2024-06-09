@@ -318,7 +318,7 @@ class ChangePasswordForm(FlaskForm):
     current_password = PasswordField("Current Password: ",validators=[DataRequired()], render_kw={"placeholder": "Password"})
     password_hash = PasswordField("Password: ", validators=[DataRequired(), Length(min=6, max=80), EqualTo('password_hash2', message='Passwords must match!')], render_kw={"placeholder": "Password"})
     password_hash2 = PasswordField("Confirm Password: ", validators=[DataRequired()], render_kw={"placeholder": "Confirm Password"})
-    submit = SubmitField("Reset Password")
+    submit = SubmitField("Change Password")
 
 @app.route('/change_password', methods=['GET', 'POST'])
 def change_password():
@@ -328,7 +328,14 @@ def change_password():
 
     if request.method == 'POST':
         if form.validate_on_submit:
-            pass
+            user = db.session.query(Users).filter_by(username='admin').first()
+            if user and check_password_hash(user.password_hash, form.current_password.data):
+                hashed_pw = generate_password_hash(form.password_hash.data)
+                user.password_hash = hashed_pw
+                db.session.commit()
+                message = "Password updated successfully!"
+            else:
+                error = "Current password is incorrect."
 
     return render_template('flask-resetPass.html', form=form, error=error, message=message)
 
