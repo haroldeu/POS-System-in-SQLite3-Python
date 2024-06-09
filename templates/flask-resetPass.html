@@ -32,7 +32,6 @@
 
       form h2 {
         text-align: center;
-        color: #333;
       }
 
       form p {
@@ -47,7 +46,7 @@
         margin-bottom: 20px;
       }
 
-      input[type="email"] {
+      input[type="password"] {
         width: 100%;
         padding: 10px;
         margin: 10px 0;
@@ -70,22 +69,27 @@
   </head>
   <body>
     <div class="form-container">
-      <form action="/submit-your-form-handler" method="POST">
-        <h2>Forgot Password</h2>
-        <p>
-          Please enter your registered email address below. We'll send you a
-          code to reset your password.
-        </p>
-        <div class="input-group">
+      <h2>Reset Your Password</h2>
+      <form action="/submit-new-password" method="POST">
+        <div class="form-group">
+          <label for="new-password">New Password:</label>
           <input
-            type="email"
-            id="email"
-            name="email"
+            type="password"
+            id="new-password"
+            name="new-password"
             required
-            placeholder="Enter your email"
           />
         </div>
-        <button type="submit">Send Reset Code</button>
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password:</label>
+          <input
+            type="password"
+            id="confirm-password"
+            name="confirm-password"
+            required
+          />
+        </div>
+        <button type="submit">Reset Password</button>
       </form>
     </div>
   </body>
