@@ -1,4 +1,4 @@
-from wsgiref.validate import validator
+#from wsgiref.validate import validator
 from flask import Flask, flash, render_template, url_for, request, redirect, jsonify
 import sqlite3, os, time
 from flask_sqlalchemy import SQLAlchemy

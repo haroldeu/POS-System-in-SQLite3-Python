@@ -124,4 +124,28 @@
       </a>
     </div>
   </body>
+
+  <!-- <script src="{{ url_for('static', filename='js/script.js') }}"></script> -->
+  {% include 'keyboard.html' %}
+  <script src="{{ url_for('static', filename='js/keyboard-handler.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/keyboard-initializer.js') }}"></script>
+
+  <script>
+    // Virtual keyboard
+    $(document).ready(function () {
+      // Show the virtual keyboard when any input field is focused
+      $("input").on("focus", function () {
+        if ($(this).attr("type") !== "submit") {
+          $(".virtual-keyboard").show();
+        }
+      });
+
+      // Hide the virtual keyboard when clicking outside
+      $(document).on("click", function (event) {
+        if (!$(event.target).closest(".virtual-keyboard, input").length) {
+          $(".virtual-keyboard").hide();
+        }
+      });
+    });
+  </script>
 </html>
