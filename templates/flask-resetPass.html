@@ -125,7 +125,7 @@
     </div>
   </body>
 
-  <!-- <script src="{{ url_for('static', filename='js/script.js') }}"></script> -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   {% include 'keyboard.html' %}
   <script src="{{ url_for('static', filename='js/keyboard-handler.js') }}"></script>
   <script src="{{ url_for('static', filename='js/keyboard-initializer.js') }}"></script>
@@ -134,7 +134,7 @@
     // Virtual keyboard
     $(document).ready(function () {
       // Show the virtual keyboard when any input field is focused
-      $("input").on("focus", function () {
+      $("input").on("click", function () {
         if ($(this).attr("type") !== "submit") {
           $(".virtual-keyboard").show();
         }
@@ -145,6 +145,19 @@
         if (!$(event.target).closest(".virtual-keyboard, input").length) {
           $(".virtual-keyboard").hide();
         }
+      });
+    });
+
+    // Search table function
+    $(document).ready(function () {
+      // Function to simulate typing into the search input
+      function typeVirtualKeyboardKey() {
+        $("#current_password").trigger("input");
+      }
+
+      // Attach the function to all keys of the virtual keyboard
+      $(".key").on("mousedown", function () {
+        typeVirtualKeyboardKey($(this).text());
       });
     });
   </script>
